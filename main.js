@@ -2,10 +2,9 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'function RUBI()', { preload: 
 
 function preload() {
 
-    game.load.image('background','assets/background.jpg');
-    game.load.image('player','assets/rubi.png');
-    game.load.image('player1','assets/rubi.png');
-    game.load.image('bullet','assets/bullet.png');
+    game.load.image('background','assets/test/background.jpg');
+    game.load.image('player','assets/test/rubitest.png');
+    game.load.image('bullet','assets/enemies/enemy_bullets/Mildewbullet.png');
 
 }
 
@@ -29,7 +28,7 @@ function create() {
    // game.physics.arcade.enable(player);
     
     player.anchor.set(.5);
-  // player.body.allowRotation = false;
+   player.body.allowRotation = false;
 
 	bullets = game.add.group();
     bullets.enableBody = true;
@@ -83,11 +82,13 @@ function fire() {
     {
         nextFire = game.time.now + fireRate;
 
-        var bullet = bullets.getFirstDead();
-
-		var angles = game.physics.arcade.angleToPointer(player) - Math.PI;
-        bullet.reset((player.x+1*Math.cos(-angles)), (player.y+1*Math.sin(-angles)));
-		//bullet.reset(player.x, player.y);
+        var bullet = bullets.getFirstDead();		
+		var x0 = player.x+32;
+		var y0 = player.y+32;
+     //  bullet.reset(x0*Math.cos(30)+y0*Math.sin(30),x0*-Math.sin(30)+y0*Math.cos(30));
+     
+		bullet.reset(player.x, player.y);
+		bullet.body.rotation = game.physics.arcade.angleToPointer(player);
 		
         game.physics.arcade.moveToPointer(bullet, 500);
     }
