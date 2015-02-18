@@ -15,8 +15,12 @@ functionRUBI.Preload.prototype = {
   	//load game assets
    this.game.load.image('background','assets/test/background.jpg');
     this.game.load.image('player','assets/test/rubitest.png');
-    this.game.load.image('bullet','assets/enemies/enemy_bullets/Mildewbullet.png');
-
+    this.game.load.image('playeroffset','assets/enemies/enemy_bullets/Mildewbullet.png');
+    
+    this.game.load.image('intBullet','assets/rubi/bulletWhite.png');
+	this.game.load.image('doubleBullet','assets/rubi/bulletRed.png');
+	this.game.load.image('stringBullet','assets/rubi/bulletBlue.png');
+	this.game.load.image('booleanBullet','assets/rubi/bulletGreen.png');
 
    // this.load.spritesheet('playership', 'assets/images/player.png', 12, 12);
    // this.load.audio('collect', 'assets/audio/collect.ogg');

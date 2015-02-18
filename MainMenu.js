@@ -6,7 +6,7 @@ functionRUBI.MainMenu.prototype = {
     this.background = this.game.add.tileSprite(0, 0, this.game.width, this.game.height, 'background');
     
     //give it speed in x
-    //this.background.autoScroll(-20, 0);
+    this.background.autoScroll(-20, 0);
 
     //start game text
     var text = "Main menu stand in";

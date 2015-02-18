@@ -1,7 +1,9 @@
 var functionRUBI = functionRUBI || {};
 
-//title screen
+
 functionRUBI.Game = function(){};
+
+
 
 functionRUBI.Game.prototype = {
   create: function() {
@@ -16,6 +18,7 @@ functionRUBI.Game.prototype = {
  	  createBullets();
  	  
  	cursors = this.game.input.keyboard.createCursorKeys();
+ 	this.spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     this.game.camera.follow(this.player);
   	  
   },
@@ -37,12 +40,32 @@ functionRUBI.Game.prototype = {
         this.player.body.moveRight(300);
     }
     
+    //switches between bullet. bulletSwitch found in Bullet.js
+    this.spaceKey.onDown.add(bulletSwitch,this);
+    
+    //shoots each type of bullet
      if (this.game.input.activePointer.isDown) {
-        fire(this.player.x,this.player.y);
+     	adjustRate(gunVar);
+     	if (gunVar==0){
+    		intFire(this.player);
+    	}else if(gunVar==1){
+    		doubleFire(this.player);
+    	} else if (gunVar ==2){
+    		stringFire(this.player);
+    	}
+        
     }
     
-  },
- 
- 
+  }, 
+  //debug functions
+render: function(){
+	 this.game.debug.text("DEBUGTEXT",100,100);
+	 this.game.debug.text("gunVar "+gunVar,100,120);
+	 this.game.debug.text("gunrate "+rateArray[gunVar],100,140 )
+	// this.game.debug.spriteBounds(this.player);
+},
+
+
+
  
 };
