@@ -2,6 +2,13 @@ var functionRUBI = functionRUBI || {};
 
 functionRUBI.Boot = function(){};
 
+ globalVar = {
+  	 playerX: 0,
+  	 playerY: 0,
+  	 test: 0,
+  	
+  };
+
 //setting game configuration and loading the assets for the loading screen
 functionRUBI.Boot.prototype = {
   preload: function() {

@@ -1,5 +1,15 @@
 //This is RUBI's bullet control class
 //For now, use the spacebar to switch between bullets
+//types of bullets
+// intFire - shoots in a straight line towards pointer
+// doubleFire - shotgun effect where two bullets are fired with a slower rate.
+// stringFire - sends out a slow bullet that explodes after two seconds
+
+// booleanFire - drops a mine-like object that when enemies step on it, explode
+// charFire - sends out a mini shooter that shoots enemies for you
+
+// floatFire - sends out a circles of bullets that wraps around you like a shield
+// longFire - BADASS WEAPON. SUPER STRONG. PROBABLY DOES SOMETHING BADASS
 
 var fireRate = 200;
 var nextFire =0;
@@ -9,16 +19,18 @@ var nextFire =0;
 //gunArray[0] = 0; //int
 //gunArray[1] = 1; //double
 
-var gunVar =0;
+var gunVar =3;
 
 
 //the array for which the different rates of fire are stored
 var rateArray = [];
 rateArray[0] = 200; //int
 rateArray[1] = 450; //double
-rateArray[2] = 800; //string
+rateArray[2] = 600; //string
+rateArray[3] = 500; //float
 
 function createBullets(){
+	
 //int Bullets
 functionRUBI.intBullets = functionRUBI.game.add.group();
 functionRUBI.intBullets.enableBody = true;
@@ -41,9 +53,24 @@ functionRUBI.stringBullets.enableBody = true;
 functionRUBI.stringBullets.physicsBodyType = Phaser.Physics.ARCADE;
 functionRUBI.stringBullets.setAll('checkWorldBounds', true);
 functionRUBI.stringBullets.setAll('outOfBoundsKill', true);
-functionRUBI.stringBullets.createMultiple(5, 'stringBullet');
-functionRUBI.emitBullets = functionRUBI.game.add.emitter(0,0,30);
-functionRUBI.emitBullets.makeParticles('stringBullet');
+functionRUBI.stringBullets.createMultiple(10, 'stringBullet');
+functionRUBI.emitSBullets = functionRUBI.game.add.emitter(0,0,30);
+functionRUBI.emitSBullets.makeParticles('stringBullet');
+
+//float Bullets
+functionRUBI.floatBullets = functionRUBI.game.add.group();
+functionRUBI.floatBullets.enableBody = true;
+functionRUBI.floatBullets.physicsBodyType = Phaser.Physics.ARCADE;
+functionRUBI.floatBullets.setAll('checkWorldBounds', true);
+functionRUBI.floatBullets.setAll('outOfBoundsKill', true);
+functionRUBI.floatBullets.createMultiple(5, 'booleanBullet'); //CHANGE THIS TO FLOAT SOON
+
+functionRUBI.RUBIBullets = functionRUBI.game.add.group();
+functionRUBI.RUBIBullets.add(functionRUBI.intBullets);
+functionRUBI.RUBIBullets.add(functionRUBI.doubleBullets);
+functionRUBI.RUBIBullets.add(functionRUBI.stringBullets);
+functionRUBI.RUBIBullets.add(functionRUBI.emitSBullets);
+functionRUBI.RUBIBullets.add(functionRUBI.floatBullets);
 
 }
 
@@ -54,7 +81,9 @@ function bulletSwitch(){
     	}else if (gunVar==1){
     		gunVar=2;
     	}else if (gunVar ==2){
-    		gunVar=0;    		
+    		gunVar=3;
+    	}else if(gunVar==3){
+    		gunVar=0;	    		
     }
 }
 
@@ -70,7 +99,8 @@ function intFire(player) {
     if (functionRUBI.game.time.now > nextFire && functionRUBI.intBullets.countDead() > 0){
         nextFire = functionRUBI.game.time.now + fireRate;
 
-        var bullet = functionRUBI.intBullets.getFirstDead();		
+        var bullet = functionRUBI.intBullets.getFirstDead();
+       // functionRUBI.RUBIBullets.add(bullet);		
 		bullet.reset(player.x,player.y);
 		bullet.rotation = player.rotation;
 		bullet.anchor.setTo(0, 2);
@@ -112,7 +142,7 @@ if (functionRUBI.game.time.now > nextFire && functionRUBI.stringBullets.countDea
 		bullet.reset(player.x,player.y);
 		bullet.rotation = player.rotation;
 		bullet.anchor.setTo(0, 2);
-		functionRUBI.game.time.events.add(Phaser.Timer.SECOND * 2, stringExplosion, this); 
+		functionRUBI.game.time.events.add(Phaser.Timer.SECOND * 1, stringExplosion, this); 
         functionRUBI.game.physics.arcade.moveToPointer(bullet, 100);
   		
     }
@@ -121,9 +151,55 @@ if (functionRUBI.game.time.now > nextFire && functionRUBI.stringBullets.countDea
 
 //code for the explosion of stringFire
 function stringExplosion(){
-	var bullet = functionRUBI.stringBullets.getFirstAlive();	
-		functionRUBI.emitBullets.x = bullet.x;
-		functionRUBI.emitBullets.y = bullet.y;
-		functionRUBI.emitBullets.start(true,1000,null,10);	
+	var bullet = functionRUBI.stringBullets.getFirstAlive();
+		var bx = bullet.x;
+		var by = bullet.y;
+		functionRUBI.emitSBullets.x = bx;
+		functionRUBI.emitSBullets.y = by;
+		functionRUBI.emitSBullets.start(true,1000,null,10);	
 		bullet.kill();
 }
+
+// floatFire - sends out a circles of bullets that wraps around you like a shield
+function floatFire(player) {
+    if (functionRUBI.game.time.now > nextFire && functionRUBI.floatBullets.countDead() > 0){
+        nextFire = functionRUBI.game.time.now + fireRate;
+        var bullet = functionRUBI.floatBullets.getFirstDead();
+    //    bullet.position.set(0, 0);
+    //   bullet.pivot.set(0,0);
+        bullet.reset(player.x,player.y);
+        bullet.anchor.setTo(0, 3);	
+       //player.addChild(bullet);	
+       
+		
+    }
+  }
+ 
+//code to rotate the float bullets 
+ function floatRotate(bullet){
+ 	//bullet.x = globalVar.playerX;
+ 	//bullet.y = globalVar.playerY;
+ 	globalVar.test =bullet.rotation;
+ 	//bullet.rotation += .1;
+ 	bullet.rotation = bullet.rotation+(5* (Math.PI/180));
+ 	
+ } 
+ 
+ function floatMove(bullet){
+ 	bullet.body.velocity.x = 0;
+ 	bullet.body.velocity.y = 0;
+
+    if (cursors.up.isDown){
+        bullet.body.velocity.y = -300;
+    } else if (cursors.down.isDown){
+         bullet.body.velocity.y = 300;
+    }
+
+    if (cursors.left.isDown){
+        bullet.body.velocity.x = -300;
+    }else if (cursors.right.isDown){
+         bullet.body.velocity.x = 300;
+    }
+ }
+  
+  
