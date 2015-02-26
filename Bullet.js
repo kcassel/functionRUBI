@@ -14,19 +14,14 @@
 var fireRate = 200;
 var nextFire =0;
 
-//game variables
-//var gunArray = [];
-//gunArray[0] = 0; //int
-//gunArray[1] = 1; //double
-
-var gunVar =3;
+var gunVar =0;
 
 
 //the array for which the different rates of fire are stored
 var rateArray = [];
 rateArray[0] = 200; //int
-rateArray[1] = 450; //double
-rateArray[2] = 600; //string
+rateArray[1] = 600; //double
+rateArray[2] = 450; //string
 rateArray[3] = 500; //float
 
 function createBullets(){
@@ -66,6 +61,12 @@ functionRUBI.floatBullets.setAll('outOfBoundsKill', true);
 functionRUBI.floatBullets.createMultiple(5, 'booleanBullet'); //CHANGE THIS TO FLOAT SOON
 
 functionRUBI.RUBIBullets = functionRUBI.game.add.group();
+/*functionRUBI.RUBIBullets.enableBody = true;
+functionRUBI.RUBIBullets.physicsBodyType = Phaser.Physics.ARCADE;
+functionRUBI.RUBIBullets.setAll('checkWorldBounds', true);
+functionRUBI.RUBIBullets.setAll('outOfBoundsKill', true);*/
+
+
 functionRUBI.RUBIBullets.add(functionRUBI.intBullets);
 functionRUBI.RUBIBullets.add(functionRUBI.doubleBullets);
 functionRUBI.RUBIBullets.add(functionRUBI.stringBullets);
@@ -89,7 +90,7 @@ function bulletSwitch(){
 
 //adjusts the rates of fire depending on switch bullets are being fired
 function adjustRate(index){
-	fireRate = rateArray[index];
+	fireRate = (rateArray[index]-rubiUpgrade.rateoffire);
 }
 
 
@@ -103,9 +104,12 @@ function intFire(player) {
        // functionRUBI.RUBIBullets.add(bullet);		
 		bullet.reset(player.x,player.y);
 		bullet.rotation = player.rotation;
-		bullet.anchor.setTo(0, 2);
+		bullet.anchor.setTo(.5, .5);
+		//bullet.body.setSize(48, 16, 0, 0);
         functionRUBI.game.physics.arcade.moveToPointer(bullet, 1000);
+        return bullet;
     }
+    return null;
   }
  
 //doubleFire - shotgun effect where two bullets are fired with a slower rate.  
@@ -120,8 +124,8 @@ function doubleFire(player){
 		bullet2.reset(player.x,player.y);
 		bullet1.rotation = player.rotation;
 		bullet2.rotation = player.rotation;
-		bullet1.anchor.setTo(0, 2);
-		bullet2.anchor.setTo(0, 2);
+		bullet1.anchor.setTo(.5, .5);
+		bullet2.anchor.setTo(.5, .5);
 		
 		//move both bullets in angle to each other		
 		bullet1.body.velocity.x = Math.cos(bullet1.rotation+(-110*(Math.PI/180))) * 600;
@@ -141,7 +145,7 @@ if (functionRUBI.game.time.now > nextFire && functionRUBI.stringBullets.countDea
         var bullet = functionRUBI.stringBullets.getFirstDead();		
 		bullet.reset(player.x,player.y);
 		bullet.rotation = player.rotation;
-		bullet.anchor.setTo(0, 2);
+		bullet.anchor.setTo(.5, .5);
 		functionRUBI.game.time.events.add(Phaser.Timer.SECOND * 1, stringExplosion, this); 
         functionRUBI.game.physics.arcade.moveToPointer(bullet, 100);
   		
@@ -168,7 +172,7 @@ function floatFire(player) {
     //    bullet.position.set(0, 0);
     //   bullet.pivot.set(0,0);
         bullet.reset(player.x,player.y);
-        bullet.anchor.setTo(0, 3);	
+        bullet.anchor.setTo(0, 2);	
        //player.addChild(bullet);	
        
 		

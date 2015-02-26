@@ -13,9 +13,19 @@ functionRUBI.Preload.prototype = {
     this.load.setPreloadSprite(this.preloadBar);
 
   	//load game assets
-   this.game.load.image('background','assets/test/background.jpg');
+  	//menu assets
+   this.game.load.image('title','assets/menu/main-title.gif');
+   this.game.load.spritesheet('start','assets/menu/buttons/start.png',200,50);
+   this.game.load.spritesheet('level','assets/menu/buttons/level.png',200,50);
+   this.game.load.spritesheet('rateoffire','assets/menu/buttons/rateoffire.png',200,50);
+  this.game.load.spritesheet('speed','assets/menu/buttons/speed.png',200,50);
+    this.game.load.spritesheet('damage','assets/menu/buttons/damage.png',200,50);
+   
+   
+   
     this.game.load.image('player','assets/test/rubitest.png');
-    this.game.load.image('playeroffset','assets/enemies/enemy_bullets/Mildewbullet.png');
+    this.game.load.image('spark','assets/rubi/part.png');
+
     
     //loading rubi bullets
     this.game.load.image('intBullet','assets/rubi/bulletWhite.png');

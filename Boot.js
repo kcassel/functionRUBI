@@ -2,12 +2,7 @@ var functionRUBI = functionRUBI || {};
 
 functionRUBI.Boot = function(){};
 
- globalVar = {
-  	 playerX: 0,
-  	 playerY: 0,
-  	 test: 0,
-  	
-  };
+
 
 //setting game configuration and loading the assets for the loading screen
 functionRUBI.Boot.prototype = {
@@ -16,7 +11,7 @@ functionRUBI.Boot.prototype = {
     this.load.image('preloadbar', 'assets/test/preloader-bar.png');
   },
   create: function() {
-  	//loading screen will have a white background
+  	
     this.game.stage.backgroundColor = '#fff';
 
     /*//scaling options

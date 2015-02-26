@@ -14,45 +14,57 @@ functionRUBI.Game.prototype = {
 	
 	
   create: function() {
- 	
-  	  this.background = this.game.add.tileSprite(0, 0, 2000, 1333, 'background');
+  	
+ 
   	  this.game.world.setBounds(0, 0, 2000, 1333);
+  	  createBackground();
   	  
   
 this.map = this.game.add.tilemap('testmap'); 
         this.map.addTilesetImage('Walls','Walls');
+         this.map.setCollisionBetween(1,4);
         
          // this.wallsCG = this.game.physics.p2.createCollisionGroup();
       //this.playerCG = this.game.physics.p2.createCollisionGroup();       
         this.layer = this.map.createLayer('Tile Layer 1');
         this.layer.resizeWorld(); 
-        this.map.setCollision(1);
-        this.game.physics.p2.convertTilemap(this.map, this.layer);
-    
-      
+       // this.game.physics.enable(this.layer);
+       //this.layer.debug = true;
+        //this.game.physics.p2.convertTilemap(this.map, this.layer);
  
+  	  createBullets();
   	  
-  	  
-  	 this.player = this.game.add.sprite(this.game.world.centerX+64,this.game.world.centerY-128,'player');
-  	// this.player.image = this.game.add.sprite(0,0,'player');
-  	  //this.player.image.anchor.setTo(.5);
-  	  //this.player.addChild(this.player.image);
-	  this.game.physics.p2.enable(this.player);
- 	  this.player.body.allowRotation = false;
- 	  
- 	  this.game.physics.p2.setBoundsToWorld(true, true, true, true, false);
- 	  
- 	  
- 	  
- 	  createBullets();
- 	  
+  	 this.player = this.game.add.sprite(this.game.world.centerX+64,this.game.world.centerY-128,'player'); 
+  	 this.game.physics.enable(this.player, Phaser.Physics.ARCADE);
+  	 this.player.anchor.setTo(.5,.5);
+  	 this.player.body.setSize(45, 50, 0, 0);
+  	 this.player.collideWorldBounds = true;
+  	    
+
  	cursors = this.game.input.keyboard.createCursorKeys();
  	this.spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     this.game.camera.follow(this.player);
+
+
+
+///
+this.emitHitWall = functionRUBI.game.add.emitter(0,0,500);
+this.emitHitWall.makeParticles('spark');
+
   	  
   },
   update: function() {
+  	
+    this.game.physics.arcade.collide(this.player, this.layer);
+     
+     //bullet collsion with wall
+    this.game.physics.arcade.collide(functionRUBI.intBullets, this.layer, this.killBullet, null, this);
+     this.game.physics.arcade.collide(functionRUBI.doubleBullets, this.layer, this.killBullet, null, this);
+    this.game.physics.arcade.collide(functionRUBI.floatBullets, this.layer, this.killBullet, null, this);
+     this.game.physics.arcade.collide(functionRUBI.stringBullets, this.layer, this.killBullet, null, this);
+this.game.physics.arcade.collide(functionRUBI.emitSBullets, this.layer, this.killBullet, null, this);
 
+	filterUpdate();
   	
   	if (globalVar.playerX != this.player.x){
   	globalVar.playerX = this.player.x;
@@ -61,23 +73,28 @@ this.map = this.game.add.tilemap('testmap');
   	globalVar.playerY = this.player.y;
   	}
   	
-  	this.player.body.rotation = this.game.physics.arcade.angleToPointer(this.player)-((Math.PI/2)+this.game.math.degToRad(-180));
+  	
+  	 this.player.rotation = this.game.physics.arcade.angleToPointer(this.player)-((Math.PI/2)+this.game.math.degToRad(-180));
+  	//this.player.body.rotation = this.game.physics.arcade.angleToPointer(this.player)-((Math.PI/2)+this.game.math.degToRad(-180));
 
 	functionRUBI.floatBullets.forEachAlive(floatMove,this);  
     functionRUBI.floatBullets.forEachAlive(floatRotate,this);
 	
-    this.player.body.setZeroVelocity();
+    //this.player.body.setZeroVelocity();
+    
+    this.player.body.velocity.x = 0;
+ 	this.player.body.velocity.y = 0;
 
     if (cursors.up.isDown){
-        this.player.body.moveUp(300);
+          this.player.body.velocity.y = -(300+rubiUpgrade.speed);
     } else if (cursors.down.isDown){
-        this.player.body.moveDown(300);
+         this.player.body.velocity.y = (300+rubiUpgrade.speed);
     }
 
     if (cursors.left.isDown){
-        this.player.body.velocity.x = -300;
+              this.player.body.velocity.x = -(300+rubiUpgrade.speed);
     }else if (cursors.right.isDown){
-        this.player.body.moveRight(300);
+              this.player.body.velocity.x = (300+rubiUpgrade.speed);
     }
     
      
@@ -91,31 +108,37 @@ this.map = this.game.add.tilemap('testmap');
      	if (gunVar==0){
     		intFire(this.player);
     	}else if(gunVar==1){
-    		doubleFire(this.player);
-    	} else if (gunVar ==2){
     		stringFire(this.player);
+    	} else if (gunVar ==2){
+    		doubleFire(this.player);
     	}else if (gunVar ==3){
     		floatFire(this.player);
     	}
         
-    }
+    } 
     
   }, 
   
-
+  killBullet: function(bullet){
+  	
+  	this.emitHitWall.x = bullet.x;
+		this.emitHitWall.y = bullet.y;
+	
+		this.emitHitWall.start(true,200,null,10);	
+  	bullet.kill();  	
+  },
   
   //debug functions
 render: function(){
 	 this.game.debug.text("DEBUGTEXT",100,100);
 	 this.game.debug.text("gunVar "+gunVar,100,120);
-	 this.game.debug.text("gunrate "+rateArray[gunVar],100,140 );
-	  this.game.debug.text("Px "+this.player.x,100,160);
-	   this.game.debug.text("Py "+this.player.y,100,180);
-	 //this.game.debug.spriteBounds(this.player);
-	 this.game.debug.text("bullet "+globalVar.test,100,200);
-},
+	 this.game.debug.text("gunrate "+fireRate,100,140 );
+//	  this.game.debug.text("Px "+this.player.x,100,160);
+	//   this.game.debug.text("Py "+this.player.y,100,180);
+	   this.game.debug.body(this.player);
+	 this.game.debug.text("RUBUCK "+(rubiHealth.rubucks),100,180);
+	
+	},
 
-
-
- 
 };
+

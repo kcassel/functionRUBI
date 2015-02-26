@@ -2,29 +2,71 @@ functionRUBI.MainMenu = function(){};
 
 functionRUBI.MainMenu.prototype = {
   create: function() {
-  	//show the space tile, repeated
-    this.background = this.game.add.tileSprite(0, 0, this.game.width, this.game.height, 'background');
     
+     // filter from http://glslsandbox.com/e#18578.0
+    var fragmentSrc = [
+
+        "precision mediump float;",
+
+        "uniform float     time;",
+        "uniform vec2      resolution;",
+        "uniform vec2      mouse;",
+
+        "float noise(vec2 pos) {",
+            "return fract(sin(dot(pos, vec2(12.9898 - time,78.233 + time))) * 43758.5453);",
+        "}",
+
+        "void main( void ) {",
+
+            "vec2 normalPos = gl_FragCoord.xy / resolution.xy;",
+            "float pos = (gl_FragCoord.y / resolution.y);",
+            "float mouse_dist = length(vec2((mouse.x - normalPos.x) * (resolution.x / resolution.y) , mouse.y - normalPos.y));",
+            "float distortion = clamp(1.0 - (mouse_dist + 0.1) * 3.0, 0.0, 1.0);",
+
+            "pos -= (distortion * distortion) * 0.1;",
+
+            "float c = sin(pos * 400.0) * 0.4 + 0.4;",
+            "c = pow(c, 0.2);",
+            "c *= 0.2;",
+
+            "float band_pos = fract(time * 0.1) * 3.0 - 1.0;",
+            "c += clamp( (1.0 - abs(band_pos - pos) * 10.0), 0.0, 1.0) * 0.1;",
+
+            "c += distortion * 0.08;",
+            "// noise",
+            "c += (noise(gl_FragCoord.xy) - 0.5) * (0.09);",
+
+
+            "gl_FragColor = vec4( 0.0, c, 0.0, 1.0 );",
+        "}"
+    ];
+
+    this.filter = new Phaser.Filter(this.game, null, fragmentSrc);
+    this.filter.setResolution(800, 600);
+
+    this.sprite = this.game.add.sprite();
+   this.sprite.width = 800;
+    this.sprite.height = 600;
+    
+    this.sprite.filters = [ this.filter ];
+    
+    
+      this.background = this.game.add.tileSprite(50, 200, 700,124, 'title');
     //give it speed in x
-    this.background.autoScroll(-20, 0);
+   // this.background.autoScroll(-20, 0);
 
-    //start game text
-    var text = "Main menu stand in";
-    var style = { font: "30px Arial", fill: "#fff", align: "center" };
-    var t = this.game.add.text(this.game.width/2, this.game.height/2, text, style);
-    t.anchor.set(0.5);
-
-    //highest score
-    text = "click to start ";//+this.highestScore;
-    style = { font: "15px Arial", fill: "#fff", align: "center" };
-  
-    var h = this.game.add.text(this.game.width/2, this.game.height/2 + 50, text, style);
-    h.anchor.set(0.5);
+    
+    startButton = this.game.add.button(300,400, 'start',this.startClick,this,1,0,1);
+    
+   
+   
   },
   update: function() {
-   // if (this.game.input.activePointer.isDown){
-    if(this.game.input.activePointer.justPressed()) {
-      this.game.state.start('Game');
-    }
+   this.filter.update(this.game.input.mousePointer);
+   
+  },
+  
+  startClick: function(){
+  	this.game.state.start('LevelMenu');
   }
 };
