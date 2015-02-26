@@ -71,7 +71,7 @@ functionRUBI.LevelMenu.prototype = {
   
   // a speed upgrade costs 25 rubucks
   speedClick: function(){
-  	if(rubiUpgrade.speed <100 && rubiHealth.rubucks >24){
+  	if(rubiUpgrade.speed <100 && rubiHealth.rubucks >25){
   	rubiUpgrade.speed += 20;
   	rubiHealth.rubucks -=25;
   	}
@@ -80,7 +80,7 @@ functionRUBI.LevelMenu.prototype = {
   
   // rate of fire upgrade costs 50
   rateoffireClick: function(){
-  	if(rubiUpgrade.rateoffire <100 && rubiHealth.rubucks >49){
+  	if(rubiUpgrade.rateoffire <100 && rubiHealth.rubucks >50){
   	rubiUpgrade.rateoffire +=20;
   	  	rubiHealth.rubucks -=50;
   	}
@@ -88,7 +88,7 @@ functionRUBI.LevelMenu.prototype = {
   
   //damage upgrade costs 75
   damageClick: function(){
-  	if(rubiUpgrade.damage <20 && rubiHealth.rubucks >74){
+  	if(rubiUpgrade.damage <20 && rubiHealth.rubucks >75){
   	rubiUpgrade.damage +=5;
   	  	rubiHealth.rubucks -=75;
   	}

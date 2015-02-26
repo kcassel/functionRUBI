@@ -15,14 +15,17 @@ functionRUBI.Game.prototype = {
 	
   create: function() {
   	
+ //local variables
+ this.enemies = [];
+ this.enemiesAlive = 3;
+ this.enemiesTotal = 3;
  
+ //map shit
   	  this.game.world.setBounds(0, 0, 2000, 1333);
   	  createBackground();
-  	  
-  
-this.map = this.game.add.tilemap('testmap'); 
-        this.map.addTilesetImage('Walls','Walls');
-         this.map.setCollisionBetween(1,4);
+	this.map = this.game.add.tilemap('testmap'); 
+	this.map.addTilesetImage('Walls','Walls');
+    this.map.setCollisionBetween(1,4);
         
          // this.wallsCG = this.game.physics.p2.createCollisionGroup();
       //this.playerCG = this.game.physics.p2.createCollisionGroup();       
@@ -32,24 +35,29 @@ this.map = this.game.add.tilemap('testmap');
        //this.layer.debug = true;
         //this.game.physics.p2.convertTilemap(this.map, this.layer);
  
-  	  createBullets();
+  	
+  	  ///
+this.emitHitWall = functionRUBI.game.add.emitter(0,0,500);
+this.emitHitWall.makeParticles('spark');
   	  
   	 this.player = this.game.add.sprite(this.game.world.centerX+64,this.game.world.centerY-128,'player'); 
   	 this.game.physics.enable(this.player, Phaser.Physics.ARCADE);
   	 this.player.anchor.setTo(.5,.5);
   	 this.player.body.setSize(45, 50, 0, 0);
   	 this.player.collideWorldBounds = true;
+  	 this.player.animations.add('walk');
   	    
-
+  createBullets();
  	cursors = this.game.input.keyboard.createCursorKeys();
  	this.spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     this.game.camera.follow(this.player);
 
 
+this.enemies.push(new Enemy(0, functionRUBI, functionRUBI.enemyBullets, "follower", this.game.world.centerX+500, this.game.world.centerY-128));
+this.enemies.push(new Enemy(1, functionRUBI, functionRUBI.enemyBullets, "mildew", this.game.world.centerX+400, this.game.world.centerY-128));
+this.enemies.push(new Enemy(2, functionRUBI, functionRUBI.enemyBullets, "slime", this.game.world.centerX+300, this.game.world.centerY-128));
 
-///
-this.emitHitWall = functionRUBI.game.add.emitter(0,0,500);
-this.emitHitWall.makeParticles('spark');
+
 
   	  
   },
@@ -58,24 +66,29 @@ this.emitHitWall.makeParticles('spark');
     this.game.physics.arcade.collide(this.player, this.layer);
      
      //bullet collsion with wall
-    this.game.physics.arcade.collide(functionRUBI.intBullets, this.layer, this.killBullet, null, this);
-     this.game.physics.arcade.collide(functionRUBI.doubleBullets, this.layer, this.killBullet, null, this);
-    this.game.physics.arcade.collide(functionRUBI.floatBullets, this.layer, this.killBullet, null, this);
-     this.game.physics.arcade.collide(functionRUBI.stringBullets, this.layer, this.killBullet, null, this);
-this.game.physics.arcade.collide(functionRUBI.emitSBullets, this.layer, this.killBullet, null, this);
+    this.game.physics.arcade.overlap(functionRUBI.intBullets, this.layer, this.killBullet, null, this);
+     this.game.physics.arcade.overlap(functionRUBI.doubleBullets, this.layer, this.killBullet, null, this);
+    this.game.physics.arcade.overlap(functionRUBI.floatBullets, this.layer, this.killBullet, null, this);
+     this.game.physics.arcade.overlap(functionRUBI.stringBullets, this.layer, this.killBullet, null, this);
+this.game.physics.arcade.overlap(functionRUBI.emitSBullets, this.layer, this.killBullet, null, this);
 
 	filterUpdate();
-  	
-  	if (globalVar.playerX != this.player.x){
-  	globalVar.playerX = this.player.x;
-  	}
-  	if(globalVar.playerY = this.player.y){
-  	globalVar.playerY = this.player.y;
-  	}
-  	
+  
+  //////////Enemy update function////////////	
+  	this.enemiesAlive = 0;
+
+    for (var i = 0; i < this.enemies.length; i++)
+    {
+        if (this.enemies[i].alive)
+        {
+            this.enemiesAlive++;
+            this.enemies[i].update(this.player);
+        }
+    }
+    /////////////////
   	
   	 this.player.rotation = this.game.physics.arcade.angleToPointer(this.player)-((Math.PI/2)+this.game.math.degToRad(-180));
-  	//this.player.body.rotation = this.game.physics.arcade.angleToPointer(this.player)-((Math.PI/2)+this.game.math.degToRad(-180));
+ 
 
 	functionRUBI.floatBullets.forEachAlive(floatMove,this);  
     functionRUBI.floatBullets.forEachAlive(floatRotate,this);
@@ -84,18 +97,24 @@ this.game.physics.arcade.collide(functionRUBI.emitSBullets, this.layer, this.kil
     
     this.player.body.velocity.x = 0;
  	this.player.body.velocity.y = 0;
+ 	
 
     if (cursors.up.isDown){
+    	 this.player.animations.play('walk', 8);
           this.player.body.velocity.y = -(300+rubiUpgrade.speed);
     } else if (cursors.down.isDown){
+    	this.player.animations.play('walk', 8);
          this.player.body.velocity.y = (300+rubiUpgrade.speed);
     }
 
     if (cursors.left.isDown){
+    	this.player.animations.play('walk', 8);
               this.player.body.velocity.x = -(300+rubiUpgrade.speed);
     }else if (cursors.right.isDown){
+    	this.player.animations.play('walk', 8);
               this.player.body.velocity.x = (300+rubiUpgrade.speed);
     }
+
     
      
     
@@ -124,7 +143,7 @@ this.game.physics.arcade.collide(functionRUBI.emitSBullets, this.layer, this.kil
   	this.emitHitWall.x = bullet.x;
 		this.emitHitWall.y = bullet.y;
 	
-		this.emitHitWall.start(true,200,null,10);	
+		this.emitHitWall.start(true,250,null,10);	
   	bullet.kill();  	
   },
   

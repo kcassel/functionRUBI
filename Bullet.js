@@ -73,6 +73,21 @@ functionRUBI.RUBIBullets.add(functionRUBI.stringBullets);
 functionRUBI.RUBIBullets.add(functionRUBI.emitSBullets);
 functionRUBI.RUBIBullets.add(functionRUBI.floatBullets);
 
+
+/////////////ENEMY BULLETS////////////
+functionRUBI.enemyBullets = functionRUBI.game.add.group();
+    functionRUBI.enemyBullets.enableBody = true;
+    functionRUBI.enemyBullets.physicsBodyType = Phaser.Physics.ARCADE;
+    functionRUBI.enemyBullets.createMultiple(100, 'mildewBullets');
+    
+    functionRUBI.enemyBullets.setAll('anchor.x', 0.5);
+    functionRUBI.enemyBullets.setAll('anchor.y', 0.5);
+    functionRUBI.enemyBullets.setAll('outOfBoundsKill', true);
+    functionRUBI.enemyBullets.setAll('checkWorldBounds', true);
+
+
+
+
 }
 
 //Controls which bullets to be fire
@@ -105,7 +120,7 @@ function intFire(player) {
 		bullet.reset(player.x,player.y);
 		bullet.rotation = player.rotation;
 		bullet.anchor.setTo(.5, .5);
-		//bullet.body.setSize(48, 16, 0, 0);
+		bullet.body.setSize(8, 8, 0, 0);
         functionRUBI.game.physics.arcade.moveToPointer(bullet, 1000);
         return bullet;
     }
@@ -126,6 +141,8 @@ function doubleFire(player){
 		bullet2.rotation = player.rotation;
 		bullet1.anchor.setTo(.5, .5);
 		bullet2.anchor.setTo(.5, .5);
+		bullet1.body.setSize(8, 8, 0, 0);
+		bullet2.body.setSize(8, 8, 0, 0);
 		
 		//move both bullets in angle to each other		
 		bullet1.body.velocity.x = Math.cos(bullet1.rotation+(-110*(Math.PI/180))) * 600;
@@ -145,7 +162,8 @@ if (functionRUBI.game.time.now > nextFire && functionRUBI.stringBullets.countDea
         var bullet = functionRUBI.stringBullets.getFirstDead();		
 		bullet.reset(player.x,player.y);
 		bullet.rotation = player.rotation;
-		bullet.anchor.setTo(.5, .5);
+		//bullet.anchor.setTo(.5, .5);
+		//bullet.body.setSize(8, 8, 0, 0);
 		functionRUBI.game.time.events.add(Phaser.Timer.SECOND * 1, stringExplosion, this); 
         functionRUBI.game.physics.arcade.moveToPointer(bullet, 100);
   		
@@ -155,6 +173,7 @@ if (functionRUBI.game.time.now > nextFire && functionRUBI.stringBullets.countDea
 
 //code for the explosion of stringFire
 function stringExplosion(){
+	if(functionRUBI.stringBullets.countLiving()>0){
 	var bullet = functionRUBI.stringBullets.getFirstAlive();
 		var bx = bullet.x;
 		var by = bullet.y;
@@ -162,6 +181,7 @@ function stringExplosion(){
 		functionRUBI.emitSBullets.y = by;
 		functionRUBI.emitSBullets.start(true,1000,null,10);	
 		bullet.kill();
+	}
 }
 
 // floatFire - sends out a circles of bullets that wraps around you like a shield
