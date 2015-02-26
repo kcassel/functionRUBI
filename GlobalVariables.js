@@ -26,3 +26,10 @@ rubiUnlock ={
 	level: 0,
 	guns: 0,
 };
+
+function rubiHit(type){
+	if(type == "follower") {
+	rubiHealth.rubucks -=50;
+	}
+	
+}

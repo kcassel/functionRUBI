@@ -71,6 +71,10 @@ this.enemies.push(new Enemy(2, functionRUBI, functionRUBI.enemyBullets, "slime",
     this.game.physics.arcade.overlap(functionRUBI.floatBullets, this.layer, this.killBullet, null, this);
      this.game.physics.arcade.overlap(functionRUBI.stringBullets, this.layer, this.killBullet, null, this);
 this.game.physics.arcade.overlap(functionRUBI.emitSBullets, this.layer, this.killBullet, null, this);
+this.game.physics.arcade.overlap(functionRUBI.enemyBullets, this.layer, this.killBullet, null, this);
+
+//player collsion with enemies
+//this.game.physics.arcade.overlap(this.player, this.enemies, this.rubiHit, null, this);
 
 	filterUpdate();
   
@@ -142,10 +146,10 @@ this.game.physics.arcade.overlap(functionRUBI.emitSBullets, this.layer, this.kil
   	
   	this.emitHitWall.x = bullet.x;
 		this.emitHitWall.y = bullet.y;
-	
 		this.emitHitWall.start(true,250,null,10);	
   	bullet.kill();  	
   },
+  
   
   //debug functions
 render: function(){

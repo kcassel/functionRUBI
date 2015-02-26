@@ -85,9 +85,15 @@ Enemy.prototype.update = function(player) {
         	
         	// if the enemy gets too close to the player, explode and deal damage
         	if(functionRUBI.game.physics.arcade.distanceBetween(this.sprite, player) < 10) {
-	        	// player.health -= 10;
+	        	
+	        	
+	        	if(this.sprite.alive == true){
+	        	rubiHit(this.type);
 	        	this.sprite.kill();
+	        	} 
         	}
+        	
+        	
         	
     	} else if(this.type == "mildew") {
     		
