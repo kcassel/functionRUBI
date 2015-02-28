@@ -29,7 +29,7 @@ Enemy = function (index, gameName, bullets, type, x, y) {
 			this.type = "follower";
 			this.health = 10;
 			this.sprite = gameName.game.add.sprite(x, y, 'follower');
-			this.radius = 350;
+			this.radius = 200;
 			break;
 		case "mildew":
 			this.type = "mildew";
@@ -44,7 +44,11 @@ Enemy = function (index, gameName, bullets, type, x, y) {
 
     this.sprite.name = index.toString();
     gameName.game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
+    if (type == "follower"){
     this.sprite.body.immovable = false;
+    } else{
+    this.sprite.body.immovable = true;	
+    }
     this.sprite.body.collideWorldBounds = true;
     this.sprite.body.bounce.setTo(1, 1);
 
@@ -71,6 +75,7 @@ Enemy.prototype.damage = function() {
 };
 
 Enemy.prototype.update = function(player) {
+	
 
     this.sprite.rotation = functionRUBI.game.physics.arcade.angleBetween(this.sprite, player);
 	
@@ -81,7 +86,7 @@ Enemy.prototype.update = function(player) {
     	
     	if(this.type == "follower") {
     		// the speed at which the follower moves towards the object, 1000 == 1 second
-    		functionRUBI.game.physics.arcade.moveToObject(this.sprite, player, 300);
+    		functionRUBI.game.physics.arcade.moveToObject(this.sprite, player, 150);
         	
         	// if the enemy gets too close to the player, explode and deal damage
         	if(functionRUBI.game.physics.arcade.distanceBetween(this.sprite, player) < 10) {
@@ -98,7 +103,7 @@ Enemy.prototype.update = function(player) {
     	} else if(this.type == "mildew") {
     		
     		// shoot at the player
-    		if (functionRUBI.game.time.now > this.nextFire && this.bullets.countDead() > 0) {
+    		if (functionRUBI.game.time.now > this.nextFire && this.bullets.countDead() > 0 && this.sprite.alive ==true) {
     			
     			// time to shoot the next bullet, based on the enemy fireRate
 	            this.nextFire = functionRUBI.game.time.now + this.fireRate;
@@ -112,7 +117,7 @@ Enemy.prototype.update = function(player) {
 	            bullet.rotation = functionRUBI.game.physics.arcade.moveToObject(bullet, player, 500);
 	        }
     	} else if(this.type == "slime") {
-    		if (functionRUBI.game.time.now > this.nextFire && this.bullets.countDead() > 0) {
+    		if (functionRUBI.game.time.now > this.nextFire && this.bullets.countDead() > 0 && this.sprite.alive ==true) {
     			
     			// time to shoot the next bullet, based on the enemy fireRate
 	            this.nextFire = functionRUBI.game.time.now + this.fireRate;
@@ -142,6 +147,7 @@ Enemy.prototype.update = function(player) {
     	// patrol
     	this.patrol();
     }
+   
 };
 
 Enemy.prototype.createBullets = function() {

@@ -116,7 +116,6 @@ function intFire(player) {
         nextFire = functionRUBI.game.time.now + fireRate;
 
         var bullet = functionRUBI.intBullets.getFirstDead();
-       // functionRUBI.RUBIBullets.add(bullet);		
 		bullet.reset(player.x,player.y);
 		bullet.rotation = player.rotation;
 		bullet.anchor.setTo(.5, .5);
@@ -209,20 +208,21 @@ function floatFire(player) {
  	
  } 
  
+ //code for the float bullet to follow RUBI
  function floatMove(bullet){
  	bullet.body.velocity.x = 0;
  	bullet.body.velocity.y = 0;
 
     if (cursors.up.isDown){
-        bullet.body.velocity.y = -300;
+        bullet.body.velocity.y = -(300+rubiUpgrade.speed);
     } else if (cursors.down.isDown){
-         bullet.body.velocity.y = 300;
+         bullet.body.velocity.y = (300+rubiUpgrade.speed);
     }
 
     if (cursors.left.isDown){
-        bullet.body.velocity.x = -300;
+        bullet.body.velocity.x = -(300+rubiUpgrade.speed);
     }else if (cursors.right.isDown){
-         bullet.body.velocity.x = 300;
+         bullet.body.velocity.x = 300+rubiUpgrade.speed;
     }
  }
   

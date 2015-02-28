@@ -1,3 +1,7 @@
+// Loads game assets
+//
+//
+
 var functionRUBI = functionRUBI || {};
 
 //loading the game assets
@@ -30,6 +34,7 @@ functionRUBI.Preload.prototype = {
 
 //enemy assets
  this.game.load.image("follower", "assets/enemies/follower/FollowerIdle1.png");
+// this.game.load.spritesheet('follower', 'assets/rubi/rubiBlue.png', 64, 64);
     this.game.load.image("mildewBullets", "assets/enemies/enemy_bullets/Mildewbullet.png");
     this.game.load.image("mildew", "assets/enemies/mildew/MildewAttack1.png");
     this.game.load.image("slime", "assets/enemies/slime/SlimeIdle1.png");

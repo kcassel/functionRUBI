@@ -42,6 +42,7 @@ function createBackground(){
         "}"
     ];
 
+//change the starting point as rubi moves (p.x, p.y)
     functionRUBI.filter = new Phaser.Filter(functionRUBI.game, null, fragmentSrc);
     functionRUBI.filter.setResolution(1000, 1000);
 

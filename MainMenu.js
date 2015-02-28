@@ -62,7 +62,7 @@ functionRUBI.MainMenu.prototype = {
    
   },
   update: function() {
-   this.filter.update(this.game.input.mousePointer);
+   this.filter.update(functionRUBI.game.input.mousePointer);
    
   },
   
