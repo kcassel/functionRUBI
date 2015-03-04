@@ -73,7 +73,6 @@ functionRUBI.RUBIBullets.add(functionRUBI.stringBullets);
 functionRUBI.RUBIBullets.add(functionRUBI.emitSBullets);
 functionRUBI.RUBIBullets.add(functionRUBI.floatBullets);
 
-
 /////////////ENEMY BULLETS////////////
 functionRUBI.enemyBullets = functionRUBI.game.add.group();
     functionRUBI.enemyBullets.enableBody = true;

@@ -24,12 +24,14 @@ Enemy = function (index, gameName, bullets, type, x, y) {
 			this.sprite = gameName.game.add.sprite(x, y, 'slime');
 			this.radius = 500;
 			this.fireRate = 1000;
+			this.speed = 100; // change 
 			break;
 		case "follower":
 			this.type = "follower";
 			this.health = 10;
 			this.sprite = gameName.game.add.sprite(x, y, 'follower');
 			this.radius = 200;
+			this.speed = 150; // change
 			break;
 		case "mildew":
 			this.type = "mildew";
@@ -37,7 +39,15 @@ Enemy = function (index, gameName, bullets, type, x, y) {
 			this.health = 50;
 			this.radius = 500;
 			this.sprite = gameName.game.add.sprite(x, y, 'mildew');
+			this.speed = 100; // change
 			break;
+		case "spawner":
+			this.type = "spawner";
+			this.fireRate = 100;
+			this.health = 100;
+			this.radius = 200;
+			this.sprite = gameName.game.add.sprite(x, y, 'spawner');
+			this.speed = 0; // doesn't move
 	}
 	
     this.sprite.anchor.set(0.5);
@@ -86,7 +96,7 @@ Enemy.prototype.update = function(player) {
     	
     	if(this.type == "follower") {
     		// the speed at which the follower moves towards the object, 1000 == 1 second
-    		functionRUBI.game.physics.arcade.moveToObject(this.sprite, player, 150);
+    		functionRUBI.game.physics.arcade.moveToObject(this.sprite, player, this.speed);
         	
         	// if the enemy gets too close to the player, explode and deal damage
         	if(functionRUBI.game.physics.arcade.distanceBetween(this.sprite, player) < 10) {
@@ -122,25 +132,48 @@ Enemy.prototype.update = function(player) {
     			// time to shoot the next bullet, based on the enemy fireRate
 	            this.nextFire = functionRUBI.game.time.now + this.fireRate;
 				
+				
+				
 				// creates the bullets, and loads 10 of them into an array
-	            var bullet = this.bullets.getFirstDead();
-	            var bulletArray = [];
-	            
-	            bulletArray.push(bullet);
-	            bulletArray.push(bullet);
-	            bulletArray[0].reset(this.sprite.x, this.sprite.y);
-	            bulletArray[1].reset(this.sprite.x, this.sprite.y);
-	            
-	            // bullet.reset(this.sprite.x, this.sprite.y);
+				var bulletArray = [];
+				var bulletDumb = functionRUBI.enemyBullets.getFirstDead();
+				bulletDumb.reset(this.sprite.x, this.sprite.y);
+	            var bullet1 = functionRUBI.enemyBullets.getFirstDead();
+	            bullet1.reset(this.sprite.x, this.sprite.y);
+	            var bullet2 = functionRUBI.enemyBullets.getFirstDead();
+	            bullet2.reset(this.sprite.x, this.sprite.y);
+				var bullet3 = functionRUBI.enemyBullets.getFirstDead();
+				bullet3.reset(this.sprite.x, this.sprite.y);
+	            var bullet4 = functionRUBI.enemyBullets.getFirstDead();
+	            bullet4.reset(this.sprite.x, this.sprite.y);
+	            var bullet5 = functionRUBI.enemyBullets.getFirstDead();
+	            bullet5.reset(this.sprite.x, this.sprite.y);
+	            var bullet6 = functionRUBI.enemyBullets.getFirstDead();
+	            bullet6.reset(this.sprite.x, this.sprite.y);
+	            var bullet7 = functionRUBI.enemyBullets.getFirstDead();
+	            bullet7.reset(this.sprite.x, this.sprite.y);
+	            var bullet8 = functionRUBI.enemyBullets.getFirstDead();
+	         	bullet8.reset(this.sprite.x, this.sprite.y);
 	            
 	            // deals with speed of bullet and what its heading towards
 	            // bullet.rotation = this.game.physics.arcade.moveToObject(bullet, player, 500);
-	            bulletArray[0].rotation = functionRUBI.game.physics.arcade.accelerateToXY(bullet, this.x, 0, this.fireRate);
-	            bulletArray[1].rotation = functionRUBI.game.physics.arcade.accelerateToXY(bullet, 0, this.y, this.fireRate);
-	            // bulletArray[2].rotation = this.game.physics.arcade.accelerateToXY(bullet,this.x, 0, this.fireRate);
-	            // bulletArray[3].rotation = this.game.physics.arcade.accelerateToXY(bullet,this.x, 0, this.fireRate);
-	            // bulletArray[0].rotation = this.game.physics.arcade.moveToObject(bullet, player, 500);
-	        }
+	            bulletDumb.rotation = functionRUBI.game.physics.arcade.accelerateToXY(bulletDumb, 0, 0, 0);
+	            bulletDumb.kill();
+	            bullet1.rotation = functionRUBI.game.physics.arcade.accelerateToXY(bullet1, this.x, 0, this.fireRate); // up
+	            bullet2.rotation = functionRUBI.game.physics.arcade.accelerateToXY(bullet2, 0, this.y, this.fireRate); // down
+	            bullet3.rotation = functionRUBI.game.physics.arcade.accelerateToXY(bullet3, 8000, this.y, this.fireRate); // right
+	            bullet4.rotation = functionRUBI.game.physics.arcade.accelerateToXY(bullet4, this.x, 6000, this.fireRate); // down
+	            bullet5.rotation = functionRUBI.game.physics.arcade.accelerateToXY(bullet5, this.x + this.radius, 
+	            	this.y + this.radius, this.fireRate);
+	            bullet6.rotation = functionRUBI.game.physics.arcade.accelerateToXY(bullet6, this.x - this.radius, 
+	            	this.y - this.radius , this.fireRate);
+	            bullet7.rotation = functionRUBI.game.physics.arcade.accelerateToXY(bullet7, this.x - this.radius,
+	            	 this.y + this.radius, this.fireRate);
+	            bullet8.rotation = functionRUBI.game.physics.arcade.accelerateToXY(bullet8, this.x + this.radius,
+	            	this.y - this.radius, this.fireRate);
+	       }
+    	} else if(this.type == "spawner") {
+    		
     	}
         
     } else {
@@ -165,13 +198,16 @@ Enemy.prototype.patrol = function() {
 		// if about to hit a wall, go the other direction
 		// else keep moving
 	var temp = Math.floor(Math.random()*11) % 2;
-	
-	
+
+
+	// functionRUBI.game.physics.arcade.moveToObject(this.sprite, player, this.speed);
 	// the two options of patroling
+		// either move the radius moving horizontally
+			// or vertically.
 	if(temp == 0) {
-		
+		functionRUBI.game.physics.arcade.accelerateToXY(this.sprite, this.x+this.radius, this.y, 20);
 	} else {
-		
+		functionRUBI.game.physics.arcade.accelerateToXY(this.sprite, this.x, this.y+this.radius, 20);
 	}
 	
 	
