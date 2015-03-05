@@ -19,12 +19,17 @@
 rubiHealth ={
 	rubucks: 500,
 	min: 500,
-	levelEarn:0,
+	dead: false,
 };
 
 rubiUnlock ={
 	level: 0,
-	guns: 0,
+	guns: 4,
+};
+
+endLevel = {
+	enemyBucks:0,
+	levelFin:0,	
 };
 
 function rubiHit(type){

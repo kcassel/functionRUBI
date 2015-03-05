@@ -8,6 +8,7 @@ functionRUBI.Boot = function(){};
 functionRUBI.Boot.prototype = {
   preload: function() {
   	//assets we'll use in the loading screen
+  	
     this.load.image('preloadbar', 'assets/test/preloader-bar.png');
   },
   create: function() {

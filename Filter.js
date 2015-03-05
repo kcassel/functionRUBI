@@ -57,3 +57,33 @@ function filterUpdate(){
 	
 	functionRUBI.filter.update();
 }
+
+////////////Button Prototype
+
+var Buttons = function(game, x, y, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame, group) {  
+  Phaser.Button.call(this, game, x, y, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame, group);
+  game.add.existing(this);
+};
+
+Buttons.prototype = Object.create(Phaser.Button.prototype);
+Buttons.prototype.constructor = Buttons;
+
+Buttons.prototype.activate = function() {
+  this.input.enabled = true;
+  this.frame = 0;
+};
+
+Buttons.prototype.overlap = function(){
+ if (this.input.enabled == true){	
+	if (this.input.pointerOver()) {
+ 	 	this.frame = 1;
+		} else{
+		this.frame = 0;
+		}
+	}
+};
+
+Buttons.prototype.deactivate = function() {
+  this.input.enabled = false;
+  this.frame = 2; // change this to match your greyed out frame in the button spritesheet
+};

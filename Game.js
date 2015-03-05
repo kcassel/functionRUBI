@@ -5,6 +5,7 @@ functionRUBI.Game = function(){};
 
 functionRUBI.Game.prototype = {
 	
+	//load this level's specific map
  preload: function(){
  	this.load.tilemap('testmap', 'assets/test/tutorialmap.json', null, Phaser.Tilemap.TILED_JSON);
     this.load.image('Walls', 'assets/test/Wall.png'); 	
@@ -16,8 +17,8 @@ functionRUBI.Game.prototype = {
   	
  //local variables for enemies
  this.enemies = [];
- this.enemiesAlive = 3;
- this.enemiesTotal = 3;
+ this.enemiesAlive;
+ this.enemiesTotal;
  
  ///////////// Implementing map stuff///////////// 
   	  this.game.world.setBounds(0, 0, 2000, 1333);
@@ -26,27 +27,50 @@ functionRUBI.Game.prototype = {
 	this.map.addTilesetImage('Walls','Walls');
     this.map.setCollisionBetween(1,4);
      
-        this.layer = this.map.createLayer('Tile Layer 1');
-        this.layer.resizeWorld(); 
+        this.wall = this.map.createLayer('Tile Layer 1');
+        this.wall.resizeWorld(); 
  
- //particle collision with wall
- this.emitHitWall = functionRUBI.game.add.emitter(0,0,500);
-this.emitHitWall.makeParticles('spark');
-  	  
+ //Endgame goal
+ this.goal = this.game.add.sprite(this.game.world.centerX,this.game.world.centerY-300,'goal'); 
+ this.goal.animations.add('squiggly');
+  this.game.physics.enable(this.goal, Phaser.Physics.ARCADE);
+  this.goal.body.setSize(64, 64, 0, 0);
+  this.goal.anchor.setTo(.5,.5);
+  this.goal.body.immovable = true;
+
  
-//adding player to map
+ //
+ 
+ 
+ //adding player to map
+ createBullets();
   	 this.player = this.game.add.sprite(this.game.world.centerX+64,this.game.world.centerY-128,'player'); 
   	 this.game.physics.enable(this.player, Phaser.Physics.ARCADE);
   	 this.player.anchor.setTo(.5,.5);
   	 this.player.body.setSize(45, 50, 0, 0);
   	 this.player.collideWorldBounds = true;
   	 this.player.animations.add('walk');	    
- 	 createBullets();
+ 	 this.game.camera.follow(this.player);
+ 	 
+ 	 
+ //particle collision with wall
+ this.emitHitWall = functionRUBI.game.add.emitter(0,0,500);
+this.emitHitWall.makeParticles('spark');
+  	  
+ 
+
   
   //keyboard and mouse control
- 	cursors = this.game.input.keyboard.createCursorKeys();
- 	this.spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-    this.game.camera.follow(this.player);
+ 	cursors = {
+                up: this.game.input.keyboard.addKey(Phaser.Keyboard.W),
+                down:this.game.input.keyboard.addKey(Phaser.Keyboard.S),
+                left: this.game.input.keyboard.addKey(Phaser.Keyboard.A),
+                right: this.game.input.keyboard.addKey(Phaser.Keyboard.D),
+    };
+ 	this.QKey = this.game.input.keyboard.addKey(Phaser.Keyboard.Q);
+this.EKey = this.game.input.keyboard.addKey(Phaser.Keyboard.E);
+ 	
+    
 
 
 ///adding enemies to map
@@ -75,27 +99,44 @@ this.enemyGroup = this.game.add.group();
 	var addenemy = this.enemies[i].sprite;
 	this.enemyGroup.add(addenemy);
   	}  
+  	
 	
   },
   update: function() {
-  	console.log("HERE");
+  	 
+  	 
+  	//////////////////// //COLLISION//////////////////////////////////////////
   	//player/enemy collsion with wall
-    this.game.physics.arcade.collide(this.player, this.layer);
-     this.game.physics.arcade.collide(this.enemyGroup, this.layer);
+    this.game.physics.arcade.collide(this.player, this.wall);
+     this.game.physics.arcade.collide(this.enemyGroup, this.wall);
+     this.game.physics.arcade.collide(this.enemyGroup, this.goal);
+     
+     //player collsion with goal
+     this.game.physics.arcade.overlap(this.player,this.goal, this.endGame, null, this);
+     
     //enemy collision with rubi bullet
     this.game.physics.arcade.overlap(this.enemyGroup, functionRUBI.intBullets, this.hitEnemy, null, this);
     this.game.physics.arcade.overlap(this.enemyGroup, functionRUBI.doubleBullets, this.hitEnemy, null, this);
     this.game.physics.arcade.overlap(this.enemyGroup, functionRUBI.floatBullets, this.hitEnemy, null, this);
     this.game.physics.arcade.overlap(this.enemyGroup, functionRUBI.stringBullets, this.hitEnemy, null, this);
 	this.game.physics.arcade.overlap(this.enemyGroup, functionRUBI.emitSBullets,  this.hitEnemy, null, this);
+	this.game.physics.arcade.overlap(this.enemyGroup, functionRUBI.booleanBullets, this.hitEnemy, null, this);
      
      //bullet collsion with wall
-    this.game.physics.arcade.overlap(functionRUBI.intBullets, this.layer, this.killBullet, null, this);
-    this.game.physics.arcade.overlap(functionRUBI.doubleBullets, this.layer, this.killBullet, null, this);
-    this.game.physics.arcade.overlap(functionRUBI.floatBullets, this.layer, this.killBullet, null, this);
-    this.game.physics.arcade.overlap(functionRUBI.stringBullets, this.layer, this.killBullet, null, this);
-	this.game.physics.arcade.overlap(functionRUBI.emitSBullets, this.layer, this.killBullet, null, this);
-	this.game.physics.arcade.overlap(functionRUBI.enemyBullets, this.layer, this.killBullet, null, this);
+    this.game.physics.arcade.overlap(functionRUBI.intBullets, this.wall, this.killBullet, null, this);
+    this.game.physics.arcade.overlap(functionRUBI.doubleBullets, this.wall, this.killBullet, null, this);
+    this.game.physics.arcade.overlap(functionRUBI.floatBullets, this.wall, this.killBullet, null, this);
+    this.game.physics.arcade.overlap(functionRUBI.stringBullets, this.wall, this.killBullet, null, this);
+	this.game.physics.arcade.overlap(functionRUBI.emitSBullets, this.wall, this.killBullet, null, this);
+	this.game.physics.arcade.overlap(functionRUBI.enemyBullets, this.wall, this.killBullet, null, this);
+	
+/*	 this.game.physics.arcade.overlap(functionRUBI.intBullets, this.goal, this.killBullet, null, this);
+    this.game.physics.arcade.overlap(functionRUBI.doubleBullets, this.goal, this.killBullet, null, this);
+    this.game.physics.arcade.overlap(functionRUBI.floatBullets, this.goal, this.killBullet, null, this);
+    this.game.physics.arcade.overlap(functionRUBI.stringBullets, this.goal, this.killBullet, null, this);
+	this.game.physics.arcade.overlap(functionRUBI.emitSBullets, this.goal, this.killBullet, null, this);
+	this.game.physics.arcade.overlap(functionRUBI.enemyBullets, this.goal, this.killBullet, null, this);
+	*/
 
 	// enemy bullet collision with player
 	this.game.physics.arcade.overlap(functionRUBI.enemyBullets, this.player, this.hitRUBI, null, this);
@@ -149,7 +190,8 @@ this.enemyGroup = this.game.add.group();
      
     
     //switches between bullet. bulletSwitch found in Bullet.js
-    this.spaceKey.onDown.add(bulletSwitch,this);
+    this.QKey.onDown.add(bulletSwitch,this);
+      this.EKey.onDown.add(bulletSwitch,this);
     
     //shoots each type of bullet
      if (this.game.input.activePointer.isDown) {
@@ -163,39 +205,82 @@ this.enemyGroup = this.game.add.group();
     	}else if (gunVar ==3){
     		floatFire(this.player);
     	}
+    	else if(gunVar ==4){
+    		booleanFire(this.player);
+    	}
         
     } 
     
-  }, 
+    //fades away bullet explosions & other animation details
+     this.emitHitWall.forEachAlive(function(p){
+		p.alpha= p.lifespan / 500;
+	});
+	 functionRUBI.emitSBullets.forEachAlive(function(p){
+		p.alpha= p.lifespan / 1000;
+	});
+	functionRUBI.emitBoolean.forEachAlive(function(p){
+		p.alpha= p.lifespan / 500;
+	});
+	this.goal.animations.play('squiggly',6);
+	
+  },
   
+
   ///////kills bullets if it touches a wall//////
   killBullet: function(bullet,wall){
   	
   	this.emitHitWall.x = bullet.x;
 		this.emitHitWall.y = bullet.y;
-		this.emitHitWall.start(true,250,null,10);	
-  	bullet.kill();  	
+		this.emitHitWall.start(true,500,null,10);	
+ 	 bullet.kill();  	
   },
   
-  /////decrements RUBI's health enemy bullet hits her///////
+  /////decrements RUBI's health when enemy bullet hits her///////
   hitRUBI: function(wall,bullet){
   	rubiHealth.rubucks -=10;
+  	
   	this.emitHitWall.x = bullet.x;
 		this.emitHitWall.y = bullet.y;
-		this.emitHitWall.start(true,250,null,10);	
+		this.emitHitWall.start(true,500,null,10);	
   	bullet.kill();  	
+  	if (rubiHealth.rubucks <= 0) {
+  		rubiHealth.dead = true;
+  		this.endGame();
+  	}
   },
   
-   ///////kills bullets if it touches a wall//////
+   ///////kills enemy if bullet hit enemy//////
   hitEnemy: function(enemy,bullet){
-  	
-  	this.emitHitWall.x = enemy.x;
+		
+	bulletDamage = getBulletDamage(bullet);	
+	
+	enemy.health -= bulletDamage+rubiUpgrade.damage;
+	
+	console.log(enemy.health);
+	
+	if (enemy.health <= 0)
+    {
+    	endLevel.enemyBucks += getEnemyValue(enemy);
+    	this.emitHitWall.x = enemy.x;
 		this.emitHitWall.y = enemy.y;
-		this.emitHitWall.start(true,250,null,10);	
-	enemy.alive = false;
-  	enemy.kill();  
-  	bullet.kill();	
+		this.emitHitWall.start(true,500,null,10);
+        enemy.alive = false;
+        enemy.kill();
+        
+    }
+
+  	bullet.kill();		
   },
+  
+  
+  /////////endgame/////////////////
+  endGame: function(){
+  	endLevel.levelFin = 1;
+  	functionRUBI.RUBIBullets.destroy(true);
+  	this.enemyGroup.destroy(true);
+  	this.game.state.start('EndGame');
+  },
+  
   
   
   //debug functions

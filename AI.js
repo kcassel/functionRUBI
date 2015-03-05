@@ -24,19 +24,29 @@ Enemy = function (index, gameName, bullets, type, x, y) {
 			this.sprite = gameName.game.add.sprite(x, y, 'slime');
 			this.radius = 500;
 			this.fireRate = 1000;
+			this.sprite.health = 30;
+		
+			
 			break;
 		case "follower":
 			this.type = "follower";
+			
 			this.health = 10;
 			this.sprite = gameName.game.add.sprite(x, y, 'follower');
-			this.radius = 200;
+			this.radius = 300;
+			this.sprite.health = 10;
+		
+			
 			break;
 		case "mildew":
 			this.type = "mildew";
+			
 			this.fireRate = 1000;
 			this.health = 50;
 			this.radius = 500;
 			this.sprite = gameName.game.add.sprite(x, y, 'mildew');
+			this.sprite.health = 50;
+
 			break;
 	}
 	
@@ -44,11 +54,27 @@ Enemy = function (index, gameName, bullets, type, x, y) {
 
     this.sprite.name = index.toString();
     gameName.game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
+    
     if (type == "follower"){
+    	
     this.sprite.body.immovable = false;
     } else{
     this.sprite.body.immovable = true;	
     }
+    
+    
+    //Animation Control
+    if(type=="mildew"){
+    	this.sprite.animations.add('shoot');
+    }
+    if(type =="follower"){
+    	this.sprite.animations.add('walk');
+    }
+    if(type =="slime"){
+    	this.sprite.animations.add('shoot');
+    }
+    
+    
     this.sprite.body.collideWorldBounds = true;
     this.sprite.body.bounce.setTo(1, 1);
 
@@ -76,8 +102,9 @@ Enemy.prototype.damage = function() {
 
 Enemy.prototype.update = function(player) {
 	
-
-    this.sprite.rotation = functionRUBI.game.physics.arcade.angleBetween(this.sprite, player);
+	
+	
+    this.sprite.rotation = functionRUBI.game.physics.arcade.angleBetween(this.sprite, player)-((Math.PI/2)+functionRUBI.game.math.degToRad(-180));
 	
 	// if the player gets within the enemy radius, then each enemy
 	// will respond respectively
@@ -85,11 +112,12 @@ Enemy.prototype.update = function(player) {
     if (functionRUBI.game.physics.arcade.distanceBetween(this.sprite, player) < this.radius) {
     	
     	if(this.type == "follower") {
+    		this.sprite.animations.play('walk', 16);
     		// the speed at which the follower moves towards the object, 1000 == 1 second
-    		functionRUBI.game.physics.arcade.moveToObject(this.sprite, player, 150);
+    		functionRUBI.game.physics.arcade.moveToObject(this.sprite, player, 350);
         	
         	// if the enemy gets too close to the player, explode and deal damage
-        	if(functionRUBI.game.physics.arcade.distanceBetween(this.sprite, player) < 10) {
+        	if(functionRUBI.game.physics.arcade.distanceBetween(this.sprite, player) < 20) {
 	        	
 	        	
 	        	if(this.sprite.alive == true){
@@ -102,8 +130,10 @@ Enemy.prototype.update = function(player) {
         	
     	} else if(this.type == "mildew") {
     		
+    		
     		// shoot at the player
     		if (functionRUBI.game.time.now > this.nextFire && this.bullets.countDead() > 0 && this.sprite.alive ==true) {
+    			this.sprite.animations.play('shoot', 16);
     			
     			// time to shoot the next bullet, based on the enemy fireRate
 	            this.nextFire = functionRUBI.game.time.now + this.fireRate;
@@ -118,7 +148,7 @@ Enemy.prototype.update = function(player) {
 	        }
     	} else if(this.type == "slime") {
     		if (functionRUBI.game.time.now > this.nextFire && this.bullets.countDead() > 0 && this.sprite.alive ==true) {
-    			
+    			this.sprite.animations.play('shoot', 16);
     			// time to shoot the next bullet, based on the enemy fireRate
 	            this.nextFire = functionRUBI.game.time.now + this.fireRate;
 				

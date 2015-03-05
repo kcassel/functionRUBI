@@ -51,9 +51,9 @@ functionRUBI.MainMenu.prototype = {
     this.sprite.filters = [ this.filter ];
     
     
-      this.background = this.game.add.tileSprite(50, 200, 700,124, 'title');
-    //give it speed in x
-   // this.background.autoScroll(-20, 0);
+     // this.background = this.game.add.tileSprite(50, 200, 700,124, 'title');
+      this.title = this.game.add.sprite(50,200,'title'); 
+       this.title.animations.add('title');	
 
     
     startButton = this.game.add.button(300,400, 'start',this.startClick,this,1,0,1);
@@ -63,6 +63,7 @@ functionRUBI.MainMenu.prototype = {
   },
   update: function() {
    this.filter.update(functionRUBI.game.input.mousePointer);
+   	this.title.animations.play('title', 2);
    
   },
   
