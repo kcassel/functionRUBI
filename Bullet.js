@@ -105,7 +105,7 @@ functionRUBI.enemyBullets = functionRUBI.game.add.group();
 //Controls which bullets to be fire
 function bulletSwitch(check){
 	//checks which key is being pressed
-	var num = 0;
+	//var num = 0;
 	if (check.keyCode==81){
 		num = -1;
 	} else{
@@ -113,24 +113,42 @@ function bulletSwitch(check){
 	}
 
 	maxGun = rubiUnlock.guns;
-	
-	console.log(num);
+	console.log("check.keyCode " +check.keyCode);
+	console.log("maxGun"+ maxGun);
+	console.log("num "+num);
 	console.log(gunVar);
+	
 	if(gunVar==maxGun){
 		if(num==1){
 			gunVar = 0;
+
 		} else{
-			gunVar = gunVar + num;
+			gunVar = maxGun -1;
+
 		}
+		///if (gunVar>4){
+		//gunVar =4;
+	//}
 	} else if(gunVar==0){
 		if(num==1){
-			gunVar = gunVar +num;
+			gunVar = gunVar +1 ;
+			
 		} else{
 			gunVar = maxGun;
 		}
+		//if (gunVar>4){
+		//gunVar =4;
+	//}
 	} else {
 		gunVar = gunVar + num;
-	}	
+	//	if (gunVar>4){
+		//gunVar =4;
+	//}
+
+	}
+	console.log(gunVar);	
+	
+	
 	
 	
 	//testing
@@ -231,11 +249,11 @@ function doubleFire(player){
 		bullet2.body.setSize(8, 8, 0, 0);
 		
 		//move both bullets in angle to each other		
-		bullet1.body.velocity.x = Math.cos(bullet1.rotation+(-100*(Math.PI/180))) * 600;
-        bullet1.body.velocity.y = Math.sin(bullet1.rotation+(-100*(Math.PI/180))) * 600;
+		bullet1.body.velocity.x = Math.cos(bullet1.rotation+(-95*(Math.PI/180))) * 600;
+        bullet1.body.velocity.y = Math.sin(bullet1.rotation+(-95*(Math.PI/180))) * 600;
         
-		bullet2.body.velocity.x = Math.cos(bullet2.rotation+(-80*(Math.PI/180))) * 600;
-        bullet2.body.velocity.y = Math.sin(bullet2.rotation+(-80*(Math.PI/180))) * 600;
+		bullet2.body.velocity.x = Math.cos(bullet2.rotation+(-85*(Math.PI/180))) * 600;
+        bullet2.body.velocity.y = Math.sin(bullet2.rotation+(-85*(Math.PI/180))) * 600;
 
     }	
 }

@@ -85,5 +85,5 @@ Buttons.prototype.overlap = function(){
 
 Buttons.prototype.deactivate = function() {
   this.input.enabled = false;
-  this.frame = 2; // change this to match your greyed out frame in the button spritesheet
+  this.frame = 1; // change this to match your greyed out frame in the button spritesheet
 };

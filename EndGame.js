@@ -55,11 +55,50 @@ functionRUBI.EndGame.prototype = {
     
   
     
-    MenuButton = this.game.add.button(300,400, 'start',this.menuClick,this,1,0,1);
+    MenuButton = this.game.add.button(300,450, 'start',this.menuClick,this,1,0,1);
+    
+  
+    this.textArray1 = [];
+	this.textArray1[0] = 'int'; 
+	this.textArray1[1] = 'string'; 
+	this.textArray1[2] = 'double'; 
+	this.textArray1[3] = 'float'; 
+	this.textArray1[4] = 'boolean';
     
     if (rubiHealth.dead==true){
     	this.levelDeath();
     }else{
+    	//LEVEL UNLOCK
+    	if(rubiUnlock.level == endLevel.levelFin){
+    		if (rubiUnlock.level < 5){
+    		rubiUnlock.level++;
+    		console.log("HERE!");
+    		//if (rubiUnlock.level < 5){
+    		 endLevel.unlockLevel= 'RUBI.UNLOCK(level): level '+rubiUnlock.level;
+    		} else{
+    		endLevel.unlockLevel= 'RUBI.UNLOCK(level): COMPLETE';
+    		}
+   		}else{
+    	endLevel.unlockLevel= 'RUBI.UNLOCK(level): NONE';
+    	}
+    	
+    	//GUN UNLOCK
+    	if(rubiUnlock.guns == endLevel.levelGun){
+    		if (rubiUnlock.guns < 4){
+    			rubiUnlock.guns++;
+    			if (rubiUnlock.guns < 4){
+    			 endLevel.unlockGun= 'RUBI.UNLOCK(datatype): '+this.textArray1[rubiUnlock.guns];
+    			}else{
+    		endLevel.unlockGun= 'RUBI.UNLOCK(datatype): COMPLETE';
+    		}
+    		} else{
+    		endLevel.unlockGun= 'RUBI.UNLOCK(datatype): COMPLETE';
+    		}
+   		}else{
+   
+    	endLevel.unlockGun= 'RUBI.UNLOCK(datatype): NONE ';
+    	}
+    	
     	this.levelComplete();
     }
    
@@ -74,13 +113,16 @@ functionRUBI.EndGame.prototype = {
   levelComplete: function(){
   	rubiHealth.rubucks += endLevel.enemyBucks + rubiHealth.min*endLevel.levelFin;
   	
-  	this.text1 = this.game.add.text(400, 200, "RUBI.MISSION: SUCCESS", { font: " 32px Courier", fill: "#04B404" });
+  	this.text1 = this.game.add.text(400, 200, "RUBI.MISSION: SUCCESS", { font: " 32px Courier", fill: "#2EFE2E" });
   	 this.text1.anchor.set(0.5);
-  this.text2 = this.game.add.text(200, 250, "RUBUCKS ENEMY BONUS: "+endLevel.enemyBucks, { font: " 20px Courier", fill: "#04B404" });
-  this.text3 = this.game.add.text(200, 275, "RUBUCKS LEVEL BONUS: "+rubiHealth.min*endLevel.levelFin, { font: " 20px Courier", fill: "#04B404" });
-  this.text4 = this.game.add.text(200, 300, "RUBUCKS TOTAL: "+rubiHealth.rubucks, { font: " 20px Courier", fill: "#04B404" });
-  this.text5 = this.game.add.text(200, 325, "RUBI.RESPONSE: SUCCESS!", { font: " 20px Courier", fill: "#04B404" });
-  this.text6 = this.game.add.text(200, 350, "RUBI.UPGRADE(RESET) = COMPLETE", { font: " 20px Courier", fill: "#04B404" });
+  this.text2 = this.game.add.text(200, 250, "RUBUCKS ENEMY BONUS: "+endLevel.enemyBucks, { font: " 20px Courier", fill: "#2EFE2E" });
+  this.text3 = this.game.add.text(200, 275, "RUBUCKS LEVEL BONUS: "+rubiHealth.min*endLevel.levelFin, { font: " 20px Courier", fill: "#2EFE2E" });
+  this.text4 = this.game.add.text(200, 300, "RUBUCKS TOTAL: "+rubiHealth.rubucks, { font: " 20px Courier", fill: "#2EFE2E" });
+   this.text5 = this.game.add.text(200, 325, endLevel.unlockLevel, { font: " 20px Courier", fill: "#2EFE2E" });
+  this.text6 = this.game.add.text(200, 350,  endLevel.unlockGun, { font: " 20px Courier", fill: "#2EFE2E" });
+  
+  this.text7 = this.game.add.text(200, 375, "RUBI.RESPONSE: SUCCESS!", { font: " 20px Courier", fill: "#2EFE2E" });
+  this.text8 = this.game.add.text(200, 400, "RUBI.UPGRADE(RESET) = COMPLETE", { font: " 20px Courier", fill: "#2EFE2E" });
   
    
   	
@@ -90,13 +132,13 @@ functionRUBI.EndGame.prototype = {
    	
    	    rubiHealth.rubucks = endLevel.enemyBucks + rubiHealth.min;
   	   	    
-   	this.text1 = this.game.add.text(400, 200, "RUBI.MISSION: FAILURE", { font: " 32px Courier", fill: "#04B404" });
-   	this.text2 = this.game.add.text(200, 250, "CRITICAL ERROR: DAMAGE OVERFLOW", { font: " 20px Courier", fill: "#04B404" });
-   this.text3 = this.game.add.text(200, 275, "RUBI.REBOOT = TRUE ", { font: " 20px Courier", fill: "#04B404" });
-    this.text4 = this.game.add.text(200, 300, "RUBUCKS RESET: 500", { font: " 20px Courier", fill: "#04B404" });
-    this.text5 = this.game.add.text(200, 325, "RUBUCKS ENEMY BONUS: "+endLevel.enemyBucks, { font: " 20px Courier", fill: "#04B404" });
-     this.text6 = this.game.add.text(200, 350, "RUBUCKS TOTAL: "+rubiHealth.rubucks, { font: " 20px Courier", fill: "#04B404" });
-   this.text7 = this.game.add.text(200, 375, "RUBI.RESPONSE: READY TO GO, SIR!", { font: " 20px Courier", fill: "#04B404" });
+   	this.text1 = this.game.add.text(400, 200, "RUBI.MISSION: FAILURE", { font: " 32px Courier", fill: "#2EFE2E" });
+   	this.text2 = this.game.add.text(200, 250, "CRITICAL ERROR: DAMAGE OVERFLOW", { font: " 20px Courier", fill: "#2EFE2E" });
+   this.text3 = this.game.add.text(200, 275, "RUBI.REBOOT = TRUE ", { font: " 20px Courier", fill: "#2EFE2E" });
+    this.text4 = this.game.add.text(200, 300, "RUBUCKS RESET: 500", { font: " 20px Courier", fill: "#2EFE2E" });
+    this.text5 = this.game.add.text(200, 325, "RUBUCKS ENEMY BONUS: "+endLevel.enemyBucks, { font: " 20px Courier", fill: "#2EFE2E" });
+     this.text6 = this.game.add.text(200, 350, "RUBUCKS TOTAL: "+rubiHealth.rubucks, { font: " 20px Courier", fill: "#2EFE2E" });
+   this.text7 = this.game.add.text(200, 375, "RUBI.RESPONSE: READY TO GO, SIR!", { font: " 20px Courier", fill: "#2EFE2E" });
     this.text1.anchor.set(0.5);
 
     
@@ -106,6 +148,9 @@ functionRUBI.EndGame.prototype = {
 		rubiHealth.dead = false;
 		endLevel.enemyBucks = 0;
 		endLevel.levelFin = 0;
+  		endLevel.levelGun = 0;
+  		 endLevel.unlockGun = '';
+  		endLevel.unlockLevel = '';
 		rubiUpgrade.speed = 0;
 		rubiUpgrade.rateoffire = 0;
   		rubiUpgrade.damage =  0;

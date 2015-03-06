@@ -6,6 +6,7 @@
   	 playerX: 0,
   	 playerY: 0,
   	 test: 0,
+  	 gunVar:0,
   	
   };
   
@@ -23,13 +24,16 @@ rubiHealth ={
 };
 
 rubiUnlock ={
-	level: 0,
+	level: 5,
 	guns: 4,
 };
 
 endLevel = {
 	enemyBucks:0,
 	levelFin:0,	
+	levelGun: 0,
+	unlockGun: '',
+	unlockLevel: '',
 };
 
 function rubiHit(type){

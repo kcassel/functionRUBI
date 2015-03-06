@@ -17,20 +17,28 @@ functionRUBI.Preload.prototype = {
     this.load.setPreloadSprite(this.preloadBar);
 
   	//load game assets
-  	//menu assets
+  	//menu buttons assets
+  		this.game.load.image('screenOverlay','assets/world/screenoverlay.png');
   	this.game.load.image('levelMenuUI','assets/menu/levelMenuUI.png');
-  	this.game.load.spritesheet('title','assets/menu/main-title.png',709,128);
+  	this.game.load.spritesheet('title','assets/menu/main-title.png',684,156);
    this.game.load.spritesheet('start','assets/menu/buttons/start.png',158,47);
-   this.game.load.spritesheet('level','assets/menu/buttons/level.png',200,50);
-   this.game.load.spritesheet('rateoffire','assets/menu/buttons/rateoffire.png',184,28);
-  this.game.load.spritesheet('speed','assets/menu/buttons/speed.png',123,39);
-    this.game.load.spritesheet('damage','assets/menu/buttons/damage.png',156,38);
+   this.game.load.spritesheet('rateoffire','assets/menu/buttons/rateoffire.png',165,33);
+  this.game.load.spritesheet('speed','assets/menu/buttons/speed.png',165,33);
+    this.game.load.spritesheet('damage','assets/menu/buttons/damage.png',165,33);
+    //level buttons
+    this.game.load.spritesheet('level0','assets/menu/level/level0.png',150,100);
+    this.game.load.spritesheet('level1','assets/menu/level/level1.png',150,100);
+    this.game.load.spritesheet('level2','assets/menu/level/level2.png',150,100);
+    this.game.load.spritesheet('level3','assets/menu/level/level3.png',150,100);
+    this.game.load.spritesheet('level4','assets/menu/level/level4.png',150,99);
+    this.game.load.spritesheet('level5','assets/menu/level/level5.png',150,100);
    
    
    //Player assets
     this.game.load.spritesheet('player', 'assets/rubi/rubiWalk.png', 64, 64);
     this.game.load.image('spark','assets/rubi/part.png');
-
+    //gui
+	this.game.load.spritesheet("GUI", "assets/world/gui/gui.png", 64, 64);
 
 //enemy assets
  this.game.load.spritesheet('follower', 'assets/enemies/follower/FollowerIdle.png', 32, 32);
@@ -48,6 +56,8 @@ functionRUBI.Preload.prototype = {
 //world assests
 this.game.load.spritesheet('goal', 'assets/world/nucleusgoal.png', 96, 96);
 this.game.load.image('endscreen', 'assets/world/endgame/endscreen.png',800,600);
+
+
 	
 	
 	

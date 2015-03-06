@@ -15,10 +15,16 @@ functionRUBI.Game.prototype = {
 	
   create: function() {
   	
+
+  	
  //local variables for enemies
  this.enemies = [];
  this.enemiesAlive;
  this.enemiesTotal;
+ 
+
+ 
+ 
  
  ///////////// Implementing map stuff///////////// 
   	  this.game.world.setBounds(0, 0, 2000, 1333);
@@ -30,6 +36,8 @@ functionRUBI.Game.prototype = {
         this.wall = this.map.createLayer('Tile Layer 1');
         this.wall.resizeWorld(); 
  
+
+
  //Endgame goal
  this.goal = this.game.add.sprite(this.game.world.centerX,this.game.world.centerY-300,'goal'); 
  this.goal.animations.add('squiggly');
@@ -57,6 +65,26 @@ functionRUBI.Game.prototype = {
  this.emitHitWall = functionRUBI.game.add.emitter(0,0,500);
 this.emitHitWall.makeParticles('spark');
   	  
+ //implementing GUI////
+ this.gui = this.game.add.sprite(0,0,'GUI'); 
+ this.gui.anchor.setTo(.5,.5);
+ this.player.addChild(this.gui);
+ 
+ this.healthText = this.game.add.text(-34, 34, 'rubucks:'+rubiHealth.rubucks, { font: " 14px Courier", fill: "#2EFE2E" });
+this.player.addChild(this.healthText);
+
+this.textArray1 = [];
+	this.textArray1[0] = 'int'; 
+	this.textArray1[1] = 'string'; 
+	this.textArray1[2] = 'double'; 
+	this.textArray1[3] = 'float'; 
+	this.textArray1[4] = 'boolean';
+
+this.dataTypeText = this.game.add.text(-34, 44, 'dataType: '+this.textArray1[gunVar], { font: " 14px Courier", fill: "#2EFE2E" });
+this.player.addChild(this.dataTypeText);
+ 
+ /////////////////////////////
+ 
  
 
   
@@ -100,9 +128,13 @@ this.enemyGroup = this.game.add.group();
 	this.enemyGroup.add(addenemy);
   	}  
   	
-	
+//	this.background = this.game.add.sprite(this.player.x,this.player.y,'screenOverlay');
+	//this.background.width =800;
+	//this.background.height =600;
   },
   update: function() {
+  //	this.background.x = this.game.camera.x;
+  //	this.background.y = this.game.camera.y;
   	 
   	 
   	//////////////////// //COLLISION//////////////////////////////////////////
@@ -129,14 +161,7 @@ this.enemyGroup = this.game.add.group();
     this.game.physics.arcade.overlap(functionRUBI.stringBullets, this.wall, this.killBullet, null, this);
 	this.game.physics.arcade.overlap(functionRUBI.emitSBullets, this.wall, this.killBullet, null, this);
 	this.game.physics.arcade.overlap(functionRUBI.enemyBullets, this.wall, this.killBullet, null, this);
-	
-/*	 this.game.physics.arcade.overlap(functionRUBI.intBullets, this.goal, this.killBullet, null, this);
-    this.game.physics.arcade.overlap(functionRUBI.doubleBullets, this.goal, this.killBullet, null, this);
-    this.game.physics.arcade.overlap(functionRUBI.floatBullets, this.goal, this.killBullet, null, this);
-    this.game.physics.arcade.overlap(functionRUBI.stringBullets, this.goal, this.killBullet, null, this);
-	this.game.physics.arcade.overlap(functionRUBI.emitSBullets, this.goal, this.killBullet, null, this);
-	this.game.physics.arcade.overlap(functionRUBI.enemyBullets, this.goal, this.killBullet, null, this);
-	*/
+
 
 	// enemy bullet collision with player
 	this.game.physics.arcade.overlap(functionRUBI.enemyBullets, this.player, this.hitRUBI, null, this);
@@ -209,7 +234,25 @@ this.enemyGroup = this.game.add.group();
     		booleanFire(this.player);
     	}
         
-    } 
+    }
+    
+    
+    ///Switching of frames of the glowing thing around RUBI & the text
+    this.healthText.text = 'rubucks:'+rubiHealth.rubucks;
+     this.dataTypeText.text= 'dataType: '+this.textArray1[gunVar];
+     this.gui.frame= gunVar;
+    /*if  (gunVar== 0){
+   
+     this.gui.frame= 0;
+    }else if(gunVar==1){
+    	this.gui.frame= 1;
+    }else if (gunVar ==2){
+   		this.gui.frame= 2;
+   	} else if (gunVar ==3){
+   		this.gui.frame= 3;
+   	} else if(gunVar ==4){
+    this.gui.frame= 4;
+    }*/
     
     //fades away bullet explosions & other animation details
      this.emitHitWall.forEachAlive(function(p){
@@ -290,7 +333,7 @@ render: function(){
 	 this.game.debug.text("gunrate "+fireRate,100,140 );
 	  this.game.debug.text("Px "+this.player.x,100,160);
 	   this.game.debug.text("Py "+this.player.y,100,180);
-	   this.game.debug.body(this.player);
+	 //  this.game.debug.body(this.player);
 	 this.game.debug.text("RUBUCK "+(rubiHealth.rubucks),100,200);
 	
 	},
