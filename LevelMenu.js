@@ -55,9 +55,9 @@ functionRUBI.LevelMenu.prototype = {
   	this.levelbg.height = 600;
   	
 	///upgrade buttons
-  	 speedButton = new Buttons(this,40,520, 'speed',this.speedClick,this);
-  	 rateoffireButton = new Buttons(this,180,520, 'rateoffire',this.rateoffireClick,this);
-  	 damageButton = new Buttons(this,380,520, 'damage',this.damageClick,this);
+  	 speedButton = new Buttons(this,40,510, 'speed',this.speedClick,this);
+  	 rateoffireButton = new Buttons(this,210,510, 'rateoffire',this.rateoffireClick,this);
+  	 damageButton = new Buttons(this,380,510, 'damage',this.damageClick,this);
   	 speedButton.deactivate();
   	 rateoffireButton.deactivate();
   	 damageButton.deactivate();
@@ -225,8 +225,8 @@ render: function(){
 	// this.game.debug.text("Rubi's rate of fire "+(fireRate+rubiUpgrade.rateoffire),500,140);
 	// this.game.debug.text("Rubi's damage "+(10+rubiUpgrade.damage),500,160);
 	// this.game.debug.text("RUBUCK "+(rubiHealth.rubucks),500,180);
-	 // this.game.debug.text("Px "+this.game.input.mousePointer.x,500,200);
-	  // this.game.debug.text("Py "+this.game.input.mousePointer.y,500,220);
+	 this.game.debug.text("Px "+this.game.input.mousePointer.x,500,200);
+	  this.game.debug.text("Py "+this.game.input.mousePointer.y,500,220);
 },
   
 };

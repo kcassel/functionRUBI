@@ -101,7 +101,7 @@ this.EKey = this.game.input.keyboard.addKey(Phaser.Keyboard.E);
 
 
 ///adding enemies to map
-/*
+
 this.enemies.push(new Enemy(0, functionRUBI, functionRUBI.enemyBullets, "follower", this.game.world.centerX+500, this.game.world.centerY-128));
 this.enemies.push(new Enemy(1, functionRUBI, functionRUBI.enemyBullets, "follower", 1055, 1021));
 this.enemies.push(new Enemy(2, functionRUBI, functionRUBI.enemyBullets, "follower", 1100, 1021));
@@ -118,8 +118,9 @@ this.enemies.push(new Enemy(12, functionRUBI, functionRUBI.enemyBullets, "mildew
 this.enemies.push(new Enemy(13, functionRUBI, functionRUBI.enemyBullets, "mildew", 212, 835));
 this.enemies.push(new Enemy(14, functionRUBI, functionRUBI.enemyBullets, "mildew", 85, 1257));
 this.enemies.push(new Enemy(15, functionRUBI, functionRUBI.enemyBullets, "slime", this.game.world.centerX+300, this.game.world.centerY-128));
+this.enemies.push(new Enemy(16, functionRUBI, functionRUBI.enemyBullets, "spawner", 600,619));
 
-*/
+
 
 this.enemyGroup = this.game.add.group();
 
@@ -175,12 +176,32 @@ this.enemyGroup = this.game.add.group();
   //////////Enemy update function////////////	
   	this.enemiesAlive = 0;
 
+	for(var z = 0; z < this.enemies.length; z++)
+	{
+		if(this.enemies[z].type == 'spawner')
+		{
+
+			if(this.enemies[z].trueSpawn == true) {
+				
+				this.enemies.push(new Enemy(this.enemies.length, functionRUBI, functionRUBI.enemyBullets, "follower", this.enemies[z].x, this.enemies[z].y));
+				var addenemy = this.enemies[this.enemies.length-1].sprite;
+				this.enemyGroup.add(addenemy);
+				//this.enemies[z].currSpawn++;
+				this.enemies[z].trueSpawn = false;
+				this.enemies[z].sprite.bringToTop();
+			}
+			
+		}
+	}
     for (var i = 0; i < this.enemies.length; i++)
     {
         if (this.enemies[i].alive)
         {
             this.enemiesAlive++;
             this.enemies[i].update(this.player);
+            
+            
+          console.log("array: "+ this.enemies.length);
         }
     }
     /////////////////

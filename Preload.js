@@ -45,6 +45,7 @@ functionRUBI.Preload.prototype = {
     this.game.load.image("mildewBullets", "assets/enemies/enemy_bullets/Mildewbullet.png");
      this.game.load.spritesheet('mildew', 'assets/enemies/mildew/MildewShoot.png', 32, 32);   
      this.game.load.spritesheet('slime', 'assets/enemies/slime/SlimeAttack.png', 32, 32);
+     this.game.load.spritesheet('spawner','assets/enemies/spawner/SpawnerSpawn.png',64,64);
     
     //loading rubi bullets
     this.game.load.image('intBullet','assets/rubi/bulletWhite.png');
