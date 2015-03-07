@@ -15,6 +15,11 @@ functionRUBI.level5.prototype = {
 	
   create: function() {
   	
+  	 	if (rubiHealth.rubucks <= 0) {
+  		rubiHealth.dead = true;
+  		this.endGame();
+  	}
+  	
   	gunVar = 0;
  //local variables for enemies
  this.enemies = [];
@@ -175,12 +180,32 @@ this.enemyGroup = this.game.add.group();
   //////////Enemy update function////////////	
   	this.enemiesAlive = 0;
 
+	for(var z = 0; z < this.enemies.length; z++)
+	{
+		if(this.enemies[z].type == 'spawner')
+		{
+
+			if(this.enemies[z].trueSpawn == true) {
+				
+				this.enemies.push(new Enemy(this.enemies.length, functionRUBI, functionRUBI.enemyBullets, "follower", this.enemies[z].x, this.enemies[z].y));
+				var addenemy = this.enemies[this.enemies.length-1].sprite;
+				this.enemyGroup.add(addenemy);
+				//this.enemies[z].currSpawn++;
+				this.enemies[z].trueSpawn = false;
+				this.enemies[z].sprite.bringToTop();
+			}
+			
+		}
+	}
     for (var i = 0; i < this.enemies.length; i++)
     {
         if (this.enemies[i].alive)
         {
             this.enemiesAlive++;
             this.enemies[i].update(this.player);
+            
+            
+          console.log("array: "+ this.enemies.length);
         }
     }
     /////////////////
@@ -303,89 +328,12 @@ this.enemyGroup = this.game.add.group();
   	bullet.kill();		
   },
   
- bulletSwitch: function(check){
-	//checks which key is being pressed
-	//var num = 0;
-	if (check.keyCode==81){
-		var num = -1;
-	} else{
-		var num = 1;
-	}
-	
-	console.log(num);
-	console.log(gunVar);
-	/*if(num==1){
-	if (gunVar==0){
-    		gunVar=1;
-    	}else if (gunVar==1){
-    		gunVar=2;
-    	}else if (gunVar ==2){
-    		gunVar=3;
-    	}else if(gunVar==3){
-    		gunVar=4;	    		
-    	}else if (gunVar==4){
-    		gunVar=0;
-    	}
-    		console.log(gunVar);
-    }
-    
-  /*  if (num==-1){
-    	if (gunVar==0){
-    		gunVar=4;
-    	}else if (gunVar==1){
-    		gunVar=0;
-    	}else if (gunVar ==2){
-    		gunVar=1;
-    	}else if(gunVar==3){
-    		gunVar=2;	    		
-    	}else if (gunVar==4){
-    		gunVar=3;
-    	}
-    }
-    	
-*/console.log("HEREEEEEEE");
-	maxGun = 5;
-	console.log("check.keyCode " +check.keyCode);
-	console.log("maxGun"+ maxGun);
-	console.log("num "+num);
-	
-	if(gunVar>=maxGun){
-		if(num==1){
-			gunVar = 0;
 
-		} else{
-			gunVar = gunVar -1;
-
-		}
-	//	if (gunVar>4){
-//	gunVar =4;
-	//}
-	} else if(gunVar==0){
-		if(num==1){
-			gunVar = gunVar +1 ;
-			
-		} else{
-			gunVar = maxGun;
-		}
-		//if (gunVar>4){
-		//gunVar =4;
-	//}
-	} else {
-		gunVar = gunVar + num;
-		//if (gunVar>4){
-	//	gunVar =4;
-	//}
-
-	}	
-	
-
-},
   
   /////////endgame/////////////////
   endGame: function(){
-  	endLevel.levelFin = 5;
-  	endLevel.levelGun = 4;
-
+  	checkLevel.level5 = true;
+endLevel.levelFin = 5;
   	functionRUBI.RUBIBullets.destroy(true);
   	this.enemyGroup.destroy(true);
   	this.game.state.start('EndGame');

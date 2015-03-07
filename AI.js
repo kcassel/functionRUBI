@@ -4,6 +4,8 @@
 
 // enemy objects
 
+
+
 Enemy = function (index, gameName, bullets, type, x, y) {
 	
 	this.x = x;
@@ -22,7 +24,7 @@ Enemy = function (index, gameName, bullets, type, x, y) {
 			this.type = "slime";
 			this.health = 30;
 			this.sprite = gameName.game.add.sprite(x, y, 'slime');
-			this.radius = 500;
+			this.radius = 300;
 			this.fireRate = 1000;
 			this.speed = 0; // change 
 			this.sprite.health = 30;
@@ -31,9 +33,11 @@ Enemy = function (index, gameName, bullets, type, x, y) {
 			this.type = "follower";
 			this.health = 10;
 			this.sprite = gameName.game.add.sprite(x, y, 'follower');
-			this.radius = 600;
+			this.radius = 400;
 			this.speed = 150; // change
 			this.sprite.health = 10;
+			this.emit = functionRUBI.game.add.emitter(0,0,250);
+			this.emit.makeParticles('spark');
 			break;
 		case "mildew":
 			this.type = "mildew";
@@ -89,7 +93,8 @@ Enemy = function (index, gameName, bullets, type, x, y) {
     	this.sprite.animations.add('shoot');
     }
     if(type =="follower"){
-    	this.sprite.animations.add('walk');
+    	this.sprite.animations.add('walk',[0,1]);
+    	this.sprite.animations.add('death',[2,3,4]);
     }
     if(type =="slime"){
     	this.sprite.animations.add('shoot');
@@ -100,6 +105,7 @@ Enemy = function (index, gameName, bullets, type, x, y) {
     if(type =="serpent"){
     	this.sprite.animations.add('walk');
     }
+   this.sprite.animations.killOnComplete = true;
     
     this.sprite.body.collideWorldBounds = true;
     this.sprite.body.bounce.setTo(1, 1);
@@ -111,20 +117,6 @@ Enemy = function (index, gameName, bullets, type, x, y) {
     gameName.game.physics.arcade.velocityFromRotation(this.sprite.rotation, 0, this.sprite.body.velocity);
 };
 
-Enemy.prototype.damage = function() {
-
-    --this.health;
-    
-    if (this.health <= 0)
-    {
-        this.alive = false;
-        this.sprite.kill();
-
-        return true;
-    }
-
-    return false;
-};
 
 Enemy.prototype.update = function(player) {
 	
@@ -142,10 +134,17 @@ Enemy.prototype.update = function(player) {
     		functionRUBI.game.physics.arcade.moveToObject(this.sprite, player, this.speed);
         	
         	// if the enemy gets too close to the player, explode and deal damage
-        	if(functionRUBI.game.physics.arcade.distanceBetween(this.sprite, player) < 10) {
+        	if(functionRUBI.game.physics.arcade.distanceBetween(this.sprite, player) < 20) {
 	        	
 	        	if(this.sprite.alive == true){
+	        		
 		        	rubiHit(this.type);
+		        	
+		        	this.emit.x = player.x;
+					this.emit.y = player.y;
+					this.emit.start(true,500,null,10);
+					
+		        	
 		        	this.sprite.kill();
 	        	} 
         	}
@@ -211,7 +210,7 @@ Enemy.prototype.update = function(player) {
     	} else if(this.type == "spawner") {
     		if (functionRUBI.game.time.now > this.nextFire && this.bullets.countDead() > 0 && 
     			this.sprite.alive == true && this.maxSpawned > this.currSpawned) {
-    				this.sprite.animations.play('spawn', 16);
+    				this.sprite.animations.play('spawn', 8);
     			
     			this.trueSpawn = true;
 		    	// time to shoot the next follower, based on the enemy fireRate
@@ -243,6 +242,7 @@ Enemy.prototype.update = function(player) {
 };
 
 Enemy.prototype.createBullets = function() {
+	
 	//mildew Bullets
 	functionRUBI.mildewBullets = functionRUBI.game.add.group();
 	functionRUBI.mildewBullets.enableBody = true;

@@ -41,7 +41,7 @@ functionRUBI.Preload.prototype = {
 	this.game.load.spritesheet("GUI", "assets/world/gui/gui.png", 64, 64);
 
 //enemy assets
- this.game.load.spritesheet('follower', 'assets/enemies/follower/FollowerIdle.png', 32, 32);
+ this.game.load.spritesheet('follower', 'assets/enemies/follower/FollowerFinal.png', 32, 32);
     this.game.load.image("mildewBullets", "assets/enemies/enemy_bullets/Mildewbullet.png");
      this.game.load.spritesheet('mildew', 'assets/enemies/mildew/MildewShoot.png', 32, 32);   
      this.game.load.spritesheet('slime', 'assets/enemies/slime/SlimeAttack.png', 32, 32);

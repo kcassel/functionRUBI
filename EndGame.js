@@ -2,54 +2,7 @@ functionRUBI.EndGame = function(){};
 
 functionRUBI.EndGame.prototype = {
   create: function() {
-    
-     // filter from http://glslsandbox.com/e#18578.0
-    var fragmentSrc = [
-
-        "precision mediump float;",
-
-        "uniform float     time;",
-        "uniform vec2      resolution;",
-        "uniform vec2      mouse;",
-
-        "float noise(vec2 pos) {",
-            "return fract(sin(dot(pos, vec2(12.9898 - time,78.233 + time))) * 43758.5453);",
-        "}",
-
-        "void main( void ) {",
-
-            "vec2 normalPos = gl_FragCoord.xy / resolution.xy;",
-            "float pos = (gl_FragCoord.y / resolution.y);",
-            "float mouse_dist = length(vec2((mouse.x - normalPos.x) * (resolution.x / resolution.y) , mouse.y - normalPos.y));",
-            "float distortion = clamp(1.0 - (mouse_dist + 0.1) * 3.0, 0.0, 1.0);",
-
-            "pos -= (distortion * distortion) * 0.1;",
-
-            "float c = sin(pos * 400.0) * 0.4 + 0.4;",
-            "c = pow(c, 0.2);",
-            "c *= 0.2;",
-
-            "float band_pos = fract(time * 0.1) * 3.0 - 1.0;",
-            "c += clamp( (1.0 - abs(band_pos - pos) * 10.0), 0.0, 1.0) * 0.1;",
-
-            "c += distortion * 0.08;",
-            "// noise",
-            "c += (noise(gl_FragCoord.xy) - 0.5) * (0.09);",
-
-
-            "gl_FragColor = vec4( 0.0, c, 0.0, 1.0 );",
-        "}"
-    ];
-
-    this.filter = new Phaser.Filter(this.game, null, fragmentSrc);
-    this.filter.setResolution(800, 600);
-
-    this.sprite = this.game.add.sprite();
-   this.sprite.width = 800;
-    this.sprite.height = 600;
-    
-    this.sprite.filters = [ this.filter ];
-    
+    menuFilter();
     
     this.bg = this.game.add.sprite(0,0,'endscreen'); 
     
@@ -68,7 +21,57 @@ functionRUBI.EndGame.prototype = {
     if (rubiHealth.dead==true){
     	this.levelDeath();
     }else{
+    	endLevel.unlockLevel = 'RUBI.UNLOCK(level): NONE';
+    	endLevel.unlockGun = 'RUBI.UNLOCK(datatype): NONE';
+    	if(checkLevel.level0 ==true){
+    		rubiUnlock.level =1;
+    		rubiUnlock.guns = 1;
+    		if(checkLevel.level1==false && endLevel.levelFin ==0){
+    			endLevel.unlockLevel = 'RUBI.UNLOCK(level): 1';
+    			endLevel.unlockGun = 'RUBI.UNLOCK(datatype): NULL';
+    		}
+    	}
+    	if(checkLevel.level1 ==true){
+    		rubiUnlock.level =2;
+    		rubiUnlock.guns = 2;
+    		if(checkLevel.level2==false && endLevel.levelFin ==1){
+    			endLevel.unlockLevel = 'RUBI.UNLOCK(level): 2';
+    			endLevel.unlockGun = 'RUBI.UNLOCK(datatype): double';
+    		}
+    	}
+    	if(checkLevel.level2 ==true){
+    		rubiUnlock.level =3;
+    		rubiUnlock.guns = 3;
+    		if(checkLevel.level3==false && endLevel.levelFin ==2){
+    			endLevel.unlockLevel = 'RUBI.UNLOCK(level): 3';
+    			endLevel.unlockGun = 'RUBI.UNLOCK(datatype): float';
+    		}
+    	}
+    	if(checkLevel.level3 ==true){
+    		rubiUnlock.level =4;
+    		rubiUnlock.guns = 4;
+    		if(checkLevel.level4==false && endLevel.levelFin ==3){
+    			endLevel.unlockLevel = 'RUBI.UNLOCK(level): 4';
+    			endLevel.unlockGun = 'RUBI.UNLOCK(datatype): boolean';
+    		}
+    	}
+    	if(checkLevel.level4 ==true) {
+    		rubiUnlock.level =5;
+    		rubiUnlock.guns = 4;
+    		if(checkLevel.level5==false && endLevel.levelFin ==4){
+    			endLevel.unlockLevel = 'RUBI.UNLOCK(level): 5';
+    			endLevel.unlockGun = 'RUBI.UNLOCK(datatype): NONE';
+    		}
+    	}
+    	if(checkLevel.level5 ==true){
+    		rubiUnlock.level =5;
+    		rubiUnlock.guns = 4;  	
+    			endLevel.unlockLevel = 'RUBI.UNLOCK(level): COMPLETE';
+    			endLevel.unlockGun = 'RUBI.UNLOCK(datatype): COMPLETE';
+    	}
+    	
     	//LEVEL UNLOCK
+    	/*
     	if(rubiUnlock.level == endLevel.levelFin){
     		if (rubiUnlock.level < 5){
     		rubiUnlock.level++;
@@ -98,14 +101,14 @@ functionRUBI.EndGame.prototype = {
    
     	endLevel.unlockGun= 'RUBI.UNLOCK(datatype): NONE ';
     	}
-    	
+    	*/
     	this.levelComplete();
     }
    
    
   },
   update: function() {
-   this.filter.update(functionRUBI.game.input.mousePointer);
+     filterUpdate();
  
    
   },

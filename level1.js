@@ -275,6 +275,11 @@ this.enemyGroup = this.game.add.group();
 	});
 	this.goal.animations.play('squiggly',6);
 	
+	 	if (rubiHealth.rubucks <= 0) {
+  		rubiHealth.dead = true;
+  		this.endGame();
+  	}
+	
   },
   
 
@@ -327,9 +332,8 @@ this.enemyGroup = this.game.add.group();
   
   /////////endgame/////////////////
   endGame: function(){
-  	endLevel.levelFin = 1;
-  	endLevel.levelGun = 1;
-
+  	checkLevel.level1 = true;
+    endLevel.levelFin = 1;
   	functionRUBI.RUBIBullets.destroy(true);
   	this.enemyGroup.destroy(true);
   	this.game.state.start('EndGame');

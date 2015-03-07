@@ -37,7 +37,7 @@ functionRUBI.level0.prototype = {
 
 
  //Endgame goal
- this.goal = this.game.add.sprite(755,110,'goal'); 
+ this.goal = this.game.add.sprite(1504,224,'goal'); 
  this.goal.animations.add('squiggly');
   this.game.physics.enable(this.goal, Phaser.Physics.ARCADE);
   this.goal.body.setSize(64, 64, 0, 0);
@@ -50,7 +50,7 @@ functionRUBI.level0.prototype = {
  
  //adding player to map
  createBullets();
-  	 this.player = this.game.add.sprite(65,635,'player'); 
+  	 this.player = this.game.add.sprite(96,1216,'player'); 
   	 this.game.physics.enable(this.player, Phaser.Physics.ARCADE);
   	 this.player.anchor.setTo(.5,.5);
   	 this.player.body.setSize(45, 50, 0, 0);
@@ -100,25 +100,12 @@ this.EKey = this.game.input.keyboard.addKey(Phaser.Keyboard.E);
 
 
 ///adding enemies to map
-/*
-this.enemies.push(new Enemy(0, functionRUBI, functionRUBI.enemyBullets, "follower", this.game.world.centerX+500, this.game.world.centerY-128));
-this.enemies.push(new Enemy(1, functionRUBI, functionRUBI.enemyBullets, "follower", 1055, 1021));
-this.enemies.push(new Enemy(2, functionRUBI, functionRUBI.enemyBullets, "follower", 1100, 1021));
-this.enemies.push(new Enemy(3, functionRUBI, functionRUBI.enemyBullets, "follower", 770, 1059));
-this.enemies.push(new Enemy(4, functionRUBI, functionRUBI.enemyBullets, "follower", 227, 1029));
-this.enemies.push(new Enemy(5, functionRUBI, functionRUBI.enemyBullets, "follower", 247, 1252));
-this.enemies.push(new Enemy(6, functionRUBI, functionRUBI.enemyBullets, "follower", 366, 1211));
-this.enemies.push(new Enemy(7, functionRUBI, functionRUBI.enemyBullets, "follower", 504, 1211));
-this.enemies.push(new Enemy(8, functionRUBI, functionRUBI.enemyBullets, "follower", 427, 1125));
-this.enemies.push(new Enemy(9, functionRUBI, functionRUBI.enemyBullets, "mildew", this.game.world.centerX+400, this.game.world.centerY-128));
-this.enemies.push(new Enemy(10, functionRUBI, functionRUBI.enemyBullets, "mildew", 633, 1257));
-this.enemies.push(new Enemy(11, functionRUBI, functionRUBI.enemyBullets, "mildew", 460, 820));
-this.enemies.push(new Enemy(12, functionRUBI, functionRUBI.enemyBullets, "mildew", 199,94));
-this.enemies.push(new Enemy(13, functionRUBI, functionRUBI.enemyBullets, "mildew", 212, 835));
-this.enemies.push(new Enemy(14, functionRUBI, functionRUBI.enemyBullets, "mildew", 85, 1257));
-this.enemies.push(new Enemy(15, functionRUBI, functionRUBI.enemyBullets, "slime", this.game.world.centerX+300, this.game.world.centerY-128));
 
-*/
+this.enemies.push(new Enemy(0, functionRUBI, functionRUBI.enemyBullets, "follower", 736, 1056));
+this.enemies.push(new Enemy(1, functionRUBI, functionRUBI.enemyBullets, "mildew", 448, 320));
+this.enemies.push(new Enemy(2, functionRUBI, functionRUBI.enemyBullets, "mildew", 1600, 960));
+
+
 
 this.enemyGroup = this.game.add.group();
 
@@ -253,6 +240,12 @@ this.enemyGroup = this.game.add.group();
 	});
 	this.goal.animations.play('squiggly',6);
 	
+	
+	 	if (rubiHealth.rubucks <= 0) {
+  		rubiHealth.dead = true;
+  		this.endGame();
+  	}
+	
   },
   
 
@@ -305,9 +298,8 @@ this.enemyGroup = this.game.add.group();
   
   /////////endgame/////////////////
   endGame: function(){
+  	checkLevel.level0 = true;
   	endLevel.levelFin = 0;
-  	endLevel.levelGun = 0;
-
   	functionRUBI.RUBIBullets.destroy(true);
   	this.enemyGroup.destroy(true);
   	this.game.state.start('EndGame');

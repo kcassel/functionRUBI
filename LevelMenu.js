@@ -2,52 +2,9 @@ functionRUBI.LevelMenu = function(){};
 
 functionRUBI.LevelMenu.prototype = {
   create: function() {
-  	 // filter from http://glslsandbox.com/e#18578.0
-    var fragmentSrc = [
-
-        "precision mediump float;",
-
-        "uniform float     time;",
-        "uniform vec2      resolution;",
-        "uniform vec2      mouse;",
-
-        "float noise(vec2 pos) {",
-            "return fract(sin(dot(pos, vec2(12.9898 - time,78.233 + time))) * 43758.5453);",
-        "}",
-
-        "void main( void ) {",
-
-            "vec2 normalPos = gl_FragCoord.xy / resolution.xy;",
-            "float pos = (gl_FragCoord.y / resolution.y);",
-            "float mouse_dist = length(vec2((mouse.x - normalPos.x) * (resolution.x / resolution.y) , mouse.y - normalPos.y));",
-            "float distortion = clamp(1.0 - (mouse_dist + 0.1) * 3.0, 0.0, 1.0);",
-
-            "pos -= (distortion * distortion) * 0.1;",
-
-            "float c = sin(pos * 400.0) * 0.4 + 0.4;",
-            "c = pow(c, 0.2);",
-            "c *= 0.2;",
-
-            "float band_pos = fract(time * 0.1) * 3.0 - 1.0;",
-            "c += clamp( (1.0 - abs(band_pos - pos) * 10.0), 0.0, 1.0) * 0.1;",
-
-            "c += distortion * 0.08;",
-            "// noise",
-            "c += (noise(gl_FragCoord.xy) - 0.5) * (0.09);",
-
-
-            "gl_FragColor = vec4( 0.0, c, 0.0, 1.0 );",
-        "}"
-    ];
-
-    this.filter = new Phaser.Filter(this.game, null, fragmentSrc);
-    this.filter.setResolution(800, 600);
-
-    this.sprite = this.game.add.sprite();
-   this.sprite.width = 800;
-    this.sprite.height = 600;
-    
-    this.sprite.filters = [ this.filter ];
+  	   menuFilter();
+  	
+  	
   	
   	this.levelbg = this.game.add.sprite(400,300,'levelMenuUI'); 
   	this.levelbg.anchor.setTo(.5,.5);
@@ -60,7 +17,10 @@ functionRUBI.LevelMenu.prototype = {
   	 damageButton = new Buttons(this,380,510, 'damage',this.damageClick,this);
   	 speedButton.deactivate();
   	 rateoffireButton.deactivate();
-  	 damageButton.deactivate();
+    damageButton.deactivate();
+  	speedCostText = this.game.add.text(65, 555, 'Cost: 200$', { font: " 14px Courier", fill: "#2EFE2E" });
+  	rateoffireCostText = this.game.add.text(235, 555, 'Cost: 400$', { font: " 14px Courier", fill: "#2EFE2E" });
+  	damageCostText = this.game.add.text(405, 555, 'Cost: 600$', { font: " 14px Courier", fill: "#2EFE2E" });
   	 
   	 //level buttons
   	tutorialButton = new Buttons(this,120,100, 'level0',this.tutorialClick,this);
@@ -108,6 +68,9 @@ functionRUBI.LevelMenu.prototype = {
   		if (rubiHealth.rubucks >upDamage){
   		 damageButton.activate();
   		}
+  	} else{
+  		 speedCostText.text ="NOT ENOUGH RUBUCKS";
+  		 rateoffireCostText.text ="NOT ENOUGH RUBUCKS";
   	}
 
 	var textArray = [];
@@ -137,7 +100,7 @@ functionRUBI.LevelMenu.prototype = {
   },
   
   update: function(){
-  	this.filter.update(this.game.input.mousePointer);
+  	filterUpdate();
   	speedButton.overlap();
   	rateoffireButton.overlap();
   	 damageButton.overlap();
@@ -156,12 +119,15 @@ functionRUBI.LevelMenu.prototype = {
   	
   	if (rubiHealth.rubucks <=upSpeed || rubiUpgrade.speed >=100){
   	 	 speedButton.deactivate();
+  	 	 speedCostText.text ="NOT ENOUGH RUBUCKS";
   	 }
 	if (rubiHealth.rubucks <=upFire || rubiUpgrade.rateoffire >=100){
   	 rateoffireButton.deactivate();
+  	 rateoffireCostText.text ="NOT ENOUGH RUBUCKS";
   	}
   	if (rubiHealth.rubucks <=upDamage || rubiUpgrade.damage >=40){
   	 damageButton.deactivate();
+  	 damageCostText.text ="NOT ENOUGH RUBUCKS";
   	}
 
 

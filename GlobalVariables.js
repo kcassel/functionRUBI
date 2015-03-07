@@ -24,8 +24,8 @@ rubiHealth ={
 };
 
 rubiUnlock ={
-	level: 5,
-	guns: 4,
+	level: 4,
+	guns: 5,
 };
 
 endLevel = {
@@ -36,9 +36,20 @@ endLevel = {
 	unlockLevel: '',
 };
 
+checkLevel ={
+	level0: false,
+	level1: false,
+	level2: false,
+	level3: false,
+	level4: false,
+	level5: false, 
+};
+
+
 function rubiHit(type){
 	if(type == "follower") {
 	rubiHealth.rubucks -=50;
+	
 	}
 	
 }

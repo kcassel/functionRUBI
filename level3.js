@@ -15,6 +15,11 @@ functionRUBI.level3.prototype = {
 	
   create: function() {
   	
+  	 	if (rubiHealth.rubucks <= 0) {
+  		rubiHealth.dead = true;
+  		this.endGame();
+  	}
+  	
  //local variables for enemies
  this.enemies = [];
  this.enemiesAlive;
@@ -172,14 +177,34 @@ this.enemyGroup = this.game.add.group();
 	filterUpdate();
   
   //////////Enemy update function////////////	
-  	this.enemiesAlive = 0;
+  this.enemiesAlive = 0;
 
+	for(var z = 0; z < this.enemies.length; z++)
+	{
+		if(this.enemies[z].type == 'spawner')
+		{
+
+			if(this.enemies[z].trueSpawn == true) {
+				
+				this.enemies.push(new Enemy(this.enemies.length, functionRUBI, functionRUBI.enemyBullets, "follower", this.enemies[z].x, this.enemies[z].y));
+				var addenemy = this.enemies[this.enemies.length-1].sprite;
+				this.enemyGroup.add(addenemy);
+				//this.enemies[z].currSpawn++;
+				this.enemies[z].trueSpawn = false;
+				this.enemies[z].sprite.bringToTop();
+			}
+			
+		}
+	}
     for (var i = 0; i < this.enemies.length; i++)
     {
         if (this.enemies[i].alive)
         {
             this.enemiesAlive++;
             this.enemies[i].update(this.player);
+            
+            
+          console.log("array: "+ this.enemies.length);
         }
     }
     /////////////////
@@ -305,9 +330,8 @@ this.enemyGroup = this.game.add.group();
   
   /////////endgame/////////////////
   endGame: function(){
-  	endLevel.levelFin = 3;
-  	endLevel.levelGun = 3;
-
+  checkLevel.level3 = true;
+endLevel.levelFin = 3;
   	functionRUBI.RUBIBullets.destroy(true);
   	this.enemyGroup.destroy(true);
   	this.game.state.start('EndGame');
