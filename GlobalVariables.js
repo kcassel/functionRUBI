@@ -6,7 +6,8 @@
   	 playerX: 0,
   	 playerY: 0,
   	 test: 0,
-  	 gunVar:0,
+  	 gunVar: 0,
+  	 swap: 0,
   	
   };
   
@@ -18,14 +19,14 @@
   };
   
 rubiHealth ={
-	rubucks: 500,
+	rubucks: 1000,
 	min: 500,
 	dead: false,
 };
 
 rubiUnlock ={
-	level: 4,
-	guns: 5,
+	level: 5,
+	guns: 4,
 };
 
 endLevel = {
@@ -48,8 +49,12 @@ checkLevel ={
 
 function rubiHit(type){
 	if(type == "follower") {
-	rubiHealth.rubucks -=50;
-	
+		if(functionRUBI.floatBullets.countLiving()>0){
+  		var floatBullet = functionRUBI.floatBullets.getFirstAlive();
+  		floatBullet.kill();
+  	} else{
+  	rubiHealth.rubucks -=50;
+  	}
 	}
 	
 }

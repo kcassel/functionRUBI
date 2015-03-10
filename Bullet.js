@@ -13,28 +13,28 @@
 var fireRate = 200;
 var nextFire =0;
 
-var gunVar =0;
+//var  globalVar.gunVar;
 
 
 //the array for which the different rates of fire are stored
 var rateArray = [];
-rateArray[0] = 300; //int
+rateArray[0] = 400; //int
 rateArray[1] = 600; //double
 rateArray[2] = 450; //string
-rateArray[3] = 500; //float
+rateArray[3] = 600; //float
 rateArray[4] = 500; //boolean
 
 var damageArray = [];
 damageArray[0] = 10; //int
 damageArray[1] = 15; //double
-damageArray[2] = 25; //string
-damageArray[3] = 20; //float
+damageArray[2] = 40; //string
+damageArray[3] = 5; //float
 damageArray[4] = 30; //boolean
 
 
 
 function createBullets(){
-	
+// globalVar.gunVar =0;
 //int Bullets
 functionRUBI.intBullets = functionRUBI.game.add.group();
 functionRUBI.intBullets.enableBody = true;
@@ -107,60 +107,61 @@ function bulletSwitch(check){
 	//var num = 0;
 	if (check.keyCode==81){
 		num = -1;
+		globalVar.swap++;
 	} else{
 		num = 1;
+		globalVar.swap++;
 	}
-
+	
+	
+	if (rubiUnlock.level>=1){
 	maxGun = rubiUnlock.guns;
+	} else{
+		maxGun = rubiUnlock.guns;
+	}
+	
 	console.log("check.keyCode " +check.keyCode);
 	console.log("maxGun"+ maxGun);
 	console.log("num "+num);
-	console.log(gunVar);
+	console.log( globalVar.gunVar);
 	
-	if(gunVar==maxGun){
+	if(globalVar.swap == 1){
+	if( globalVar.gunVar==maxGun){
 		if(num==1){
-			gunVar = 0;
+			 globalVar.gunVar = 0;
 
 		} else{
-			gunVar = maxGun -1;
+			 globalVar.gunVar = maxGun - 1;
 
 		}
-		///if (gunVar>4){
-		//gunVar =4;
-	//}
-	} else if(gunVar==0){
+	} else if( globalVar.gunVar==0){
 		if(num==1){
-			gunVar = gunVar +1 ;
+			 globalVar.gunVar =  globalVar.gunVar + 1 ;
+			 console.log('working');
 			
 		} else{
-			gunVar = maxGun;
+			 globalVar.gunVar = maxGun;
 		}
-		//if (gunVar>4){
-		//gunVar =4;
-	//}
 	} else {
-		gunVar = gunVar + num;
-	//	if (gunVar>4){
-		//gunVar =4;
-	//}
-
+		 globalVar.gunVar =  globalVar.gunVar + num;
 	}
-	console.log(gunVar);	
+	}
+	console.log( globalVar.gunVar);	
 	
 	
 	
 	
 	//testing
-	/*if (gunVar==0){
-    		gunVar=1;
-    	}else if (gunVar==1){
-    		gunVar=2;
-    	}else if (gunVar ==2){
-    		gunVar=3;
-    	}else if(gunVar==3){
-    		gunVar=4;	    		
-    	}else if (gunVar==4){
-    		gunVar=0;
+	/*if ( globalVar.gunVar==0){
+    		 globalVar.gunVar=1;
+    	}else if ( globalVar.gunVar==1){
+    		 globalVar.gunVar=2;
+    	}else if ( globalVar.gunVar ==2){
+    		 globalVar.gunVar=3;
+    	}else if( globalVar.gunVar==3){
+    		 globalVar.gunVar=4;	    		
+    	}else if ( globalVar.gunVar==4){
+    		 globalVar.gunVar=0;
     	}
     	*/
 }
@@ -200,9 +201,9 @@ function getEnemyValue(enemy){
 	if (name == 'slime'){
 		val = 50;
 	} else if (name == "follower"){
-		val = 25;
+		val = 10;
 	} else if (name == "mildew"){
-		val = 50;
+		val = 20;
 	} else if (name == "spawner"){
 		val = 75;
 	} else if (name == "snake"){

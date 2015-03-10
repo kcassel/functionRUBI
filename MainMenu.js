@@ -5,8 +5,8 @@ functionRUBI.MainMenu.prototype = {
    menuFilter();
     
     
-     this.background = this.game.add.tileSprite(0, 0, 800,600, 'screenOverlay');
-      this.title = this.game.add.sprite(50,200,'title'); 
+     this.background = this.game.add.tileSprite(0, 0, 800,600, 'mainMenuUI');
+      this.title = this.game.add.sprite(150,250,'title'); 
        this.title.animations.add('title');	
 
     

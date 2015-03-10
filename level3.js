@@ -29,7 +29,7 @@ functionRUBI.level3.prototype = {
  
  ///////////// Implementing map stuff///////////// 
   	  this.game.world.setBounds(0, 0, 2000, 1333);
-  	  createBackground();
+  	  createBackgroundBlue();
   	  
  /////////////////////////////////////////////////////////////////////////////////////////////////////CHANGE 	  
 	this.map = this.game.add.tilemap('level3'); 
@@ -42,7 +42,7 @@ functionRUBI.level3.prototype = {
 
 
  //Endgame goal
- this.goal = this.game.add.sprite(750,255,'goal'); 
+ this.goal = this.game.add.sprite(1504,512,'goal'); 
  this.goal.animations.add('squiggly');
   this.game.physics.enable(this.goal, Phaser.Physics.ARCADE);
   this.goal.body.setSize(64, 64, 0, 0);
@@ -55,7 +55,7 @@ functionRUBI.level3.prototype = {
  
  //adding player to map
  createBullets();
-  	 this.player = this.game.add.sprite(45,330,'player'); 
+  	 this.player = this.game.add.sprite(96,640,'player'); 
   	 this.game.physics.enable(this.player, Phaser.Physics.ARCADE);
   	 this.player.anchor.setTo(.5,.5);
   	 this.player.body.setSize(45, 50, 0, 0);
@@ -64,9 +64,7 @@ functionRUBI.level3.prototype = {
  	 this.game.camera.follow(this.player);
  	 
  	 
- //particle collision with wall
- this.emitHitWall = functionRUBI.game.add.emitter(0,0,500);
-this.emitHitWall.makeParticles('spark');
+
   	  
  //implementing GUI////
  this.gui = this.game.add.sprite(0,0,'GUI'); 
@@ -83,7 +81,7 @@ this.textArray1 = [];
 	this.textArray1[3] = 'float'; 
 	this.textArray1[4] = 'boolean';
 
-this.dataTypeText = this.game.add.text(-34, 44, 'dataType: '+this.textArray1[gunVar], { font: " 14px Courier", fill: "#2EFE2E" });
+this.dataTypeText = this.game.add.text(-34, 44, 'dataType: '+this.textArray1[ globalVar.gunVar], { font: " 14px Courier", fill: "#2EFE2E" });
 this.player.addChild(this.dataTypeText);
  
  /////////////////////////////
@@ -105,25 +103,29 @@ this.EKey = this.game.input.keyboard.addKey(Phaser.Keyboard.E);
 
 
 ///adding enemies to map
-/*
-this.enemies.push(new Enemy(0, functionRUBI, functionRUBI.enemyBullets, "follower", this.game.world.centerX+500, this.game.world.centerY-128));
-this.enemies.push(new Enemy(1, functionRUBI, functionRUBI.enemyBullets, "follower", 1055, 1021));
-this.enemies.push(new Enemy(2, functionRUBI, functionRUBI.enemyBullets, "follower", 1100, 1021));
-this.enemies.push(new Enemy(3, functionRUBI, functionRUBI.enemyBullets, "follower", 770, 1059));
-this.enemies.push(new Enemy(4, functionRUBI, functionRUBI.enemyBullets, "follower", 227, 1029));
-this.enemies.push(new Enemy(5, functionRUBI, functionRUBI.enemyBullets, "follower", 247, 1252));
-this.enemies.push(new Enemy(6, functionRUBI, functionRUBI.enemyBullets, "follower", 366, 1211));
-this.enemies.push(new Enemy(7, functionRUBI, functionRUBI.enemyBullets, "follower", 504, 1211));
-this.enemies.push(new Enemy(8, functionRUBI, functionRUBI.enemyBullets, "follower", 427, 1125));
-this.enemies.push(new Enemy(9, functionRUBI, functionRUBI.enemyBullets, "mildew", this.game.world.centerX+400, this.game.world.centerY-128));
-this.enemies.push(new Enemy(10, functionRUBI, functionRUBI.enemyBullets, "mildew", 633, 1257));
-this.enemies.push(new Enemy(11, functionRUBI, functionRUBI.enemyBullets, "mildew", 460, 820));
-this.enemies.push(new Enemy(12, functionRUBI, functionRUBI.enemyBullets, "mildew", 199,94));
-this.enemies.push(new Enemy(13, functionRUBI, functionRUBI.enemyBullets, "mildew", 212, 835));
-this.enemies.push(new Enemy(14, functionRUBI, functionRUBI.enemyBullets, "mildew", 85, 1257));
-this.enemies.push(new Enemy(15, functionRUBI, functionRUBI.enemyBullets, "slime", this.game.world.centerX+300, this.game.world.centerY-128));
+this.enemies.push(new Enemy(0, functionRUBI, functionRUBI.enemyBullets, "follower", 557, 847));
+this.enemies.push(new Enemy(1, functionRUBI, functionRUBI.enemyBullets, "follower", 768, 448));
+this.enemies.push(new Enemy(2, functionRUBI, functionRUBI.enemyBullets, "follower", 768, 640));
+this.enemies.push(new Enemy(3, functionRUBI, functionRUBI.enemyBullets, "follower", 1696, 672));
+this.enemies.push(new Enemy(4, functionRUBI, functionRUBI.enemyBullets, "follower", 1312, 1248));
 
-*/
+this.enemies.push(new Enemy(5, functionRUBI, functionRUBI.enemyBullets, "mildew", 224, 836));
+this.enemies.push(new Enemy(6, functionRUBI, functionRUBI.enemyBullets, "mildew", 576, 992));
+this.enemies.push(new Enemy(7, functionRUBI, functionRUBI.enemyBullets, "mildew", 576, 1216));
+this.enemies.push(new Enemy(8, functionRUBI, functionRUBI.enemyBullets, "mildew", 416, 448));
+this.enemies.push(new Enemy(9, functionRUBI, functionRUBI.enemyBullets, "mildew", 1152, 832));
+this.enemies.push(new Enemy(10, functionRUBI, functionRUBI.enemyBullets, "mildew", 1472, 832));
+this.enemies.push(new Enemy(11, functionRUBI, functionRUBI.enemyBullets, "mildew", 1632, 1216));
+this.enemies.push(new Enemy(12, functionRUBI, functionRUBI.enemyBullets, "mildew", 1920, 96));
+this.enemies.push(new Enemy(13, functionRUBI, functionRUBI.enemyBullets, "mildew", 1920, 256));
+this.enemies.push(new Enemy(14, functionRUBI, functionRUBI.enemyBullets, "mildew", 1920, 480));
+
+this.enemies.push(new Enemy(15, functionRUBI, functionRUBI.enemyBullets, "slime", 192, 1120));
+this.enemies.push(new Enemy(16, functionRUBI, functionRUBI.enemyBullets, "slime", 928, 1120));
+this.enemies.push(new Enemy(17, functionRUBI, functionRUBI.enemyBullets, "slime", 192, 224));
+this.enemies.push(new Enemy(18, functionRUBI, functionRUBI.enemyBullets, "slime", 672, 192));
+this.enemies.push(new Enemy(19, functionRUBI, functionRUBI.enemyBullets, "slime", 1152, 216));
+this.enemies.push(new Enemy(20, functionRUBI, functionRUBI.enemyBullets, "slime", 1696, 192));
 
 this.enemyGroup = this.game.add.group();
 
@@ -132,13 +134,23 @@ this.enemyGroup = this.game.add.group();
 	this.enemyGroup.add(addenemy);
   	}  
   	
-//	this.background = this.game.add.sprite(this.player.x,this.player.y,'screenOverlay');
-	//this.background.width =800;
-	//this.background.height =600;
+  	 //particle collision with wall
+ this.emitHitWall = functionRUBI.game.add.emitter(0,0,500);
+this.emitHitWall.makeParticles('spark');
+  	
+  	
+this.background = this.game.add.sprite(0,0,'mainMenuUI');
+	this.background.width =800;
+	this.background.height =600;
+	this.background.fixedToCamera = true;
+   this.background.cameraOffset.setTo(0, 0);
   },
   update: function() {
-  //	this.background.x = this.game.camera.x;
-  //	this.background.y = this.game.camera.y;
+  		if (rubiHealth.rubucks <= 0) {
+  		rubiHealth.dead = true;
+  		this.endGame();
+  	}
+
   	 
   	 
   	//////////////////// //COLLISION//////////////////////////////////////////
@@ -204,7 +216,6 @@ this.enemyGroup = this.game.add.group();
             this.enemies[i].update(this.player);
             
             
-          console.log("array: "+ this.enemies.length);
         }
     }
     /////////////////
@@ -239,22 +250,25 @@ this.enemyGroup = this.game.add.group();
      
     
     //switches between bullet. bulletSwitch found in Bullet.js
-    this.QKey.onDown.add(bulletSwitch,this);
-      this.EKey.onDown.add(bulletSwitch,this);
+       this.QKey.onDown.add(bulletSwitch,this);
+     globalVar.swap = 0;
+    this.EKey.onDown.add(bulletSwitch,this);
+     globalVar.swap = 0;
+    
     
     //shoots each type of bullet
      if (this.game.input.activePointer.isDown) {
-     	adjustRate(gunVar);
-     	if (gunVar==0){
+     	adjustRate( globalVar.gunVar);
+     	if ( globalVar.gunVar==0){
     		intFire(this.player);
-    	}else if(gunVar==1){
+    	}else if( globalVar.gunVar==1){
     		stringFire(this.player);
-    	} else if (gunVar ==2){
+    	} else if ( globalVar.gunVar ==2){
     		doubleFire(this.player);
-    	}else if (gunVar ==3){
+    	}else if ( globalVar.gunVar ==3){
     		floatFire(this.player);
     	}
-    	else if(gunVar ==4){
+    	else if( globalVar.gunVar ==4){
     		booleanFire(this.player);
     	}
         
@@ -263,8 +277,8 @@ this.enemyGroup = this.game.add.group();
     
     ///Switching of frames of the glowing thing around RUBI & the text
     this.healthText.text = 'rubucks:'+rubiHealth.rubucks;
-     this.dataTypeText.text= 'dataType: '+this.textArray1[gunVar];
-     this.gui.frame= gunVar;
+     this.dataTypeText.text= 'dataType: '+this.textArray1[ globalVar.gunVar];
+     this.gui.frame=  globalVar.gunVar;
     
     //fades away bullet explosions & other animation details
      this.emitHitWall.forEachAlive(function(p){
@@ -292,7 +306,12 @@ this.enemyGroup = this.game.add.group();
   
   /////decrements RUBI's health when enemy bullet hits her///////
   hitRUBI: function(wall,bullet){
-  	rubiHealth.rubucks -=10;
+  		if(functionRUBI.floatBullets.countLiving()>0){
+  		var floatBullet = functionRUBI.floatBullets.getFirstAlive();
+  		floatBullet.kill();
+  	} else{
+  	rubiHealth.rubucks -=40;
+  	}
   	
   	this.emitHitWall.x = bullet.x;
 		this.emitHitWall.y = bullet.y;
@@ -312,18 +331,22 @@ this.enemyGroup = this.game.add.group();
 	enemy.health -= bulletDamage+rubiUpgrade.damage;
 	
 	console.log(enemy.health);
+	 if(enemy.type =="slime"){
+    		enemy.sprite.animations.play('hurt', 6);
+    }
+	
 	
 	if (enemy.health <= 0)
     {
     	endLevel.enemyBucks += getEnemyValue(enemy);
-    	this.emitHitWall.x = enemy.x;
-		this.emitHitWall.y = enemy.y;
-		this.emitHitWall.start(true,500,null,10);
+   
         enemy.alive = false;
         enemy.kill();
         
     }
-
+		this.emitHitWall.x = enemy.x;
+		this.emitHitWall.y = enemy.y;
+		this.emitHitWall.start(true,500,null,10);
   	bullet.kill();		
   },
   
@@ -341,13 +364,15 @@ endLevel.levelFin = 3;
   
   //debug functions
 render: function(){
-	 this.game.debug.text("DEBUGTEXT",100,100);
-	 this.game.debug.text("gunVar "+gunVar,100,120);
+	this.game.debug.text('',100,100);
+/*	 this.game.debug.text("DEBUGTEXT",100,100);
+	 this.game.debug.text(" globalVar.gunVar "+ globalVar.gunVar,100,120);
 	 this.game.debug.text("gunrate "+fireRate,100,140 );
 	  this.game.debug.text("Px "+this.player.x,100,160);
 	   this.game.debug.text("Py "+this.player.y,100,180);
 	 //  this.game.debug.body(this.player);
 	 this.game.debug.text("RUBUCK "+(rubiHealth.rubucks),100,200);
+	*/
 	
 	},
 

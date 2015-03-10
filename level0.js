@@ -9,6 +9,7 @@ functionRUBI.level0.prototype = {
  preload: function(){
  	this.load.tilemap('level0', 'assets/world/level0/tutlevel.json', null, Phaser.Tilemap.TILED_JSON);
     this.load.image('Wall', 'assets/world/level0/walledges.png'); 	
+	//this.load.image('bg', 'assets/world/level0/bg.png'); 
  	
  },
 	
@@ -24,7 +25,11 @@ functionRUBI.level0.prototype = {
  
  ///////////// Implementing map stuff///////////// 
   	  this.game.world.setBounds(0, 0, 2000, 1333);
-  	  createBackground();
+  	  menuFilter();
+  	 //  this.bg = this.game.add.sprite(0,0,'bg');
+  	 //  this.bg.width = this.game.world.width;
+  	 //  this.bg.height = this.game.world.height;
+  	
   	  
  /////////////////////////////////////////////////////////////////////////////////////////////////////CHANGE 	  
 	this.map = this.game.add.tilemap('level0'); 
@@ -33,7 +38,7 @@ functionRUBI.level0.prototype = {
      
         this.wall = this.map.createLayer('Tile Layer 1');
         this.wall.resizeWorld(); 
- 
+
 
 
  //Endgame goal
@@ -43,9 +48,26 @@ functionRUBI.level0.prototype = {
   this.goal.body.setSize(64, 64, 0, 0);
   this.goal.anchor.setTo(.5,.5);
   this.goal.body.immovable = true;
-
+ //////////
  
- //
+ 
+ //tutorial stuff///
+ this.tutMove = this.game.add.sprite(274,935,'tutMovement'); 
+ this.tutIntro = this.game.add.sprite(274,1135,'tutIntro'); 
+ this.tutShoot = this.game.add.sprite(274,755,'tutShoot');
+ this.tutShoot1 = this.game.add.sprite(204,545,'tutShoot1');
+  this.tutShoot2 = this.game.add.sprite(204,385,'tutShoot2');
+  
+  this.tutHealth1 = this.game.add.sprite(1040,485,'tutHealth1');
+  this.tutHealth = this.game.add.sprite(590,485,'tutHealth');
+  
+  this.tutUpgrade = this.game.add.sprite(1040,785,'tutUpgrade');
+  this.tutUpgrade1 = this.game.add.sprite(1040,985,'tutUpgrade1');
+  
+    this.tutGoal = this.game.add.sprite(1540,485,'tutGoal');
+ 
+ 
+ //////sss
  
  
  //adding player to map
@@ -59,9 +81,7 @@ functionRUBI.level0.prototype = {
  	 this.game.camera.follow(this.player);
  	 
  	 
- //particle collision with wall
- this.emitHitWall = functionRUBI.game.add.emitter(0,0,500);
-this.emitHitWall.makeParticles('spark');
+
   	  
  //implementing GUI////
  this.gui = this.game.add.sprite(0,0,'GUI'); 
@@ -78,7 +98,7 @@ this.textArray1 = [];
 	this.textArray1[3] = 'float'; 
 	this.textArray1[4] = 'boolean';
 
-this.dataTypeText = this.game.add.text(-34, 44, 'dataType: '+this.textArray1[gunVar], { font: " 14px Courier", fill: "#2EFE2E" });
+this.dataTypeText = this.game.add.text(-34, 44, 'dataType: '+this.textArray1[ globalVar.gunVar], { font: " 14px Courier", fill: "#2EFE2E" });
 this.player.addChild(this.dataTypeText);
  
  /////////////////////////////
@@ -114,13 +134,18 @@ this.enemyGroup = this.game.add.group();
 	this.enemyGroup.add(addenemy);
   	}  
   	
-//	this.background = this.game.add.sprite(this.player.x,this.player.y,'screenOverlay');
-	//this.background.width =800;
-	//this.background.height =600;
+  	 //particle collision with wall
+ this.emitHitWall = functionRUBI.game.add.emitter(0,0,500);
+this.emitHitWall.makeParticles('spark');
+  	
+this.background = this.game.add.sprite(0,0,'mainMenuUI');
+	this.background.width =800;
+	this.background.height =600;
+	this.background.fixedToCamera = true;
+   this.background.cameraOffset.setTo(0, 0);
   },
   update: function() {
-  //	this.background.x = this.game.camera.x;
-  //	this.background.y = this.game.camera.y;
+
   	 
   	 
   	//////////////////// //COLLISION//////////////////////////////////////////
@@ -202,21 +227,24 @@ this.enemyGroup = this.game.add.group();
     
     //switches between bullet. bulletSwitch found in Bullet.js
     this.QKey.onDown.add(bulletSwitch,this);
-      this.EKey.onDown.add(bulletSwitch,this);
+     globalVar.swap = 0;
+    this.EKey.onDown.add(bulletSwitch,this);
+     globalVar.swap = 0;
+    
     
     //shoots each type of bullet
      if (this.game.input.activePointer.isDown) {
-     	adjustRate(gunVar);
-     	if (gunVar==0){
+     	adjustRate( globalVar.gunVar);
+     	if ( globalVar.gunVar==0){
     		intFire(this.player);
-    	}else if(gunVar==1){
+    	}else if( globalVar.gunVar==1){
     		stringFire(this.player);
-    	} else if (gunVar ==2){
+    	} else if ( globalVar.gunVar ==2){
     		doubleFire(this.player);
-    	}else if (gunVar ==3){
+    	}else if ( globalVar.gunVar ==3){
     		floatFire(this.player);
     	}
-    	else if(gunVar ==4){
+    	else if( globalVar.gunVar ==4){
     		booleanFire(this.player);
     	}
         
@@ -225,8 +253,8 @@ this.enemyGroup = this.game.add.group();
     
     ///Switching of frames of the glowing thing around RUBI & the text
     this.healthText.text = 'rubucks:'+rubiHealth.rubucks;
-     this.dataTypeText.text= 'dataType: '+this.textArray1[gunVar];
-     this.gui.frame= gunVar;
+     this.dataTypeText.text= 'dataType: '+this.textArray1[ globalVar.gunVar];
+     this.gui.frame=  globalVar.gunVar;
     
     //fades away bullet explosions & other animation details
      this.emitHitWall.forEachAlive(function(p){
@@ -260,7 +288,12 @@ this.enemyGroup = this.game.add.group();
   
   /////decrements RUBI's health when enemy bullet hits her///////
   hitRUBI: function(wall,bullet){
-  	rubiHealth.rubucks -=10;
+  	if(functionRUBI.floatBullets.countLiving()>0){
+  		var floatBullet = functionRUBI.floatBullets.getFirstAlive();
+  		floatBullet.kill();
+  	} else{
+  	rubiHealth.rubucks -=40;
+  	}
   	
   	this.emitHitWall.x = bullet.x;
 		this.emitHitWall.y = bullet.y;
@@ -280,18 +313,21 @@ this.enemyGroup = this.game.add.group();
 	enemy.health -= bulletDamage+rubiUpgrade.damage;
 	
 	console.log(enemy.health);
+	 if(enemy.type =="slime"){
+    		enemy.sprite.animations.play('hurt', 6);
+    }
 	
 	if (enemy.health <= 0)
     {
     	endLevel.enemyBucks += getEnemyValue(enemy);
-    	this.emitHitWall.x = enemy.x;
-		this.emitHitWall.y = enemy.y;
-		this.emitHitWall.start(true,500,null,10);
+   
         enemy.alive = false;
         enemy.kill();
         
     }
-
+		this.emitHitWall.x = enemy.x;
+		this.emitHitWall.y = enemy.y;
+		this.emitHitWall.start(true,500,null,10);
   	bullet.kill();		
   },
   
@@ -309,13 +345,14 @@ this.enemyGroup = this.game.add.group();
   
   //debug functions
 render: function(){
-	 this.game.debug.text("DEBUGTEXT",100,100);
-	 this.game.debug.text("gunVar "+gunVar,100,120);
-	 this.game.debug.text("gunrate "+fireRate,100,140 );
-	  this.game.debug.text("Px "+this.player.x,100,160);
-	   this.game.debug.text("Py "+this.player.y,100,180);
+	this.game.debug.text('',100,100);
+//	 this.game.debug.text("DEBUGTEXT",100,100);
+	// this.game.debug.text(" globalVar.gunVar "+ globalVar.gunVar,100,120);
+	 //this.game.debug.text("gunrate "+fireRate,100,140 );
+	  //this.game.debug.text("Px "+this.player.x,100,160);
+	 //  this.game.debug.text("Py "+this.player.y,100,180);
 	 //  this.game.debug.body(this.player);
-	 this.game.debug.text("RUBUCK "+(rubiHealth.rubucks),100,200);
+	// this.game.debug.text("RUBUCK "+(rubiHealth.rubucks),100,200);
 	
 	},
 

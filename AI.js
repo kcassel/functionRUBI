@@ -4,8 +4,6 @@
 
 // enemy objects
 
-
-
 Enemy = function (index, gameName, bullets, type, x, y) {
 	
 	this.x = x;
@@ -22,55 +20,60 @@ Enemy = function (index, gameName, bullets, type, x, y) {
 	switch(type) {
 		case "slime":
 			this.type = "slime";
-			this.health = 30;
+			this.health = 80;
 			this.sprite = gameName.game.add.sprite(x, y, 'slime');
 			this.radius = 300;
 			this.fireRate = 1000;
 			this.speed = 0; // change 
 			this.sprite.health = 30;
+			this.patrolCheck = true;
 			break;
 		case "follower":
 			this.type = "follower";
 			this.health = 10;
 			this.sprite = gameName.game.add.sprite(x, y, 'follower');
-			this.radius = 400;
-			this.speed = 150; // change
+			this.radius = 300;
+			this.speed = 320; // change
 			this.sprite.health = 10;
 			this.emit = functionRUBI.game.add.emitter(0,0,250);
 			this.emit.makeParticles('spark');
+			this.patrolCheck = true;
 			break;
 		case "mildew":
 			this.type = "mildew";
-			this.fireRate = 1000;
-			this.health = 50;
-			this.radius = 500;
+			this.fireRate = 400;
+			this.health = 40;
+			this.radius = 400;
 			this.sprite = gameName.game.add.sprite(x, y, 'mildew');
 			this.speed = 100; // change
-				this.sprite.health = 40;
+			this.sprite.health = 40;
+			this.patrolCheck = false;
 			break;
 		case "spawner":
 			this.type = "spawner";
-			this.fireRate = 800;
+			this.fireRate = 1200;
 			this.health = 100;
-			this.radius = 500;
+			this.radius = 300;
 			this.sprite = gameName.game.add.sprite(x, y, 'spawner');
 			this.speed = 0; // doesn't move
-			this.maxSpawned = 50; // the maximum number of followers that can be spawned
+			this.maxSpawned = 20; // the maximum number of followers that can be spawned
 			this.currSpawned = 0;
 			this.followerArray = [];
-				this.sprite.health = 150;
+			this.sprite.health = 150;
 			this.trueSpawn = false;
+			this.patrolCheck = false;
 			break;
 		case "serpent":
 			this.type = "serpent";
 			this.fireRate = 1000;
-			this.health = 200;
+			this.health = 150;
 			this.radius = 400;
 			this.sprite = gameName.game.add.sprite(x, y, 'serpent');
 			this.speed = 100;
 			this.parts = 0;
 			this.partsArr = [];
 			this.maxParts = 5;
+			this.patrolCheck = true;
 			break;
 			
 	}
@@ -93,11 +96,13 @@ Enemy = function (index, gameName, bullets, type, x, y) {
     	this.sprite.animations.add('shoot');
     }
     if(type =="follower"){
-    	this.sprite.animations.add('walk',[0,1]);
-    	this.sprite.animations.add('death',[2,3,4]);
+    	this.sprite.animations.add('walk');
+
     }
     if(type =="slime"){
-    	this.sprite.animations.add('shoot');
+    	this.sprite.animations.add('shoot',[8,9,10,11,12]);
+    	this.sprite.animations.add('idle',[0,1,2,3]);
+    	this.sprite.animations.add('hurt',[4,5,6,7]);
     }
     if(type=="spawner"){
     	this.sprite.animations.add('spawn');
@@ -105,7 +110,7 @@ Enemy = function (index, gameName, bullets, type, x, y) {
     if(type =="serpent"){
     	this.sprite.animations.add('walk');
     }
-   this.sprite.animations.killOnComplete = true;
+
     
     this.sprite.body.collideWorldBounds = true;
     this.sprite.body.bounce.setTo(1, 1);
@@ -121,14 +126,17 @@ Enemy = function (index, gameName, bullets, type, x, y) {
 Enemy.prototype.update = function(player) {
 	
 
-    this.sprite.rotation = functionRUBI.game.physics.arcade.angleBetween(this.sprite, player)-((Math.PI/2)+functionRUBI.game.math.degToRad(-180));
 	
 	// if the player gets within the enemy radius, then each enemy
 	// will respond respectively
 	// change the 1000 to this.radius;
     if (functionRUBI.game.physics.arcade.distanceBetween(this.sprite, player) < this.radius) {
+
+
+    this.sprite.rotation = functionRUBI.game.physics.arcade.angleBetween(this.sprite, player)-((Math.PI/2)+functionRUBI.game.math.degToRad(-180));
     	
     	if(this.type == "follower") {
+    		
 			this.sprite.animations.play('walk', 16);
     		// the speed at which the follower moves towards the object, 1000 == 1 second
     		functionRUBI.game.physics.arcade.moveToObject(this.sprite, player, this.speed);
@@ -215,7 +223,6 @@ Enemy.prototype.update = function(player) {
     			this.trueSpawn = true;
 		    	// time to shoot the next follower, based on the enemy fireRate
 			    this.nextFire = functionRUBI.game.time.now + this.fireRate;
-			        console.log("BITCHIN");
 			    // creates a new enemy
 		        this.followerArray[this.currSpawned] = new Enemy(this.currSpawned+20, functionRUBI, functionRUBI.enemyBullets, "follower", this.x, this.y + 10);
 				this.currSpawned++;
@@ -235,8 +242,17 @@ Enemy.prototype.update = function(player) {
     	}
         
     } else {
-    	// patrol
-    	//this.patrol();
+    	 if(this.type =="follower"){
+    		this.sprite.animations.play('walk', 8);
+    		}
+    		 if(this.type =="slime"){
+    		this.sprite.animations.play('idle', 6);
+    		}
+    	
+    	if (Math.floor(Math.random()*11)>8){
+    	    this.sprite.rotation = this.sprite.rotation + (((Math.random()*2))-(Math.random()*2)) ;
+    	   }
+    	this.patrol(this.patrolCheck);
     }
    
 };
@@ -252,7 +268,7 @@ Enemy.prototype.createBullets = function() {
 	functionRUBI.mildewBullets.createMultiple(50, 'mildewBullets');
 };
 
-Enemy.prototype.patrol = function() {
+Enemy.prototype.patrol = function(patrol) {
 	// move in linear directions,
 		// if about to hit a wall, go the other direction
 		// else keep moving
@@ -263,11 +279,12 @@ Enemy.prototype.patrol = function() {
 	// the two options of patroling
 		// either move the radius moving horizontally
 			// or vertically.
-	if(temp == 0) {
-		functionRUBI.game.physics.arcade.accelerateToXY(this.sprite, this.x+this.radius, this.y, 20);
-	} else {
-		functionRUBI.game.physics.arcade.accelerateToXY(this.sprite, this.x, this.y+this.radius, 20);
+	
+	if(patrol) {
+		if(temp == 0) {
+			functionRUBI.game.physics.arcade.accelerateToXY(this.sprite, this.x+this.radius, this.y, 10, this.speed, this.speed);
+		} else {
+			functionRUBI.game.physics.arcade.accelerateToXY(this.sprite, this.x, this.y+this.radius, 10, this.speed, this.speed);
+		}
 	}
-	
-	
 };

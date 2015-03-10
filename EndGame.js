@@ -8,7 +8,7 @@ functionRUBI.EndGame.prototype = {
     
   
     
-    MenuButton = this.game.add.button(300,450, 'start',this.menuClick,this,1,0,1);
+    MenuButton = this.game.add.button(300,525, 'menubutton',this.menuClick,this,1,0,1);
     
   
     this.textArray1 = [];
@@ -21,8 +21,8 @@ functionRUBI.EndGame.prototype = {
     if (rubiHealth.dead==true){
     	this.levelDeath();
     }else{
-    	endLevel.unlockLevel = 'RUBI.UNLOCK(level): NONE';
-    	endLevel.unlockGun = 'RUBI.UNLOCK(datatype): NONE';
+    	endLevel.unlockLevel = 'RUBI.UNLOCK(level): NULL';
+    	endLevel.unlockGun = 'RUBI.UNLOCK(datatype): NULL';
     	if(checkLevel.level0 ==true){
     		rubiUnlock.level =1;
     		rubiUnlock.guns = 1;
@@ -63,9 +63,7 @@ functionRUBI.EndGame.prototype = {
     			endLevel.unlockGun = 'RUBI.UNLOCK(datatype): NONE';
     		}
     	}
-    	if(checkLevel.level5 ==true){
-    		rubiUnlock.level =5;
-    		rubiUnlock.guns = 4;  	
+    	if(checkLevel.level5 ==true){	
     			endLevel.unlockLevel = 'RUBI.UNLOCK(level): COMPLETE';
     			endLevel.unlockGun = 'RUBI.UNLOCK(datatype): COMPLETE';
     	}
@@ -114,12 +112,18 @@ functionRUBI.EndGame.prototype = {
   },
   
   levelComplete: function(){
-  	rubiHealth.rubucks += endLevel.enemyBucks + rubiHealth.min*endLevel.levelFin;
+  	if(rubiUnlock.level>0){
+		var levelup =1;  		
+  	}else{
+  		var levelup =0;
+  	}
+  	
+  	rubiHealth.rubucks += endLevel.enemyBucks + rubiHealth.min*levelup;
   	
   	this.text1 = this.game.add.text(400, 200, "RUBI.MISSION: SUCCESS", { font: " 32px Courier", fill: "#2EFE2E" });
   	 this.text1.anchor.set(0.5);
   this.text2 = this.game.add.text(200, 250, "RUBUCKS ENEMY BONUS: "+endLevel.enemyBucks, { font: " 20px Courier", fill: "#2EFE2E" });
-  this.text3 = this.game.add.text(200, 275, "RUBUCKS LEVEL BONUS: "+rubiHealth.min*endLevel.levelFin, { font: " 20px Courier", fill: "#2EFE2E" });
+  this.text3 = this.game.add.text(200, 275, "RUBUCKS LEVEL BONUS: "+rubiHealth.min*levelup, { font: " 20px Courier", fill: "#2EFE2E" });
   this.text4 = this.game.add.text(200, 300, "RUBUCKS TOTAL: "+rubiHealth.rubucks, { font: " 20px Courier", fill: "#2EFE2E" });
    this.text5 = this.game.add.text(200, 325, endLevel.unlockLevel, { font: " 20px Courier", fill: "#2EFE2E" });
   this.text6 = this.game.add.text(200, 350,  endLevel.unlockGun, { font: " 20px Courier", fill: "#2EFE2E" });
@@ -157,6 +161,7 @@ functionRUBI.EndGame.prototype = {
 		rubiUpgrade.speed = 0;
 		rubiUpgrade.rateoffire = 0;
   		rubiUpgrade.damage =  0;
+  		 globalVar.gunVar =0;
   
 		
 	},
@@ -168,9 +173,10 @@ functionRUBI.EndGame.prototype = {
   },
   
   render: function(){
-	this.game.debug.text("DEBUGTEXT",100,100);
+	this.game.debug.text("",100,100);
 	 
-	// this.game.debug.text("RUBUCK "+(rubiHealth.rubucks),100,200);
+	// this.game.debug.text(rubiUnlock.level ,100,200);
+	// this.game.debug.text(rubiUnlock.guns,100,220);
 	
 	},
   

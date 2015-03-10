@@ -20,11 +20,15 @@ functionRUBI.Preload.prototype = {
   	//menu buttons assets
   		this.game.load.image('screenOverlay','assets/world/screenoverlay.png');
   	this.game.load.image('levelMenuUI','assets/menu/levelMenuUI.png');
-  	this.game.load.spritesheet('title','assets/menu/main-title.png',684,156);
+  	this.game.load.image('mainMenuUI','assets/menu/mainMenuUI.png');
+  	this.game.load.spritesheet('title','assets/menu/main-title.png',500,114);
    this.game.load.spritesheet('start','assets/menu/buttons/start.png',158,47);
    this.game.load.spritesheet('rateoffire','assets/menu/buttons/rateoffire.png',165,33);
   this.game.load.spritesheet('speed','assets/menu/buttons/speed.png',165,33);
     this.game.load.spritesheet('damage','assets/menu/buttons/damage.png',165,33);
+    this.game.load.spritesheet('menubutton','assets/menu/buttons/menu.png',165,33);
+    
+    
     //level buttons
     this.game.load.spritesheet('level0','assets/menu/level/level0.png',150,100);
     this.game.load.spritesheet('level1','assets/menu/level/level1.png',150,100);
@@ -32,6 +36,20 @@ functionRUBI.Preload.prototype = {
     this.game.load.spritesheet('level3','assets/menu/level/level3.png',150,100);
     this.game.load.spritesheet('level4','assets/menu/level/level4.png',150,99);
     this.game.load.spritesheet('level5','assets/menu/level/level5.png',150,100);
+    
+    //tutorial assets
+    this.game.load.image('tutIntro','assets/world/level0/tutIntro.png');
+    this.game.load.image('tutMovement','assets/world/level0/tutMovement.png');
+    this.game.load.image('tutShoot','assets/world/level0/tutShoot.png');
+    this.game.load.image('tutShoot1','assets/world/level0/tutShoot1.png');
+     this.game.load.image('tutShoot2','assets/world/level0/tutShoot2.png');
+    this.game.load.image('tutHealth','assets/world/level0/tutHealth.png');
+     this.game.load.image('tutHealth1','assets/world/level0/tutHealth1.png');
+     this.game.load.image('tutUpgrade1','assets/world/level0/tutUpgrade1.png');
+     this.game.load.image('tutUpgrade','assets/world/level0/tutUpgrade.png');
+       this.game.load.image('tutGoal','assets/world/level0/tutGoal.png');
+ 
+    
    
    
    //Player assets
@@ -41,10 +59,10 @@ functionRUBI.Preload.prototype = {
 	this.game.load.spritesheet("GUI", "assets/world/gui/gui.png", 64, 64);
 
 //enemy assets
- this.game.load.spritesheet('follower', 'assets/enemies/follower/FollowerFinal.png', 32, 32);
+ this.game.load.spritesheet('follower', 'assets/enemies/follower/FollowerIdle.png', 32, 32);
     this.game.load.image("mildewBullets", "assets/enemies/enemy_bullets/Mildewbullet.png");
      this.game.load.spritesheet('mildew', 'assets/enemies/mildew/MildewShoot.png', 32, 32);   
-     this.game.load.spritesheet('slime', 'assets/enemies/slime/SlimeAttack.png', 32, 32);
+     this.game.load.spritesheet('slime', 'assets/enemies/slime/SlimeFinal.png', 32, 32);
      this.game.load.spritesheet('spawner','assets/enemies/spawner/SpawnerSpawn.png',64,64);
     
     //loading rubi bullets

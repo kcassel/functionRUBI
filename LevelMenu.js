@@ -69,8 +69,9 @@ functionRUBI.LevelMenu.prototype = {
   		 damageButton.activate();
   		}
   	} else{
-  		 speedCostText.text ="NOT ENOUGH RUBUCKS";
-  		 rateoffireCostText.text ="NOT ENOUGH RUBUCKS";
+  		 speedCostText.text ="PLEASE COMPLETE";
+  		 rateoffireCostText.text ="FUNCTION RUBI'S";
+  		 damageCostText.text ="TUTORIAL LEVEL";
   	}
 
 	var textArray = [];
@@ -112,12 +113,12 @@ functionRUBI.LevelMenu.prototype = {
   	level5Button.overlap();
 
 
-  	speedText.text = rubiUpgrade.speed+'%';
+  	speedText.text = rubiUpgrade.speed/2+'%';
   	rateoffireText.text = rubiUpgrade.rateoffire+'%';
   	damageText.text = rubiUpgrade.damage*2+'%';
   	rubucksText.text = rubiHealth.rubucks+'$'; 
   	
-  	if (rubiHealth.rubucks <=upSpeed || rubiUpgrade.speed >=100){
+  	if (rubiHealth.rubucks <=upSpeed || rubiUpgrade.speed >=200){
   	 	 speedButton.deactivate();
   	 	 speedCostText.text ="NOT ENOUGH RUBUCKS";
   	 }
@@ -161,8 +162,8 @@ functionRUBI.LevelMenu.prototype = {
   
   // a speed upgrade costs 200 rubucks
   speedClick: function(){
-  	if(rubiUpgrade.speed <=100 && rubiHealth.rubucks >upSpeed){
-  	rubiUpgrade.speed += 20;
+  	if(rubiUpgrade.speed <=200 && rubiHealth.rubucks >upSpeed){
+  	rubiUpgrade.speed += 50;
   	rubiHealth.rubucks -=200;
   	}
   	
@@ -187,12 +188,12 @@ functionRUBI.LevelMenu.prototype = {
    //debug functions
 render: function(){
 	 this.game.debug.text("",500,100);
-	 //this.game.debug.text("Rubi's speed "+(300+rubiUpgrade.speed),500,120);
+	
 	// this.game.debug.text("Rubi's rate of fire "+(fireRate+rubiUpgrade.rateoffire),500,140);
 	// this.game.debug.text("Rubi's damage "+(10+rubiUpgrade.damage),500,160);
 	// this.game.debug.text("RUBUCK "+(rubiHealth.rubucks),500,180);
-	 this.game.debug.text("Px "+this.game.input.mousePointer.x,500,200);
-	  this.game.debug.text("Py "+this.game.input.mousePointer.y,500,220);
+	// this.game.debug.text("Px "+this.game.input.mousePointer.x,500,200);
+	//  this.game.debug.text("Py "+this.game.input.mousePointer.y,500,220);
 },
   
 };
