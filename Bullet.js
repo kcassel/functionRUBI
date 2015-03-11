@@ -263,7 +263,7 @@ function doubleFire(player){
 function stringFire(player){
 if (functionRUBI.game.time.now > nextFire && functionRUBI.stringBullets.countDead() > 0){
         nextFire = functionRUBI.game.time.now + fireRate;
-
+		stringAudio.play();
         var bullet = functionRUBI.stringBullets.getFirstDead();		
 		bullet.reset(player.x,player.y);
 		bullet.rotation = player.rotation;
@@ -280,7 +280,7 @@ if (functionRUBI.game.time.now > nextFire && functionRUBI.stringBullets.countDea
 function stringExplosion(bullet){
 //	if(functionRUBI.stringBullets.countLiving()>0){
 //	var bullet = functionRUBI.stringBullets.getFirstAlive();
-
+	boolean2Audio.play();
 		var bx = bullet.x;
 		var by = bullet.y;
 		functionRUBI.emitSBullets.x = bx;
@@ -338,7 +338,7 @@ function floatFire(player) {
  function booleanFire(player){
  	if (functionRUBI.game.time.now > nextFire && functionRUBI.booleanBullets.countDead() > 0){
         nextFire = functionRUBI.game.time.now + fireRate;
-
+boolean1Audio.play();
         var bullet = functionRUBI.booleanBullets.getFirstDead();		
 		bullet.reset(player.x,player.y);
 		bullet.rotation = player.rotation;

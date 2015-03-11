@@ -54,7 +54,7 @@ functionRUBI.level1.prototype = {
   	 this.player = this.game.add.sprite(1024,1248,'player'); 
   	 this.game.physics.enable(this.player, Phaser.Physics.ARCADE);
   	 this.player.anchor.setTo(.5,.5);
-  	 this.player.body.setSize(45, 50, 0, 0);
+  	 this.player.body.setSize(60, 60, 0, 0);
   	 this.player.collideWorldBounds = true;
   	 this.player.animations.add('walk');	    
  	 this.game.camera.follow(this.player);
@@ -156,7 +156,7 @@ this.enemyText.fixedToCamera = true;
    
   },
   update: function() {
-
+	updateMusic();
   	 
   	 
   	//////////////////// //COLLISION//////////////////////////////////////////
@@ -312,7 +312,7 @@ this.enemyText.fixedToCamera = true;
 
   ///////kills bullets if it touches a wall//////
   killBullet: function(bullet,wall){
-  	
+  	wallAudio.play();
   	this.emitHitWall.x = bullet.x;
 		this.emitHitWall.y = bullet.y;
 		this.emitHitWall.start(true,500,null,10);	
@@ -326,6 +326,7 @@ this.enemyText.fixedToCamera = true;
   		floatBullet.kill();
   		float2Audio.play();
   	} else{
+  		hurtAudio.play();
   	rubiHealth.rubucks -=40;
   	}
   	
@@ -377,6 +378,7 @@ if(enemy.health<=0){
   
   /////////endgame/////////////////
   endGame: function(){
+  	fadeoutMus(easylevelMusic);
   	checkLevel.level1 = true;
     endLevel.levelFin = 1;
   	functionRUBI.RUBIBullets.destroy(true);
@@ -389,6 +391,7 @@ if(enemy.health<=0){
   //debug functions
 render: function(){
 		this.game.debug.text('',100,100);
+		this.game.debug.soundInfo(Menumusic, 20, 32);
 	// this.game.debug.text("DEBUGTEXT",100,100);
 	// this.game.debug.text(" globalVar.gunVar "+ globalVar.gunVar,100,120);
 	// this.game.debug.text("gunrate "+fireRate,100,140 );

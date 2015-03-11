@@ -20,11 +20,14 @@ functionRUBI.Preload.prototype = {
   	
   	//Music assets
   	this.game.load.audio('menuMus', 'assets/music/MenuMus.mp3');
+  	this.game.load.audio('easyLevelMus','assets/music/BluntSega.mp3');
+  	this.game.load.audio('hardLevelMus','assets/music/HardLevelMus.mp3');
   	
   	//soundeffects
   	this.game.load.audio('buttonDown', 'assets/music/soundeffects/LevelSelect.mp3');
   	this.game.load.audio('buttonUp', 'assets/music/soundeffects/Hover.mp3');
   	this.game.load.audio('Upgrade', 'assets/music/soundeffects/Upgrade.mp3');
+  	this.game.load.audio('wallHit','assets/music/soundeffects/WallHit.mp3');
   	
   	//rubi sound effects
   	this.game.load.audio('rubiInt', 'assets/music/soundeffects/RUBIShootInt.mp3');
@@ -32,7 +35,10 @@ functionRUBI.Preload.prototype = {
   	this.game.load.audio('rubiFloat1', 'assets/music/soundeffects/Shield.mp3');
   	this.game.load.audio('rubiFloat2', 'assets/music/soundeffects/Denial.mp3');
   	this.game.load.audio('rubiboolean2', 'assets/music/soundeffects/MineExplode.mp3');
+  	this.game.load.audio('rubiboolean1','assets/music/soundeffects/MineDrop.mp3');
+  	this.game.load.audio('rubiString','assets/music/soundeffects/GrenadeFire.mp3');
   	this.game.load.audio('rubiWalk', 'assets/music/soundeffects/Walk.mp3');
+  	this.game.load.audio('rubiHurt', 'assets/music/soundeffects/RUBIHurt.mp3');
   	
   	//enemy sound effects
   	this.game.load.audio('enemyHurt', 'assets/music/soundeffects/Hurt.mp3');
@@ -106,17 +112,24 @@ this.game.load.image('endscreen', 'assets/world/endgame/endscreen.png',800,600);
   },
   create: function() {
   	//create all audio Sounds
-  	    Menumusic = this.game.add.audio('menuMus',globalVar.audio,true);
+  	   Menumusic = this.game.add.audio('menuMus',globalVar.audio,true);
+  	  easylevelMusic = this.game.add.audio('easyLevelMus',globalVar.audio,true);
+  	   hardlevelMusic = this.game.add.audio('hardLevelMus',globalVar.audio.true);
+  	   
        downAudio = this.game.add.audio('buttonDown',globalVar.soundfx);
        upAudio = this.game.add.audio('buttonUp',globalVar.soundfx);
        upgradeAudio = this.game.add.audio('Upgrade',globalVar.soundfx);
        
-       intAudio = this.game.add.audio('rubiInt',globalVar.soundfx);
+       intAudio = this.game.add.audio('rubiString',globalVar.soundfx);
        doubleAudio = this.game.add.audio('rubiDouble',globalVar.soundfx);
        float1Audio = this.game.add.audio('rubiFloat2',globalVar.soundfx);
        float2Audio = this.game.add.audio('rubiFloat1',globalVar.soundfx);
+       stringAudio = this.game.add.audio('rubiInt',globalVar.soundfx);
+       boolean1Audio = this.game.add.audio('rubiboolean1',globalVar.soundfx);
        boolean2Audio = this.game.add.audio('rubiboolean2',globalVar.soundfx);
        walkAudio = this.game.add.audio('rubiWalk',globalVar.soundfx);
+       hurtAudio = this.game.add.audio('rubiHurt',globalVar.soundfx);
+       wallAudio = this.game.add.audio('wallHit',globalVar.soundfx);
        
        enemyHurtAudio = this.game.add.audio('enemyHurt',globalVar.soundfx);
        followerHurtAudio = this.game.add.audio('followerHurt',globalVar.soundfx);
@@ -124,8 +137,20 @@ this.game.load.image('endscreen', 'assets/world/endgame/endscreen.png',800,600);
        mildewShootAudio = this.game.add.audio('mildewShoot',globalVar.soundfx);
        spawnerShootAudio = this.game.add.audio('spawnerShoot',globalVar.soundfx);
        
+  functionRUBI.game.time.events.add(Phaser.Timer.SECOND * 5, this.start, this);   
   	
   	
-  	this.state.start('MainMenu');
-  }
+  },
+  
+   start: function() {
+
+   	this.state.start('MainMenu');
+
+   },
+   
+   render: function(){
+  	 this.game.debug.soundInfo(hardlevelMusic, 20, 32);
+  },
+  
+  
 };

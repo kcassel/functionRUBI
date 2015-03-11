@@ -3,7 +3,7 @@ functionRUBI.EndGame = function(){};
 functionRUBI.EndGame.prototype = {
   create: function() {
     menuFilter();
-    
+     Menumusic.play('',0,globalVar.audio);
     this.bg = this.game.add.sprite(0,0,'endscreen'); 
     
   
@@ -108,6 +108,7 @@ functionRUBI.EndGame.prototype = {
   },
   update: function() {
      filterUpdate();
+     updateMusic();
      MenuButton.overlap();
  
    

@@ -55,6 +55,7 @@ function rubiHit(type){
   		var floatBullet = functionRUBI.floatBullets.getFirstAlive();
   		floatBullet.kill();
   	} else{
+  		hurtAudio.play();
   	enemyHurtAudio.play();
   	rubiHealth.rubucks -=50;
   	}

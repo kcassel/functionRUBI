@@ -58,7 +58,7 @@ functionRUBI.level3.prototype = {
   	 this.player = this.game.add.sprite(96,640,'player'); 
   	 this.game.physics.enable(this.player, Phaser.Physics.ARCADE);
   	 this.player.anchor.setTo(.5,.5);
-  	 this.player.body.setSize(45, 50, 0, 0);
+  	 this.player.body.setSize(60, 60, 0, 0);
   	 this.player.collideWorldBounds = true;
   	 this.player.animations.add('walk');	    
  	 this.game.camera.follow(this.player);
@@ -161,6 +161,7 @@ this.enemyText.fixedToCamera = true;
   
   
   update: function() {
+  	updateMusic();
   		if (rubiHealth.rubucks <= 0) {
   		rubiHealth.dead = true;
   		this.endGame();
@@ -318,7 +319,7 @@ this.enemyText.fixedToCamera = true;
 
   ///////kills bullets if it touches a wall//////
   killBullet: function(bullet,wall){
-  	
+  	wallAudio.play();
   	this.emitHitWall.x = bullet.x;
 		this.emitHitWall.y = bullet.y;
 		this.emitHitWall.start(true,500,null,10);	
@@ -332,6 +333,7 @@ this.enemyText.fixedToCamera = true;
   		floatBullet.kill();
   		float2Audio.play();
   	} else{
+  		hurtAudio.play();
   	rubiHealth.rubucks -=40;
   	}
   	
@@ -383,6 +385,7 @@ this.enemyText.fixedToCamera = true;
   
   /////////endgame/////////////////
   endGame: function(){
+  	fadeoutMus(hardlevelMusic);
   checkLevel.level3 = true;
 endLevel.levelFin = 3;
   	functionRUBI.RUBIBullets.destroy(true);

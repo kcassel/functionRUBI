@@ -98,10 +98,13 @@ functionRUBI.LevelMenu.prototype = {
   	rubucksText = this.game.add.text(635, 535, rubiHealth.rubucks+'$',{ font: " 32px Courier", fill: "#2EFE2E" });
   	weaponText = this.game.add.text (635,300, wText,{ font: " 18px Courier", fill: "#2EFE2E" });
   	
+  	
+  	
   },
   
   update: function(){
   	filterUpdate();
+  	updateMusic();
   	speedButton.overlap();
   	rateoffireButton.overlap();
   	 damageButton.overlap();
@@ -139,27 +142,39 @@ functionRUBI.LevelMenu.prototype = {
   
   //levels
   tutorialClick: function(){
+  	fadeoutMus(Menumusic);
   	 downAudio.play();
+  	 easylevelMusic.play('',0,globalVar.audio);
   	this.game.state.start('level0');
   },
    level1Click: function(){
+   	fadeoutMus(Menumusic);
    	 downAudio.play();
+  easylevelMusic.play('',0,globalVar.audio);
   	this.game.state.start('level1');
   },
    level2Click: function(){
+   	fadeoutMus(Menumusic);
    	 downAudio.play();
+    easylevelMusic.play('',0,globalVar.audio);
   	this.game.state.start('level2');
   },
    level3Click: function(){
+   	fadeoutMus(Menumusic);
    	 downAudio.play();
+   hardlevelMusic.play('',0,globalVar.audio);
   	this.game.state.start('level3');
   },
    level4Click: function(){
+   	fadeoutMus(Menumusic);
    	 downAudio.play();
+  hardlevelMusic.play('',0,globalVar.audio);
   	this.game.state.start('level4');
   },
    level5Click: function(){
+   	fadeoutMus(Menumusic);
    	 downAudio.play();
+   	hardlevelMusic.play('',0,globalVar.audio);
   	this.game.state.start('level5');
   },
   
@@ -197,7 +212,7 @@ functionRUBI.LevelMenu.prototype = {
    //debug functions
 render: function(){
 	 this.game.debug.text("",500,100);
-	
+	//  this.game.debug.soundInfo(Menumusic, 20, 32);
 	// this.game.debug.text("Rubi's rate of fire "+(fireRate+rubiUpgrade.rateoffire),500,140);
 	// this.game.debug.text("Rubi's damage "+(10+rubiUpgrade.damage),500,160);
 	// this.game.debug.text("RUBUCK "+(rubiHealth.rubucks),500,180);
