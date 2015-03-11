@@ -14,6 +14,10 @@ functionRUBI.Boot.prototype = {
   create: function() {
   	
     this.game.stage.backgroundColor = '#fff';
+    
+this.game.scale.pageAlignHorizontally = true;
+this.game.scale.pageAlignVertically = true;
+this.game.scale.refresh();
 
     /*//scaling options
 	this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;

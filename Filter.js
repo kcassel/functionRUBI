@@ -304,14 +304,20 @@ Buttons.prototype.constructor = Buttons;
 Buttons.prototype.activate = function() {
   this.input.enabled = true;
   this.frame = 0;
+  this.playAudio = true;
 };
 
 Buttons.prototype.overlap = function(){
  if (this.input.enabled == true){	
 	if (this.input.pointerOver()) {
+		if(this.playAudio== true){
+		upAudio.play('',0,globalVar.soundfx,false,false);
+		}
  	 	this.frame = 1;
+ 	 	this.playAudio = false;
 		} else{
 		this.frame = 0;
+		this.playAudio = true;
 		}
 	}
 };

@@ -115,7 +115,7 @@ functionRUBI.LevelMenu.prototype = {
 
   	speedText.text = rubiUpgrade.speed/2+'%';
   	rateoffireText.text = rubiUpgrade.rateoffire+'%';
-  	damageText.text = rubiUpgrade.damage*2+'%';
+  	damageText.text = rubiUpgrade.damage*2.5+'%';
   	rubucksText.text = rubiHealth.rubucks+'$'; 
   	
   	if (rubiHealth.rubucks <=upSpeed || rubiUpgrade.speed >=200){
@@ -139,21 +139,27 @@ functionRUBI.LevelMenu.prototype = {
   
   //levels
   tutorialClick: function(){
+  	 downAudio.play();
   	this.game.state.start('level0');
   },
    level1Click: function(){
+   	 downAudio.play();
   	this.game.state.start('level1');
   },
    level2Click: function(){
+   	 downAudio.play();
   	this.game.state.start('level2');
   },
    level3Click: function(){
+   	 downAudio.play();
   	this.game.state.start('level3');
   },
    level4Click: function(){
+   	 downAudio.play();
   	this.game.state.start('level4');
   },
    level5Click: function(){
+   	 downAudio.play();
   	this.game.state.start('level5');
   },
   
@@ -163,6 +169,7 @@ functionRUBI.LevelMenu.prototype = {
   // a speed upgrade costs 200 rubucks
   speedClick: function(){
   	if(rubiUpgrade.speed <=200 && rubiHealth.rubucks >upSpeed){
+  		 upgradeAudio.play();
   	rubiUpgrade.speed += 50;
   	rubiHealth.rubucks -=200;
   	}
@@ -172,6 +179,7 @@ functionRUBI.LevelMenu.prototype = {
   // rate of fire upgrade costs 400
   rateoffireClick: function(){
   	if(rubiUpgrade.rateoffire <=100 && rubiHealth.rubucks >upFire){
+  		 upgradeAudio.play();
   	rubiUpgrade.rateoffire +=20;
   	  	rubiHealth.rubucks -=400;
   	}
@@ -180,6 +188,7 @@ functionRUBI.LevelMenu.prototype = {
   //damage upgrade costs 600
   damageClick: function(){
   	if(rubiUpgrade.damage <=40 && rubiHealth.rubucks >upDamage){
+  		 upgradeAudio.play();
   	rubiUpgrade.damage +=10;
   	  	rubiHealth.rubucks -=600;
   	}

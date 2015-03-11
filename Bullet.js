@@ -20,14 +20,14 @@ var nextFire =0;
 var rateArray = [];
 rateArray[0] = 400; //int
 rateArray[1] = 600; //double
-rateArray[2] = 450; //string
-rateArray[3] = 600; //float
+rateArray[2] = 800; //string
+rateArray[3] = 500; //float
 rateArray[4] = 500; //boolean
 
 var damageArray = [];
 damageArray[0] = 10; //int
-damageArray[1] = 15; //double
-damageArray[2] = 40; //string
+damageArray[1] = 20; //double
+damageArray[2] = 5; //string
 damageArray[3] = 5; //float
 damageArray[4] = 30; //boolean
 
@@ -53,7 +53,7 @@ functionRUBI.doubleBullets.createMultiple(100, 'doubleBullet');
 functionRUBI.stringBullets = functionRUBI.game.add.group();
 functionRUBI.stringBullets.enableBody = true;
 functionRUBI.stringBullets.physicsBodyType = Phaser.Physics.ARCADE;
-functionRUBI.stringBullets.createMultiple(10, 'stringBullet');
+functionRUBI.stringBullets.createMultiple(8, 'stringBullet');
 functionRUBI.emitSBullets = functionRUBI.game.add.emitter(0,0,30);
 functionRUBI.emitSBullets.makeParticles('stringBullet');
 
@@ -120,10 +120,10 @@ function bulletSwitch(check){
 		maxGun = rubiUnlock.guns;
 	}
 	
-	console.log("check.keyCode " +check.keyCode);
-	console.log("maxGun"+ maxGun);
-	console.log("num "+num);
-	console.log( globalVar.gunVar);
+	//console.log("check.keyCode " +check.keyCode);
+	//console.log("maxGun"+ maxGun);
+	//console.log("num "+num);
+//	console.log( globalVar.gunVar);
 	
 	if(globalVar.swap == 1){
 	if( globalVar.gunVar==maxGun){
@@ -137,7 +137,7 @@ function bulletSwitch(check){
 	} else if( globalVar.gunVar==0){
 		if(num==1){
 			 globalVar.gunVar =  globalVar.gunVar + 1 ;
-			 console.log('working');
+		//	 console.log('working');
 			
 		} else{
 			 globalVar.gunVar = maxGun;
@@ -146,7 +146,7 @@ function bulletSwitch(check){
 		 globalVar.gunVar =  globalVar.gunVar + num;
 	}
 	}
-	console.log( globalVar.gunVar);	
+//	console.log( globalVar.gunVar);	
 	
 	
 	
@@ -219,7 +219,7 @@ function intFire(player) {
 
     if (functionRUBI.game.time.now > nextFire && functionRUBI.intBullets.countDead() > 0){
         nextFire = functionRUBI.game.time.now + fireRate;
-
+		intAudio.play();
         var bullet = functionRUBI.intBullets.getFirstDead();
 		bullet.reset(player.x,player.y);
 		bullet.rotation = player.rotation;
@@ -235,6 +235,7 @@ function intFire(player) {
 function doubleFire(player){
 	 if (functionRUBI.game.time.now > nextFire && functionRUBI.intBullets.countDead() > 0){
         nextFire = functionRUBI.game.time.now + fireRate;
+        doubleAudio.play();
 
 		//get two dead bullets, reset to face pointer
         var bullet1 = functionRUBI.doubleBullets.getFirstDead();
@@ -268,7 +269,7 @@ if (functionRUBI.game.time.now > nextFire && functionRUBI.stringBullets.countDea
 		bullet.rotation = player.rotation;
 		bullet.anchor.setTo(.5, .5);
 		bullet.body.setSize(8, 8, 0, 0);
-		functionRUBI.game.time.events.add(Phaser.Timer.SECOND * 1, stringExplosion, this); 
+		//functionRUBI.game.time.events.add(Phaser.Timer.SECOND * 1, stringExplosion, this); 
         functionRUBI.game.physics.arcade.moveToPointer(bullet, 200);
   		
     }
@@ -276,22 +277,24 @@ if (functionRUBI.game.time.now > nextFire && functionRUBI.stringBullets.countDea
 }
 
 //code for the explosion of stringFire
-function stringExplosion(){
-	if(functionRUBI.stringBullets.countLiving()>0){
-	var bullet = functionRUBI.stringBullets.getFirstAlive();
+function stringExplosion(bullet){
+//	if(functionRUBI.stringBullets.countLiving()>0){
+//	var bullet = functionRUBI.stringBullets.getFirstAlive();
+
 		var bx = bullet.x;
 		var by = bullet.y;
 		functionRUBI.emitSBullets.x = bx;
 		functionRUBI.emitSBullets.y = by;
-		functionRUBI.emitSBullets.start(true,1000,null,10);	
-		bullet.kill();
-	}
+		functionRUBI.emitSBullets.start(true,1000,null,3);	
+	//	bullet.kill();
+	//}
 }
 
 // floatFire - sends out a circles of bullets that wraps around you like a shield
 function floatFire(player) {
     if (functionRUBI.game.time.now > nextFire && functionRUBI.floatBullets.countDead() > 0){
         nextFire = functionRUBI.game.time.now + fireRate;
+        float1Audio.play();
         var bullet = functionRUBI.floatBullets.getFirstDead();
     //    bullet.position.set(0, 0);
     //   bullet.pivot.set(0,0);
@@ -309,7 +312,7 @@ function floatFire(player) {
  	//bullet.y = globalVar.playerY;
  	globalVar.test =bullet.rotation;
  	//bullet.rotation += .1;
- 	bullet.rotation = bullet.rotation+(5* (Math.PI/180));
+ 	bullet.rotation = bullet.rotation+(20* (Math.PI/180));
  	
  } 
  
@@ -347,10 +350,10 @@ function floatFire(player) {
     }	
  }
  
- function booleanExplosion(){
+ function booleanExplosion(bullet){
  	if(functionRUBI.booleanBullets.countLiving()>0){
 	var bullet = functionRUBI.booleanBullets.getFirstAlive();
-	
+		boolean2Audio.play();
 		functionRUBI.emitBoolean.x = bullet.x;
 		functionRUBI.emitBoolean.y = bullet.y;
 		functionRUBI.emitBoolean.start(true,500,null,20);	

@@ -135,21 +135,21 @@ this.emitHitWall.makeParticles('spark');
 	this.textArray1[3] = 'float'; 
 	this.textArray1[4] = 'boolean';
  
- this.healthText = this.game.add.text(0, 0, '{rubucks:'+rubiHealth.rubucks+'}', { font: " 20px Courier", fill: "#2EFE2E" });
+ this.healthText = this.game.add.text(0, 0, '{rubucks:'+rubiHealth.rubucks+'}', { font: " 18px Courier", fill: "#2EFE2E" });
    this.healthText.fixedToCamera = true;
   
 //this.player.addChild(this.healthText);
 
-this.dataTypeText = this.game.add.text(0, 0, '{dataType: '+this.textArray1[ globalVar.gunVar]+'}', { font: " 20px Courier", fill: "#2EFE2E" });
+this.dataTypeText = this.game.add.text(0, 0, '{dataType: '+this.textArray1[ globalVar.gunVar]+'}', { font: " 18px Courier", fill: "#2EFE2E" });
 this.dataTypeText.fixedToCamera = true;
   
    
-   this.enemyText = this.game.add.text(0, 0, '{enemyHealth: NULL}', { font: " 20px Courier", fill: "#2EFE2E" });
+   this.enemyText = this.game.add.text(0, 0, '{enemyHealth: NULL}', { font: " 18px Courier", fill: "#2EFE2E" });
 this.enemyText.fixedToCamera = true;
 
- this.healthText.cameraOffset.setTo(50, 60);
- this.enemyText.cameraOffset.setTo(250, 60);
-   this.dataTypeText.cameraOffset.setTo(500, 60);
+ this.healthText.cameraOffset.setTo(320, 17);
+ this.enemyText.cameraOffset.setTo(70, 17);
+   this.dataTypeText.cameraOffset.setTo(530, 17);
 //this.player.addChild(this.dataTypeText);
  
  /////////////////////////////
@@ -281,6 +281,12 @@ this.enemyText.fixedToCamera = true;
     
     ///Switching of frames of the glowing thing around RUBI & the text
     this.healthText.text = '{rubucks: '+rubiHealth.rubucks+'}';
+    if(rubiHealth.rubucks>100){
+    	this.healthText.fill = "#2EFE2E"; 
+    } else {
+    	this.healthText.fill = "#FF7F7F"; 
+    }
+    
      this.dataTypeText.text= '{dataType: '+this.textArray1[ globalVar.gunVar]+'}';
      this.gui.frame=  globalVar.gunVar;
     
@@ -318,6 +324,7 @@ this.enemyText.fixedToCamera = true;
   		if(functionRUBI.floatBullets.countLiving()>0){
   		var floatBullet = functionRUBI.floatBullets.getFirstAlive();
   		floatBullet.kill();
+  		float2Audio.play();
   	} else{
   	rubiHealth.rubucks -=40;
   	}
@@ -339,11 +346,19 @@ this.enemyText.fixedToCamera = true;
 	
 	enemy.health -= bulletDamage+rubiUpgrade.damage;
 	
-	console.log(enemy.health);
-	if(enemy.health<0){
+if(enemy.health<=0){
+		enemyHurtAudio.play();
 		enemy.health =0;
+	} else{
+		followerHurtAudio.play();
+		
 	}
+
 	this.enemyText.text = '{enemyHealth: '+enemy.health+'}';
+	
+	if(bullet.key == 'stringBullet'){
+		stringExplosion(bullet);
+	}
 	
 	if (enemy.health <= 0)
     {

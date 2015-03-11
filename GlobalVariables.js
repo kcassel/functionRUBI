@@ -8,6 +8,8 @@
   	 test: 0,
   	 gunVar: 0,
   	 swap: 0,
+  	 audio: .5,
+  	 soundfx: .7,
   	
   };
   
@@ -19,7 +21,7 @@
   };
   
 rubiHealth ={
-	rubucks: 1000,
+	rubucks: 10000,
 	min: 500,
 	dead: false,
 };
@@ -53,6 +55,7 @@ function rubiHit(type){
   		var floatBullet = functionRUBI.floatBullets.getFirstAlive();
   		floatBullet.kill();
   	} else{
+  	enemyHurtAudio.play();
   	rubiHealth.rubucks -=50;
   	}
 	}

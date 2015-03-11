@@ -7,8 +7,9 @@ functionRUBI.EndGame.prototype = {
     this.bg = this.game.add.sprite(0,0,'endscreen'); 
     
   
-    
-    MenuButton = this.game.add.button(300,525, 'menubutton',this.menuClick,this,1,0,1);
+
+      	MenuButton = new Buttons(this,300,525, 'menubutton',this.menuClick,this);
+      	MenuButton.activate();
     
   
     this.textArray1 = [];
@@ -107,6 +108,7 @@ functionRUBI.EndGame.prototype = {
   },
   update: function() {
      filterUpdate();
+     MenuButton.overlap();
  
    
   },
@@ -124,12 +126,12 @@ functionRUBI.EndGame.prototype = {
   	 this.text1.anchor.set(0.5);
   this.text2 = this.game.add.text(200, 250, "RUBUCKS ENEMY BONUS: "+endLevel.enemyBucks, { font: " 20px Courier", fill: "#2EFE2E" });
   this.text3 = this.game.add.text(200, 275, "RUBUCKS LEVEL BONUS: "+rubiHealth.min*levelup, { font: " 20px Courier", fill: "#2EFE2E" });
-  this.text4 = this.game.add.text(200, 300, "RUBUCKS TOTAL: "+rubiHealth.rubucks, { font: " 20px Courier", fill: "#2EFE2E" });
-   this.text5 = this.game.add.text(200, 325, endLevel.unlockLevel, { font: " 20px Courier", fill: "#2EFE2E" });
-  this.text6 = this.game.add.text(200, 350,  endLevel.unlockGun, { font: " 20px Courier", fill: "#2EFE2E" });
+  this.text4 = this.game.add.text(200, 325, "RUBUCKS TOTAL: "+rubiHealth.rubucks, { font: " 20px Courier", fill: "#FFFFFF" });
+   this.text5 = this.game.add.text(200, 350, endLevel.unlockLevel, { font: " 20px Courier", fill: "#FFFFFF" });
+  this.text6 = this.game.add.text(200, 375,  endLevel.unlockGun, { font: " 20px Courier", fill: "#FFFFFF" });
   
-  this.text7 = this.game.add.text(200, 375, "RUBI.RESPONSE: SUCCESS!", { font: " 20px Courier", fill: "#2EFE2E" });
-  this.text8 = this.game.add.text(200, 400, "RUBI.UPGRADE(RESET) = COMPLETE", { font: " 20px Courier", fill: "#2EFE2E" });
+  this.text7 = this.game.add.text(200, 425, "RUBI.RESPONSE: SUCCESS!", { font: " 20px Courier", fill: "#2EFE2E" });
+  this.text8 = this.game.add.text(200, 450, "RUBI.UPGRADE(RESET) = COMPLETE", { font: " 20px Courier", fill: "#2EFE2E" });
   
    
   	
@@ -144,7 +146,7 @@ functionRUBI.EndGame.prototype = {
    this.text3 = this.game.add.text(200, 275, "RUBI.REBOOT = TRUE ", { font: " 20px Courier", fill: "#2EFE2E" });
     this.text4 = this.game.add.text(200, 300, "RUBUCKS RESET: 500", { font: " 20px Courier", fill: "#2EFE2E" });
     this.text5 = this.game.add.text(200, 325, "RUBUCKS ENEMY BONUS: "+endLevel.enemyBucks, { font: " 20px Courier", fill: "#2EFE2E" });
-     this.text6 = this.game.add.text(200, 350, "RUBUCKS TOTAL: "+rubiHealth.rubucks, { font: " 20px Courier", fill: "#2EFE2E" });
+     this.text6 = this.game.add.text(200, 350, "RUBUCKS TOTAL: "+rubiHealth.rubucks, { font: " 20px Courier", fill: "#FFFFFF" });
    this.text7 = this.game.add.text(200, 375, "RUBI.RESPONSE: READY TO GO, SIR!", { font: " 20px Courier", fill: "#2EFE2E" });
     this.text1.anchor.set(0.5);
 
@@ -169,6 +171,7 @@ functionRUBI.EndGame.prototype = {
   //BUTTON FUNCTIONS
   menuClick: function(){
   	this.reset();
+  	downAudio.play();
   	this.game.state.start('LevelMenu');
   },
   

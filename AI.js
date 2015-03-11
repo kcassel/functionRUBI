@@ -20,10 +20,10 @@ Enemy = function (index, gameName, bullets, type, x, y) {
 	switch(type) {
 		case "slime":
 			this.type = "slime";
-			this.health = 80;
+			this.health = 60;
 			this.sprite = gameName.game.add.sprite(x, y, 'slime');
-			this.radius = 300;
-			this.fireRate = 1000;
+			this.radius = 250;
+			this.fireRate = 1100;
 			this.speed = 0; // change 
 			this.sprite.health = 30;
 			this.patrolCheck = true;
@@ -41,8 +41,8 @@ Enemy = function (index, gameName, bullets, type, x, y) {
 			break;
 		case "mildew":
 			this.type = "mildew";
-			this.fireRate = 400;
-			this.health = 40;
+			this.fireRate = 800;
+			this.health = 30;
 			this.radius = 400;
 			this.sprite = gameName.game.add.sprite(x, y, 'mildew');
 			this.speed = 100; // change
@@ -51,9 +51,9 @@ Enemy = function (index, gameName, bullets, type, x, y) {
 			break;
 		case "spawner":
 			this.type = "spawner";
-			this.fireRate = 1200;
-			this.health = 100;
-			this.radius = 300;
+			this.fireRate = 1000;
+			this.health = 80;
+			this.radius = 250;
 			this.sprite = gameName.game.add.sprite(x, y, 'spawner');
 			this.speed = 0; // doesn't move
 			this.maxSpawned = 20; // the maximum number of followers that can be spawned
@@ -165,6 +165,7 @@ Enemy.prototype.update = function(player) {
     		if (functionRUBI.game.time.now > this.nextFire && this.bullets.countDead() > 0 && this.sprite.alive == true) {
     				this.sprite.animations.play('shoot', 16);
     			// time to shoot the next bullet, based on the enemy fireRate
+    			mildewShootAudio.play();
 	            this.nextFire = functionRUBI.game.time.now + this.fireRate;
 				
 				// creates the bullets
@@ -173,13 +174,14 @@ Enemy.prototype.update = function(player) {
 	            bullet.reset(this.sprite.x, this.sprite.y);
 	            
 	            // deals with speed of bullet and what its heading towards
-	            bullet.rotation = functionRUBI.game.physics.arcade.moveToObject(bullet, player, 500);
+	            bullet.rotation = functionRUBI.game.physics.arcade.moveToObject(bullet, player, 350);
 	        }
     	} else if(this.type == "slime") {
     		if (functionRUBI.game.time.now > this.nextFire && this.bullets.countDead() > 0 && this.sprite.alive == true) {
     			this.sprite.animations.play('shoot', 16);
     			// time to shoot the next bullet, based on the enemy fireRate
 	            this.nextFire = functionRUBI.game.time.now + this.fireRate;
+	            slimeShootAudio.play();
 				
 				
 				
@@ -219,6 +221,7 @@ Enemy.prototype.update = function(player) {
     		if (functionRUBI.game.time.now > this.nextFire && this.bullets.countDead() > 0 && 
     			this.sprite.alive == true && this.maxSpawned > this.currSpawned) {
     				this.sprite.animations.play('spawn', 8);
+    				spawnerShootAudio.play();
     			
     			this.trueSpawn = true;
 		    	// time to shoot the next follower, based on the enemy fireRate
