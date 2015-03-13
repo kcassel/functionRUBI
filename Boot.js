@@ -15,11 +15,30 @@ functionRUBI.Boot.prototype = {
   	
     this.game.stage.backgroundColor = '#000000';
     
-this.game.scale.pageAlignHorizontally = true;
-this.game.scale.pageAlignVertically = true;
-this.game.scale.refresh();
+//this.game.scale.pageAlignHorizontally = true;
+//this.game.scale.pageAlignVertically = true;
+//this.game.scale.refresh();
 
+    functionRUBI.transitionPlugin = this.game.plugins.add(Phaser.Plugin.StateTransition);
     
+    
+   functionRUBI.transitionPlugin.settings({
+
+    //how long the animation should take
+    duration: 2000,
+
+    //ease property
+    ease: Phaser.Easing.Exponential.InOut, /* default ease */
+
+    //what property should be tweened
+    properties: {
+        alpha: 0,
+        scale: {
+            x: 2,
+            y: 2,
+        }
+    }
+	});
 	//physics system for movement
 	this.game.physics.startSystem(Phaser.Physics.ARCADE);
 	//this.game.physics.startSystem(Phaser.Physics.P2JS);

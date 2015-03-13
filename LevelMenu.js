@@ -4,8 +4,6 @@ functionRUBI.LevelMenu.prototype = {
   create: function() {
   	   menuFilter();
   	
-  	
-  	
   	this.levelbg = this.game.add.sprite(400,300,'levelMenuUI'); 
   	this.levelbg.anchor.setTo(.5,.5);
   	this.levelbg.width = 800;
@@ -21,6 +19,14 @@ functionRUBI.LevelMenu.prototype = {
   	speedCostText = this.game.add.text(65, 555, 'Cost: 200$', { font: " 14px Courier", fill: "#2EFE2E" });
   	rateoffireCostText = this.game.add.text(235, 555, 'Cost: 400$', { font: " 14px Courier", fill: "#2EFE2E" });
   	damageCostText = this.game.add.text(405, 555, 'Cost: 600$', { font: " 14px Courier", fill: "#2EFE2E" });
+  	 
+  	 weaponReturnButton = new Buttons(this,625,260, 'return1',this.returnClick,this);
+  	 weaponReturnButton.deactivate();
+  	 weaponReturnButton.alpha = 0;
+  	 weaponButton = new Buttons(this,625,260, 'weapon',this.weaponClick,this);
+  	 weaponButton.activate();
+  	
+  	 
   	 
   	 //level buttons
   	tutorialButton = new Buttons(this,120,100, 'level0',this.tutorialClick,this);
@@ -98,6 +104,8 @@ functionRUBI.LevelMenu.prototype = {
   	rubucksText = this.game.add.text(635, 535, rubiHealth.rubucks+'$',{ font: " 32px Courier", fill: "#2EFE2E" });
   	weaponText = this.game.add.text (635,300, wText,{ font: " 18px Courier", fill: "#2EFE2E" });
   	
+  	this.CKey = this.game.input.keyboard.addKey(Phaser.Keyboard.C);
+  
   	
   	
   },
@@ -109,6 +117,8 @@ functionRUBI.LevelMenu.prototype = {
   	rateoffireButton.overlap();
   	 damageButton.overlap();
   	tutorialButton.overlap();
+  	weaponReturnButton.overlap();
+  	weaponButton.overlap();
   	level1Button.overlap();
   	level2Button.overlap();
   	level3Button.overlap();
@@ -134,6 +144,7 @@ functionRUBI.LevelMenu.prototype = {
   	 damageCostText.text ="NOT ENOUGH RUBUCKS";
   	}
 
+	this.CKey.onDown.add(this.cheat,this);
 
   },
   
@@ -143,39 +154,75 @@ functionRUBI.LevelMenu.prototype = {
   //levels
   tutorialClick: function(){
   	fadeoutMus(Menumusic);
-  	 downAudio.play();
-  	 easylevelMusic.play('',0,globalVar.audio);
-  	this.game.state.start('level0');
+     downAudio.play();
+      easylevelMusic.play('',0,globalVar.audio);
+  	 functionRUBI.transitionPlugin.to('level0');
+  	
   },
    level1Click: function(){
    	fadeoutMus(Menumusic);
-   	 downAudio.play();
-  easylevelMusic.play('',0,globalVar.audio);
-  	this.game.state.start('level1');
+
+     downAudio.play();
+      easylevelMusic.play('',0,globalVar.audio);
+
+  	functionRUBI.transitionPlugin.to('level1');
   },
    level2Click: function(){
    	fadeoutMus(Menumusic);
-   	 downAudio.play();
-    easylevelMusic.play('',0,globalVar.audio);
-  	this.game.state.start('level2');
+   
+     downAudio.play();
+      easylevelMusic.play('',0,globalVar.audio);
+
+  	functionRUBI.transitionPlugin.to('level2');
   },
    level3Click: function(){
    	fadeoutMus(Menumusic);
-   	 downAudio.play();
-   hardlevelMusic.play('',0,globalVar.audio);
-  	this.game.state.start('level3');
+   	 
+     downAudio.play();
+       hardlevelMusic.play('',0,globalVar.audio);
+  	functionRUBI.transitionPlugin.to('level3');
   },
    level4Click: function(){
    	fadeoutMus(Menumusic);
-   	 downAudio.play();
-  hardlevelMusic.play('',0,globalVar.audio);
-  	this.game.state.start('level4');
+  
+     downAudio.play();
+       hardlevelMusic.play('',0,globalVar.audio);
+    
+  	functionRUBI.transitionPlugin.to('level4');
   },
    level5Click: function(){
    	fadeoutMus(Menumusic);
-   	 downAudio.play();
-   	hardlevelMusic.play('',0,globalVar.audio);
-  	this.game.state.start('level5');
+  
+     downAudio.play();
+       hardlevelMusic.play('',0,globalVar.audio);
+    
+  	functionRUBI.transitionPlugin.to('level5');
+  },
+  
+  cheat: function(){
+  	rubiUnlock.level =5;
+    rubiUnlock.guns = 4;
+  	checkLevel.level0 =true;
+  	checkLevel.level1 =true;
+  	checkLevel.level2 =true;
+  	checkLevel.level3 =true;
+  	checkLevel.level4 =true;
+  	checkLevel.level5 =true;
+  	rubiHealth.rubucks += 10000
+  	level1Button.activate();
+  	level2Button.activate();
+  	level3Button.activate();
+  	level4Button.activate();
+  	level5Button.activate();
+  	speedButton.activate();
+  	rateoffireButton.activate();
+  	 damageButton.activate();
+  	speedCostText.text ="Cost: 200$";
+  	rateoffireCostText.text ="Cost: 400$";
+  	damageCostText.text ="Cost: 600$";
+  	weaponText.text = "int\n\nstring\n\ndouble\n\nfloat\n\nboolean";
+  	
+  	console.log("cheat activated!");
   },
   
   
@@ -195,7 +242,7 @@ functionRUBI.LevelMenu.prototype = {
   rateoffireClick: function(){
   	if(rubiUpgrade.rateoffire <=100 && rubiHealth.rubucks >upFire){
   		 upgradeAudio.play();
-  	rubiUpgrade.rateoffire +=20;
+  	rubiUpgrade.rateoffire +=25;
   	  	rubiHealth.rubucks -=400;
   	}
   },
@@ -209,6 +256,65 @@ functionRUBI.LevelMenu.prototype = {
   	}
   },
   
+  weaponClick: function(){
+  	downAudio.play();
+  	
+  	tutorialButton.deactivate();
+  	level1Button.deactivate();
+  	level2Button.deactivate();
+  	level3Button.deactivate();
+  	level4Button.deactivate();
+  	level5Button.deactivate();
+  	tutorialButton.alpha = 0;
+  	level1Button.alpha = 0;
+  	level2Button.alpha = 0;
+  	level3Button.alpha = 0;
+  	level4Button.alpha = 0;
+  	level5Button.alpha =0;
+  	
+  	weaponReturnButton.activate();
+  	weaponReturnButton.alpha = 1;
+  	weaponButton.alpha = 0;
+  	weaponButton.deactivate();
+  },
+  
+   
+  
+  returnClick: function(){
+  	downAudio.play();
+  	
+  	weaponReturnButton.deactivate();
+  	weaponReturnButton.alpha = 0;
+  	weaponButton.alpha = 1;
+  	weaponButton.activate();
+  	
+  	tutorialButton.activate();
+  	if (rubiUnlock.level >= 1){
+		level1Button.activate();
+	}
+	if(rubiUnlock.level >=2){
+		level2Button.activate();
+	}
+	if(rubiUnlock.level >=3){
+		level3Button.activate();
+	}
+	if(rubiUnlock.level >=4){
+		level4Button.activate();
+	}
+	if(rubiUnlock.level >=5){
+		level5Button.activate();
+	}
+  	
+  	tutorialButton.alpha = 1;
+  	level1Button.alpha = 1;
+  	level2Button.alpha = 1;
+  	level3Button.alpha = 1;
+  	level4Button.alpha = 1;
+  	level5Button.alpha =1;
+  	
+  },
+  
+  
    //debug functions
 render: function(){
 	 this.game.debug.text("",500,100);
@@ -217,7 +323,7 @@ render: function(){
 	// this.game.debug.text("Rubi's damage "+(10+rubiUpgrade.damage),500,160);
 	// this.game.debug.text("RUBUCK "+(rubiHealth.rubucks),500,180);
 	// this.game.debug.text("Px "+this.game.input.mousePointer.x,500,200);
-	//  this.game.debug.text("Py "+this.game.input.mousePointer.y,500,220);
+	 // this.game.debug.text("Py "+this.game.input.mousePointer.y,500,220);
 },
   
 };

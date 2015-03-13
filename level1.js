@@ -15,7 +15,7 @@ functionRUBI.level1.prototype = {
 	
   create: function() {
 // globalVar.gunVar = 0;
-
+ 
  //local variables for enemies
  this.enemies = [];
  this.enemiesAlive;
@@ -383,15 +383,58 @@ if(enemy.health<=0){
     endLevel.levelFin = 1;
   	functionRUBI.RUBIBullets.destroy(true);
   	this.enemyGroup.destroy(true);
-  	this.game.state.start('EndGame');
+  	this.fade('EndGame');
+  //	this.game.state.start('EndGame');
   },
+  
+  fade: function (nextState) 
+    {
+    	if(rubiHealth.dead == true){
+    		failureAudio.play('',0,globalVar.soundfx,false,false);
+    		endfade = this.game.add.sprite(0,0,'endFail'); 
+    	} else{
+    		completeAudio.play('',0,globalVar.soundfx,false,false);
+    		endfade = this.game.add.sprite(0,0,'endSucess'); 
+    	}
+    	endfade.fixedToCamera = true;
+        endfade.alpha = 0;
+ 
+        this.nextState = nextState;
+
+        s = this.game.add.tween(endfade);
+        s.to({ alpha: 1 }, 2000, null);
+        s.onComplete.add(this.changeState, this);
+        s.start();
+    },
+
+    changeState: function () 
+    {
+    	//functionRUBI.transitionPlugin.to('EndGame');
+        this.game.state.start('EndGame');
+        this.fadeOut();
+    },
+
+    fadeOut: function () 
+    {
+    	console.log("HERE");
+        var spr_bg = this.game.add.graphics(0, 0);
+        spr_bg.beginFill(this.fadeColor, 1);
+       spr_bg.drawRect(0, 0, this.game.width, this.game.height);
+        spr_bg.fixedToCamera = true;
+        spr_bg.alpha = 1;
+        spr_bg.endFill();
+
+        s = this.game.add.tween(spr_bg);
+        s.to({ alpha: 0 }, 2000, null);
+        s.start();
+    },
   
   
   
   //debug functions
 render: function(){
 		this.game.debug.text('',100,100);
-		this.game.debug.soundInfo(Menumusic, 20, 32);
+	//	this.game.debug.soundInfo(Menumusic, 20, 32);
 	// this.game.debug.text("DEBUGTEXT",100,100);
 	// this.game.debug.text(" globalVar.gunVar "+ globalVar.gunVar,100,120);
 	// this.game.debug.text("gunrate "+fireRate,100,140 );

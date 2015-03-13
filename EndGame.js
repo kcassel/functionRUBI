@@ -2,8 +2,10 @@ functionRUBI.EndGame = function(){};
 
 functionRUBI.EndGame.prototype = {
   create: function() {
+ 
     menuFilter();
      Menumusic.play('',0,globalVar.audio);
+   
     this.bg = this.game.add.sprite(0,0,'endscreen'); 
     
   
@@ -69,38 +71,7 @@ functionRUBI.EndGame.prototype = {
     			endLevel.unlockGun = 'RUBI.UNLOCK(datatype): COMPLETE';
     	}
     	
-    	//LEVEL UNLOCK
-    	/*
-    	if(rubiUnlock.level == endLevel.levelFin){
-    		if (rubiUnlock.level < 5){
-    		rubiUnlock.level++;
-    		console.log("HERE!");
-    		//if (rubiUnlock.level < 5){
-    		 endLevel.unlockLevel= 'RUBI.UNLOCK(level): level '+rubiUnlock.level;
-    		} else{
-    		endLevel.unlockLevel= 'RUBI.UNLOCK(level): COMPLETE';
-    		}
-   		}else{
-    	endLevel.unlockLevel= 'RUBI.UNLOCK(level): NONE';
-    	}
-    	
-    	//GUN UNLOCK
-    	if(rubiUnlock.guns == endLevel.levelGun){
-    		if (rubiUnlock.guns < 4){
-    			rubiUnlock.guns++;
-    			if (rubiUnlock.guns < 4){
-    			 endLevel.unlockGun= 'RUBI.UNLOCK(datatype): '+this.textArray1[rubiUnlock.guns];
-    			}else{
-    		endLevel.unlockGun= 'RUBI.UNLOCK(datatype): COMPLETE';
-    		}
-    		} else{
-    		endLevel.unlockGun= 'RUBI.UNLOCK(datatype): COMPLETE';
-    		}
-   		}else{
-   
-    	endLevel.unlockGun= 'RUBI.UNLOCK(datatype): NONE ';
-    	}
-    	*/
+    
     	this.levelComplete();
     }
    
@@ -113,7 +84,7 @@ functionRUBI.EndGame.prototype = {
  
    
   },
-  
+   
   levelComplete: function(){
   	if(rubiUnlock.level>0){
 		var levelup =1;  		
@@ -173,7 +144,7 @@ functionRUBI.EndGame.prototype = {
   menuClick: function(){
   	this.reset();
   	downAudio.play();
-  	this.game.state.start('LevelMenu');
+  functionRUBI.transitionPlugin.to('LevelMenu');
   },
   
   render: function(){

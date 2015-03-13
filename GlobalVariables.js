@@ -10,6 +10,7 @@
   	 swap: 0,
   	 audio: .5,
   	 soundfx: .7,
+  	 mute: false,
   	
   };
   
@@ -21,14 +22,14 @@
   };
   
 rubiHealth ={
-	rubucks: 10000,
+	rubucks: 500,
 	min: 500,
 	dead: false,
 };
 
 rubiUnlock ={
-	level: 5,
-	guns: 4,
+	level: 0,
+	guns: 1,
 };
 
 endLevel = {

@@ -20,14 +20,16 @@ functionRUBI.Preload.prototype = {
   	
   	//Music assets
   	this.game.load.audio('menuMus', 'assets/music/MenuMus.mp3');
-  	this.game.load.audio('easyLevelMus','assets/music/BluntSega.mp3');
-  	this.game.load.audio('hardLevelMus','assets/music/HardLevelMus.mp3');
+  	this.game.load.audio('easyLevelMus','assets/music/PlanetJumper.mp3');
+  	this.game.load.audio('hardLevelMus','assets/music/NotAnotherBattleLoop.mp3');
   	
   	//soundeffects
   	this.game.load.audio('buttonDown', 'assets/music/soundeffects/LevelSelect.mp3');
   	this.game.load.audio('buttonUp', 'assets/music/soundeffects/Hover.mp3');
   	this.game.load.audio('Upgrade', 'assets/music/soundeffects/Upgrade.mp3');
   	this.game.load.audio('wallHit','assets/music/soundeffects/WallHit.mp3');
+  	this.game.load.audio('LevelComplete', 'assets/music/soundeffects/LevelComplete.mp3');
+  	this.game.load.audio('LevelFailure','assets/music/soundeffects/LevelFailure.mp3');
   	
   	//rubi sound effects
   	this.game.load.audio('rubiInt', 'assets/music/soundeffects/RUBIShootInt.mp3');
@@ -48,17 +50,32 @@ functionRUBI.Preload.prototype = {
   	this.game.load.audio('spawnerShoot', 'assets/music/soundeffects/SpawnerSpawn.mp3');
   	
   	
+  	//intro images
+  	this.game.load.image('intro1','assets/menu/Intro/intro1.png');
+  	this.game.load.image('intro2','assets/menu/Intro/intro2.png');
+  	this.game.load.image('intro3','assets/menu/Intro/intro3.png');
+  	this.game.load.image('intro4','assets/menu/Intro/intro4.png');
+  	this.game.load.image('intro5','assets/menu/Intro/intro4.png');
+  	
+  	
   	
   	//menu buttons assets
   		this.game.load.image('screenOverlay','assets/world/screenoverlay.png');
   	this.game.load.image('levelMenuUI','assets/menu/levelMenuUI.png');
   	this.game.load.image('mainMenuUI','assets/menu/mainMenuUI.png');
-  	this.game.load.spritesheet('title','assets/menu/main-title.png',500,114);
-   this.game.load.spritesheet('start','assets/menu/buttons/start.png',158,47);
+  	this.game.load.image('credit','assets/menu/credits.png');
+  	this.game.load.spritesheet('title','assets/menu/RUBILOGO.png',669,91);
+   
+   this.game.load.spritesheet('skipintro','assets/menu/buttons/skipintro.png',165,33);
+    this.game.load.spritesheet('credits','assets/menu/buttons/credits.png',165,33); 
+     this.game.load.spritesheet('start','assets/menu/buttons/start.png',240,33); 
+    this.game.load.spritesheet('return','assets/menu/buttons/return.png',165,33); 
    this.game.load.spritesheet('rateoffire','assets/menu/buttons/rateoffire.png',165,33);
   this.game.load.spritesheet('speed','assets/menu/buttons/speed.png',165,33);
     this.game.load.spritesheet('damage','assets/menu/buttons/damage.png',165,33);
     this.game.load.spritesheet('menubutton','assets/menu/buttons/menu.png',165,33);
+    this.game.load.spritesheet('weapon','assets/menu/buttons/weaponinfo.png',120,24);
+     this.game.load.spritesheet('return1','assets/menu/buttons/return1.png',120,24);
     
     
     //level buttons
@@ -81,7 +98,9 @@ functionRUBI.Preload.prototype = {
      this.game.load.image('tutUpgrade','assets/world/level0/tutUpgrade.png');
        this.game.load.image('tutGoal','assets/world/level0/tutGoal.png');
  
-    
+    //more level stuff
+     this.game.load.image('endSucess','assets/world/endSucess.png');
+     this.game.load.image('endFail','assets/world/endFail.png');
    
    
    //Player assets
@@ -119,6 +138,8 @@ this.game.load.image('endscreen', 'assets/world/endgame/endscreen.png',800,600);
        downAudio = this.game.add.audio('buttonDown',globalVar.soundfx);
        upAudio = this.game.add.audio('buttonUp',globalVar.soundfx);
        upgradeAudio = this.game.add.audio('Upgrade',globalVar.soundfx);
+       completeAudio = this.game.add.audio('LevelComplete',globalVar.soundfx);
+       failureAudio = this.game.add.audio('LevelFailure',globalVar.soundfx);
        
        intAudio = this.game.add.audio('rubiString',globalVar.soundfx);
        doubleAudio = this.game.add.audio('rubiDouble',globalVar.soundfx);
@@ -137,19 +158,19 @@ this.game.load.image('endscreen', 'assets/world/endgame/endscreen.png',800,600);
        mildewShootAudio = this.game.add.audio('mildewShoot',globalVar.soundfx);
        spawnerShootAudio = this.game.add.audio('spawnerShoot',globalVar.soundfx);
        
-  functionRUBI.game.time.events.add(Phaser.Timer.SECOND * 5, this.start, this);   
+  functionRUBI.game.time.events.add(Phaser.Timer.SECOND * 3, this.start, this);   
   	
   	
   },
   
    start: function() {
 
-   	this.state.start('MainMenu');
+   	functionRUBI.transitionPlugin.to('MainMenu');
 
    },
    
    render: function(){
-  	 this.game.debug.soundInfo(hardlevelMusic, 20, 32);
+  	// this.game.debug.soundInfo(hardlevelMusic, 20, 32);
   },
   
   
