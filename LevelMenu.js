@@ -135,7 +135,7 @@ functionRUBI.LevelMenu.prototype = {
   	level5Button.overlap();
 
 
-  	speedText.text = rubiUpgrade.speed/2+'%';
+  	speedText.text = rubiUpgrade.speed+'%';
   	rateoffireText.text = rubiUpgrade.rateoffire+'%';
   	damageText.text = rubiUpgrade.damage*2.5+'%';
   	rubucksText.text = rubiHealth.rubucks+'$'; 
@@ -143,7 +143,7 @@ functionRUBI.LevelMenu.prototype = {
   	if (rubiHealth.rubucks <=upSpeed ){
   	 	 speedButton.deactivate();
   	 	 speedCostText.text ="NOT ENOUGH RUBUCKS";
-  	} else if ( rubiUpgrade.speed >=200){
+  	} else if ( rubiUpgrade.speed >=100){
   	 	 speedButton.deactivate();
   	 	 speedCostText.text ="SPEED MAXED";
   	 }
@@ -255,7 +255,7 @@ functionRUBI.LevelMenu.prototype = {
   speedClick: function(){
   	if(rubiUpgrade.speed <=200 && rubiHealth.rubucks >upSpeed){
   		 upgradeAudio.play();
-  	rubiUpgrade.speed += 50;
+  	rubiUpgrade.speed += 25;
   	rubiHealth.rubucks -=200;
   	}
   	
