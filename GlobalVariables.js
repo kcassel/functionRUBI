@@ -22,7 +22,7 @@
   };
   
 rubiHealth ={
-	rubucks: 500,
+	rubucks: 700,
 	min: 500,
 	dead: false,
 };

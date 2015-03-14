@@ -9,6 +9,15 @@ functionRUBI.LevelMenu.prototype = {
   	this.levelbg.width = 800;
   	this.levelbg.height = 600;
   	
+  	this.weaponInfo = this.game.add.sprite(400,300,'weaponsinfo'); 
+  	this.weaponInfo.anchor.setTo(.5,.5);
+  	this.weaponInfo.width = 800;
+  	this.weaponInfo.height = 600;
+  	this.weaponInfo.alpha = 0;
+  	
+  	this.leveltitle = this.game.add.sprite(150,10,'leveltitle'); 
+  	this.leveltitle.alpha = 1;
+  	
 	///upgrade buttons
   	 speedButton = new Buttons(this,40,510, 'speed',this.speedClick,this);
   	 rateoffireButton = new Buttons(this,210,510, 'rateoffire',this.rateoffireClick,this);
@@ -131,18 +140,32 @@ functionRUBI.LevelMenu.prototype = {
   	damageText.text = rubiUpgrade.damage*2.5+'%';
   	rubucksText.text = rubiHealth.rubucks+'$'; 
   	
-  	if (rubiHealth.rubucks <=upSpeed || rubiUpgrade.speed >=200){
+  	if (rubiHealth.rubucks <=upSpeed ){
   	 	 speedButton.deactivate();
   	 	 speedCostText.text ="NOT ENOUGH RUBUCKS";
+  	} else if ( rubiUpgrade.speed >=200){
+  	 	 speedButton.deactivate();
+  	 	 speedCostText.text ="SPEED MAXED";
   	 }
-	if (rubiHealth.rubucks <=upFire || rubiUpgrade.rateoffire >=100){
+  	 
+  	 
+	if (rubiHealth.rubucks <=upFire){
   	 rateoffireButton.deactivate();
   	 rateoffireCostText.text ="NOT ENOUGH RUBUCKS";
+ 	 } else if (rubiUpgrade.rateoffire >=100){
+  	 rateoffireButton.deactivate();
+  	 rateoffireCostText.text ="RATE OF FIRE MAXED";
   	}
-  	if (rubiHealth.rubucks <=upDamage || rubiUpgrade.damage >=40){
+  	
+  	
+  	if (rubiHealth.rubucks <=upDamage){
   	 damageButton.deactivate();
   	 damageCostText.text ="NOT ENOUGH RUBUCKS";
+  	} else if ( rubiUpgrade.damage >=40){
+  	 damageButton.deactivate();
+  	 damageCostText.text ="DAMAGED MAXED";
   	}
+
 
 	this.CKey.onDown.add(this.cheat,this);
 
@@ -258,7 +281,8 @@ functionRUBI.LevelMenu.prototype = {
   
   weaponClick: function(){
   	downAudio.play();
-  	
+  	  	this.leveltitle.alpha = 0;
+  	this.weaponInfo.alpha = 1;
   	tutorialButton.deactivate();
   	level1Button.deactivate();
   	level2Button.deactivate();
@@ -281,8 +305,10 @@ functionRUBI.LevelMenu.prototype = {
    
   
   returnClick: function(){
-  	downAudio.play();
   	
+  	downAudio.play();
+  	  	this.leveltitle.alpha = 1;
+  	this.weaponInfo.alpha = 0;
   	weaponReturnButton.deactivate();
   	weaponReturnButton.alpha = 0;
   	weaponButton.alpha = 1;

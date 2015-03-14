@@ -15,9 +15,9 @@ functionRUBI.Boot.prototype = {
   	
     this.game.stage.backgroundColor = '#000000';
     
-//this.game.scale.pageAlignHorizontally = true;
-//this.game.scale.pageAlignVertically = true;
-//this.game.scale.refresh();
+this.game.scale.pageAlignHorizontally = true;
+this.game.scale.pageAlignVertically = true;
+this.game.scale.refresh();
 
     functionRUBI.transitionPlugin = this.game.plugins.add(Phaser.Plugin.StateTransition);
     

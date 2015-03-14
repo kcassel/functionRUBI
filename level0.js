@@ -72,7 +72,7 @@ functionRUBI.level0.prototype = {
   	 this.player = this.game.add.sprite(96,1216,'player'); 
   	 this.game.physics.enable(this.player, Phaser.Physics.ARCADE);
   	 this.player.anchor.setTo(.5,.5);
-  	 this.player.body.setSize(60, 60, 0, 0);
+  	 this.player.body.setSize(50, 50, 0, 0);
   	 this.player.collideWorldBounds = true;
   	 this.player.animations.add('walk');	    
  	 this.game.camera.follow(this.player);
@@ -97,7 +97,7 @@ this.EKey = this.game.input.keyboard.addKey(Phaser.Keyboard.E);
 ///adding enemies to map
 
 
-this.enemies.push(new Enemy(1, functionRUBI, functionRUBI.enemyBullets, "mildew", 448, 320));
+this.enemies.push(new Enemy(1, functionRUBI, functionRUBI.enemyBullets, "mildew", 575, 333));
 
 
 
@@ -425,8 +425,8 @@ render: function(){
 //	 this.game.debug.text("DEBUGTEXT",100,100);
 	// this.game.debug.text(" globalVar.gunVar "+ globalVar.gunVar,100,120);
 	 //this.game.debug.text("gunrate "+fireRate,100,140 );
-	//  this.game.debug.text("Px "+this.player.x,100,160);
-	 //  this.game.debug.text("Py "+this.player.y,100,180);
+	// this.game.debug.text("Px "+this.player.x,100,160);
+	  // this.game.debug.text("Py "+this.player.y,100,180);
 	 //  this.game.debug.body(this.player);
 	// this.game.debug.text("RUBUCK "+(rubiHealth.rubucks),100,200);
 	

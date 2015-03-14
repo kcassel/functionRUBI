@@ -54,7 +54,7 @@ functionRUBI.level1.prototype = {
   	 this.player = this.game.add.sprite(1024,1248,'player'); 
   	 this.game.physics.enable(this.player, Phaser.Physics.ARCADE);
   	 this.player.anchor.setTo(.5,.5);
-  	 this.player.body.setSize(60, 60, 0, 0);
+  	 this.player.body.setSize(50, 50, 0, 0);
   	 this.player.collideWorldBounds = true;
   	 this.player.animations.add('walk');	    
  	 this.game.camera.follow(this.player);

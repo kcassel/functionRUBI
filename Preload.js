@@ -62,6 +62,8 @@ functionRUBI.Preload.prototype = {
   	//menu buttons assets
   		this.game.load.image('screenOverlay','assets/world/screenoverlay.png');
   	this.game.load.image('levelMenuUI','assets/menu/levelMenuUI.png');
+  	this.game.load.image('weaponsinfo','assets/menu/weaponinfos.png');
+  		this.game.load.image('leveltitle','assets/menu/leveltitle.png');
   	this.game.load.image('mainMenuUI','assets/menu/mainMenuUI.png');
   	this.game.load.image('credit','assets/menu/credits.png');
   	this.game.load.spritesheet('title','assets/menu/RUBILOGO.png',669,91);
@@ -126,6 +128,12 @@ functionRUBI.Preload.prototype = {
 //world assests
 this.game.load.spritesheet('goal', 'assets/world/nucleusgoal.png', 96, 96);
 this.game.load.image('endscreen', 'assets/world/endgame/endscreen.png',800,600);
+this.game.load.image('endscreen0', 'assets/world/endgame/endscreen0.png',800,600);
+this.game.load.image('endscreen1', 'assets/world/endgame/endscreen1.png',800,600);
+this.game.load.image('endscreen2', 'assets/world/endgame/endscreen2.png',800,600);
+this.game.load.image('endscreen3', 'assets/world/endgame/endscreen3.png',800,600);
+this.game.load.image('endscreen4', 'assets/world/endgame/endscreen4.png',800,600);
+this.game.load.image('endscreen5', 'assets/world/endgame/endscreen5.png',800,600);
 
 
   },
@@ -133,7 +141,7 @@ this.game.load.image('endscreen', 'assets/world/endgame/endscreen.png',800,600);
   	//create all audio Sounds
   	   Menumusic = this.game.add.audio('menuMus',globalVar.audio,true);
   	  easylevelMusic = this.game.add.audio('easyLevelMus',globalVar.audio,true);
-  	   hardlevelMusic = this.game.add.audio('hardLevelMus',globalVar.audio.true);
+  	   hardlevelMusic = this.game.add.audio('hardLevelMus',globalVar.audio,true);
   	   
        downAudio = this.game.add.audio('buttonDown',globalVar.soundfx);
        upAudio = this.game.add.audio('buttonUp',globalVar.soundfx);

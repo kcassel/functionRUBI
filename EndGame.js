@@ -24,19 +24,21 @@ functionRUBI.EndGame.prototype = {
     if (rubiHealth.dead==true){
     	this.levelDeath();
     }else{
-    	endLevel.unlockLevel = 'RUBI.UNLOCK(level): NULL';
-    	endLevel.unlockGun = 'RUBI.UNLOCK(datatype): NULL';
+    	endLevel.unlockLevel = 'RUBI.UNLOCK(level): NO NEW LEVEL';
+    	endLevel.unlockGun = 'RUBI.UNLOCK(datatype): NO NEW DATATYPE';
     	if(checkLevel.level0 ==true){
     		rubiUnlock.level =1;
     		rubiUnlock.guns = 1;
+    		this.bg.loadTexture('endscreen0');
     		if(checkLevel.level1==false && endLevel.levelFin ==0){
     			endLevel.unlockLevel = 'RUBI.UNLOCK(level): 1';
-    			endLevel.unlockGun = 'RUBI.UNLOCK(datatype): NULL';
+    			endLevel.unlockGun = 'RUBI.UNLOCK(datatype): NO NEW DATATYPE';
     		}
     	}
     	if(checkLevel.level1 ==true){
     		rubiUnlock.level =2;
     		rubiUnlock.guns = 2;
+    		this.bg.loadTexture('endscreen1');
     		if(checkLevel.level2==false && endLevel.levelFin ==1){
     			endLevel.unlockLevel = 'RUBI.UNLOCK(level): 2';
     			endLevel.unlockGun = 'RUBI.UNLOCK(datatype): double';
@@ -45,6 +47,7 @@ functionRUBI.EndGame.prototype = {
     	if(checkLevel.level2 ==true){
     		rubiUnlock.level =3;
     		rubiUnlock.guns = 3;
+    		this.bg.loadTexture('endscreen2');
     		if(checkLevel.level3==false && endLevel.levelFin ==2){
     			endLevel.unlockLevel = 'RUBI.UNLOCK(level): 3';
     			endLevel.unlockGun = 'RUBI.UNLOCK(datatype): float';
@@ -53,6 +56,7 @@ functionRUBI.EndGame.prototype = {
     	if(checkLevel.level3 ==true){
     		rubiUnlock.level =4;
     		rubiUnlock.guns = 4;
+    		this.bg.loadTexture('endscreen3');
     		if(checkLevel.level4==false && endLevel.levelFin ==3){
     			endLevel.unlockLevel = 'RUBI.UNLOCK(level): 4';
     			endLevel.unlockGun = 'RUBI.UNLOCK(datatype): boolean';
@@ -61,12 +65,14 @@ functionRUBI.EndGame.prototype = {
     	if(checkLevel.level4 ==true) {
     		rubiUnlock.level =5;
     		rubiUnlock.guns = 4;
+    		this.bg.loadTexture('endscreen4');
     		if(checkLevel.level5==false && endLevel.levelFin ==4){
     			endLevel.unlockLevel = 'RUBI.UNLOCK(level): 5';
     			endLevel.unlockGun = 'RUBI.UNLOCK(datatype): NONE';
     		}
     	}
     	if(checkLevel.level5 ==true){	
+    			this.bg.loadTexture('endscreen5');
     			endLevel.unlockLevel = 'RUBI.UNLOCK(level): COMPLETE';
     			endLevel.unlockGun = 'RUBI.UNLOCK(datatype): COMPLETE';
     	}
