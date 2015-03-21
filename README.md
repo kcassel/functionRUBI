@@ -11,4 +11,4 @@ Fortunately, scientists invented RUBI, a rubisco hacking program whose job is to
 You, the USER, has been choosen to join a team of elite scientists in order to guide RUBI through her hacking journey. Through her, you will save crops, humanity and the world!!
 
 ##How to Run
-'main.html' will start the game if you run it through an IDE. It is highly recommended to play the game in Google Chrome. Firefox works, but the game slows down considerably and the filters won't work in Internet explorer.
+`main.html` will start the game if you run it through an IDE. It is highly recommended to play the game in Google Chrome. Firefox works, but the game slows down considerably and the filters won't work in Internet explorer.
