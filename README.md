@@ -15,4 +15,6 @@ You, the USER, has been choosen to join a team of elite scientists in order to g
 
 ##Browser Version
 Found at `people.ucsc.edu/~sborland/functionRUBI/main.html` 
+
+
 Best played on Google Chrome. Some assets are not compatible with Internet Explorer.
