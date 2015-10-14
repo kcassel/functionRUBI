@@ -10,5 +10,9 @@ It's the year, 2XXX and crops are dying because of pollution in the atmosphere.
 Fortunately, scientists invented RUBI, a rubisco hacking program whose job is to hack into plants and change their DNA to improve the plants photosynthesis.
 You, the USER, has been choosen to join a team of elite scientists in order to guide RUBI through her hacking journey. Through her, you will save crops, humanity and the world!!
 
-##How to Run
+##How to Run on personal computer
 `main.html` will start the game if you run it through an IDE. It is highly recommended to play the game in Google Chrome. Firefox works, but the game slows down considerably and the filters won't work in Internet explorer.
+
+##Browser Version
+Found at people.ucsc.edu/~sborland/functionRUBI/main.html 
+Best played on Google Chrome. Some assets are not compatible with Internet Explorer.
