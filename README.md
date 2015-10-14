@@ -14,5 +14,5 @@ You, the USER, has been choosen to join a team of elite scientists in order to g
 `main.html` will start the game if you run it through an IDE. It is highly recommended to play the game in Google Chrome. Firefox works, but the game slows down considerably and the filters won't work in Internet explorer.
 
 ##Browser Version
-Found at people.ucsc.edu/~sborland/functionRUBI/main.html 
+Found at 'people.ucsc.edu/~sborland/functionRUBI/main.html' 
 Best played on Google Chrome. Some assets are not compatible with Internet Explorer.
